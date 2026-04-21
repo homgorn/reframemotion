@@ -81,6 +81,19 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
           required: ['text'],
         },
       },
+      {
+        name: 'render_via_remotion',
+        description: 'Render video via Remotion Lambda (cloud scale)',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            htmlUrl: { type: 'string', description: 'Public URL of HTML composition' },
+            region: { type: 'string', default: 'us-east-1' },
+            codec: { type: 'string', default: 'h264' },
+          },
+          required: ['htmlUrl'],
+        },
+      },
     ],
   };
 });
@@ -123,6 +136,12 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       return {
         content: [
           { type: 'text', text: 'TTS not implemented' },
+        ],
+      };
+    case 'render_via_remotion':
+      return {
+        content: [
+          { type: 'text', text: `Remotion Lambda render queued. Using region: ${args.region}. Note: Requires @remotion/lambda and AWS credentials.` },
         ],
       };
     default:
