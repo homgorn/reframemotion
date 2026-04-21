@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="ru" data-lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ReFrameMotion — HTML в Видео API для AI-агентов</title>
+<meta name="description" content="Open-source платформа для программного рендеринга видео из HTML. REST API, MCP для AI-агентов, self-hosted. Apache 2.0."/>
+<meta name="keywords" content="html в видео api, рендеринг видео из html, ai видео генерация, mcp видео api, автоматиза��ия видео, hyperframes"/>
+<link rel="canonical" href="https://reframemotion.com/ru/"/>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="ReFrameMotion — HTML в Видео API"/>
+<meta property="og:description" content="Пиши HTML. Рендери в MP4. MCP-native, Apache 2.0, для AI-агентов."/>
+<meta property="og:url" content="https://reframemotion.com/ru/"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="ReFrameMotion — HTML в Видео API"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"ReFrameMotion","description":"Open-source HTML-to-video API for AI agents","url":"https://reframemotion.com","applicationCategory":"DeveloperApplication","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://www.apache.org/licenses/LICENSE-2.0"}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#080807;--s1:#111110;--s2:#191817;--bd:#252320;--bd2:#1c1b19;
+  --t:#e5e0d5;--t2:#8a8478;--t3:#4a4640;
+  --a:#d4f542;--ad:#b8d830;
+  --f-d:'Syne',sans-serif;--f-b:'DM Sans',sans-serif;--f-m:'DM Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--t);font-family:var(--f-b);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 60% 50% at 50% -10%,rgba(212,245,66,.04) 0%,transparent 70%)}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer;font-family:var(--f-b)}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(16px,5vw,72px);height:58px;background:rgba(8,8,7,.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--bd2)}
+.logo{font-family:var(--f-d);font-size:1.05rem;font-weight:700;letter-spacing:-.02em;color:var(--t)}
+.logo em{font-style:normal;color:var(--a)}
+.nl{display:flex;align-items:center;gap:4px;list-style:none}
+.nl a{font-size:.8rem;font-weight:500;color:var(--t2);padding:5px 10px;border-radius:5px;transition:color .15s}
+.nl a:hover{color:var(--t)}
+.nr{display:flex;align-items:center;gap:8px}
+.btn-lang{background:transparent;border:1px solid var(--bd);color:var(--t2);font-size:.73rem;font-weight:500;padding:4px 10px;border-radius:5px;transition:all .15s}
+.btn-lang:hover{border-color:var(--a);color:var(--a)}
+.btn-gh{display:flex;align-items:center;gap:6px;background:var(--s2);border:1px solid var(--bd);color:var(--t2);font-size:.8rem;font-weight:500;padding:6px 14px;border-radius:5px;transition:all .15s}
+.btn-gh:hover{color:var(--t);border-color:var(--t3)}
+.btn-gh svg{flex-shrink:0}
+
+/* SECTION WRAP */
+.w{max-width:1120px;margin:0 auto;padding:0 clamp(16px,5vw,72px);position:relative;z-index:1}
+
+/* HERO */
+.hero{padding:clamp(72px,12vw,148px) clamp(16px,5vw,72px);max-width:1120px;margin:0 auto;position:relative;z-index:1}
+.badge{display:inline-flex;align-items:center;gap:7px;background:rgba(212,245,66,.06);border:1px solid rgba(212,245,66,.18);color:var(--a);font-size:.72rem;font-weight:600;letter-spacing:.09em;text-transform:uppercase;padding:5px 13px;border-radius:999px;margin-bottom:32px;animation:fu .6s ease both}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:var(--a);animation:pulse 2s ease-in-out infinite}
+h1{font-family:var(--f-d);font-size:clamp(2.8rem,7vw,5.6rem);font-weight:800;letter-spacing:-.042em;line-height:.93;color:var(--t);max-width:760px;animation:fu .7s .08s ease both}
+h1 em{font-style:normal;color:var(--a)}
+.hero-sub{margin-top:26px;font-size:clamp(.95rem,1.7vw,1.15rem);font-weight:300;color:var(--t2);max-width:500px;line-height:1.7;animation:fu .7s .16s ease both}
+.ctas{margin-top:38px;display:flex;flex-wrap:wrap;gap:10px;animation:fu .7s .24s ease both}
+.bp{display:inline-flex;align-items:center;gap:7px;background:var(--a);color:#080807;font-size:.88rem;font-weight:700;padding:11px 22px;border-radius:6px;border:none;transition:transform .15s,background .15s}
+.bp:hover{background:var(--ad);transform:translateY(-1px)}
+.bs{display:inline-flex;align-items:center;gap:7px;background:transparent;color:var(--t2);font-size:.88rem;font-weight:500;padding:11px 22px;border-radius:6px;border:1px solid var(--bd);transition:all .15s}
+.bs:hover{color:var(--t);border-color:var(--t3)}
+
+/* HERO CODE */
+.hc{margin-top:60px;border:1px solid var(--bd);border-radius:10px;overflow:hidden;animation:fu .8s .32s ease both}
+.cb{display:flex;align-items:center;gap:6px;padding:9px 16px;background:var(--s2);border-bottom:1px solid var(--bd2)}
+.cd{width:8px;height:8px;border-radius:50%;background:var(--bd)}
+.ct{margin-left:8px;font-family:var(--f-m);font-size:.7rem;color:var(--t3)}
+pre{background:var(--s1);padding:22px 26px;overflow-x:auto;font-family:var(--f-m);font-size:.8rem;line-height:1.85;color:var(--t2)}
+.kw{color:#c084fc}.str{color:#86efac}.cm{color:var(--t3)}.at{color:#93c5fd}.tg{color:#fdba74}.nm{color:var(--a)}
+
+/* MARQUEE */
+.mq{border-top:1px solid var(--bd2);border-bottom:1px solid var(--bd2);padding:16px 0;overflow:hidden}
+.mq-label{text-align:center;font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);margin-bottom:16px}
+.mt{display:flex;gap:40px;width:max-content;animation:mq 22s linear infinite}
+.mt:hover{animation-play-state:paused}
+.mi{font-family:var(--f-d);font-size:.75rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--t3);white-space:nowrap;padding:5px 14px;border:1px solid var(--bd2);border-radius:5px}
+
+/* FEATURES */
+.feat{padding:clamp(72px,9vw,130px) 0}
+.sl{font-size:.7rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--a);margin-bottom:14px}
+.sh{font-family:var(--f-d);font-size:clamp(1.7rem,3.8vw,2.8rem);font-weight:700;letter-spacing:-.032em;line-height:1.1;color:var(--t);max-width:560px;margin-bottom:52px}
+.fg{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1px;background:var(--bd2);border:1px solid var(--bd2);border-radius:10px;overflow:hidden}
+.fc{background:var(--bg);padding:32px 28px;transition:background .2s;cursor:default}
+.fc:hover{background:var(--s1)}
+.fi{width:38px;height:38px;border-radius:6px;background:rgba(212,245,66,.05);border:1px solid rgba(212,245,66,.12);display:flex;align-items:center;justify-content:center;margin-bottom:18px;font-size:1rem}
+.fc h3{font-family:var(--f-d);font-size:1rem;font-weight:600;color:var(--t);margin-bottom:9px}
+.fc p{font-size:.875rem;color:var(--t2);line-height:1.65}
+
+/* HOW */
+.how{padding:clamp(72px,9vw,130px) 0}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:28px;margin-top:52px}
+.step{display:flex;flex-direction:column;gap:14px}
+.sn{font-family:var(--f-d);font-size:2.8rem;font-weight:800;color:var(--bd);line-height:1}
+.step h3{font-family:var(--f-d);font-size:1.05rem;font-weight:600;color:var(--t);margin-bottom:6px}
+.step p{font-size:.875rem;color:var(--t2);line-height:1.65}
+.sc{background:var(--s1);border:1px solid var(--bd2);border-radius:6px;padding:14px 18px;font-family:var(--f-m);font-size:.77rem;color:var(--t2);line-height:1.75;margin-top:auto}
+.sc .acc{color:var(--a)}
+
+/* INTEGRATIONS */
+.ints{padding:clamp(60px,7vw,90px) 0}
+.ig{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin-top:36px}
+.ic{background:var(--s1);border:1px solid var(--bd2);border-radius:6px;padding:13px 14px;text-align:center;font-family:var(--f-d);font-size:.75rem;font-weight:600;color:var(--t2);transition:all .15s}
+.ic:hover{border-color:var(--a);color:var(--a)}
+.ic small{display:block;font-size:.62rem;font-weight:400;color:var(--t3);margin-top:2px;font-family:var(--f-b)}
+
+/* PRICING */
+.pricing{padding:clamp(72px,9vw,130px) 0}
+.pg{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:18px;max-width:980px}
+.plan{background:var(--s1);border:1px solid var(--bd);border-radius:10px;padding:32px 28px;display:flex;flex-direction:column;transition:border-color .2s}
+.plan:hover{border-color:var(--t3)}
+.plan.ft{border-color:var(--a);background:linear-gradient(150deg,rgba(212,245,66,.04) 0%,var(--s1) 55%)}
+.pb{display:inline-block;background:var(--a);color:#080807;font-size:.67rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 10px;border-radius:999px;margin-bottom:18px}
+.pn{font-family:var(--f-d);font-size:.95rem;font-weight:700;color:var(--t);margin-bottom:7px}
+.pp{font-family:var(--f-d);font-size:2.3rem;font-weight:800;letter-spacing:-.04em;color:var(--t);margin-bottom:4px;display:flex;align-items:baseline;gap:4px}
+.pp span{font-size:.95rem;font-weight:300;color:var(--t2)}
+.pd{font-size:.84rem;color:var(--t2);margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid var(--bd2)}
+.pf{list-style:none;display:flex;flex-direction:column;gap:9px;margin-bottom:24px;flex:1}
+.pf li{font-size:.85rem;color:var(--t2);display:flex;align-items:flex-start;gap:9px}
+.pf li::before{content:'→';color:var(--a);flex-shrink:0;font-size:.78rem;margin-top:2px}
+.pc{width:100%;padding:11px;border-radius:6px;font-weight:600;font-size:.87rem;transition:all .15s;border:1px solid var(--bd);background:transparent;color:var(--t2)}
+.pc:hover{background:var(--s2);color:var(--t)}
+.plan.ft .pc{background:var(--a);color:#080807;border-color:var(--a)}
+.plan.ft .pc:hover{background:var(--ad)}
+
+/* CTA BAND */
+.ctab{margin:0 clamp(16px,5vw,72px);border-radius:10px;background:var(--s2);border:1px solid var(--bd);padding:clamp(36px,6vw,72px);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:28px;position:relative;z-index:1}
+.ctab h2{font-family:var(--f-d);font-size:clamp(1.5rem,3.5vw,2.4rem);font-weight:700;letter-spacing:-.03em;color:var(--t);margin-bottom:9px}
+.ctab p{font-size:.9rem;color:var(--t2);max-width:380px}
+.ctab-a{display:flex;gap:10px;flex-wrap:wrap}
+
+/* FOOTER */
+footer{margin-top:72px;border-top:1px solid var(--bd2);padding:36px clamp(16px,5vw,72px);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;position:relative;z-index:1}
+.fl{font-family:var(--f-d);font-size:.9rem;font-weight:700;color:var(--t2)}
+.fl em{font-style:normal;color:var(--a)}
+.flinks{display:flex;gap:20px;list-style:none}
+.flinks a{font-size:.8rem;color:var(--t3);transition:color .15s}
+.flinks a:hover{color:var(--t2)}
+.fc2{font-size:.76rem;color:var(--t3)}
+
+/* LANG */
+[data-ru]{display:none}
+html[data-lang="ru"] [data-en]{display:none}
+html[data-lang="ru"] [data-ru]{display:revert}
+
+/* RESPONSIVE */
+@media(max-width:640px){
+  .nl{display:none}
+  h1{font-size:2.5rem}
+  pre{font-size:.72rem;padding:16px}
+  .ctab{text-align:center;justify-content:center}
+  .ctab-a{justify-content:center}
+}
+
+/* ANIMATIONS */
+@keyframes fu{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.45;transform:scale(.65)}}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.reveal{opacity:0}
+.revealed{animation:fu .55s ease both}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="logo">Reframe<em>Motion</em></a>
+  <ul class="nl">
+    <li><a href="#features"><span data-en>Features</span><span data-ru>Возможности</span></a></li>
+    <li><a href="#how"><span data-en>How it works</span><span data-ru>Как работает</span></a></li>
+    <li><a href="#pricing"><span data-en>Pricing</span><span data-ru>Цены</span></a></li>
+    <li><a href="https://github.com/homgorn/reframemotion"><span data-en>Docs</span><span data-ru>Документация</span></a></li>
+  </ul>
+  <div class="nr">
+    <button class="btn-lang" onclick="toggleLang()">
+      <span data-en>🇷🇺 RU</span>
+      <span data-ru>🇬🇧 EN</span>
+    </button>
+    <a href="https://github.com/homgorn/reframemotion" class="btn-gh" target="_blank" rel="noopener">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.026A9.578 9.578 0 0 1 12 6.836c.85.004 1.705.115 2.504.337 1.909-1.295 2.747-1.026 2.747-1.026.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.161 22 16.416 22 12c0-5.523-4.477-10-10-10z"/></svg>
+      GitHub
+    </a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="badge"><div class="badge-dot"></div><span data-en>Open Source · Apache 2.0 · v0.4.4</span><span data-ru>Open Source · Apache 2.0 · v0.4.4</span></div>
+  <h1><span data-en>Write HTML.<br><em>Render Video.</em></span><span data-ru>Пишешь HTML.<br><em>Получаешь видео.</em></span></h1>
+  <p class="hero-sub">
+    <span data-en>Open-source video rendering platform built for AI agents. Define compositions in plain HTML, render deterministically to MP4 — no timeline editor, no proprietary formats.</span>
+    <span data-ru>Open-source платформа рендеринга видео для AI агентов. Пиши compositions на обычном HTML, рендери детерминированно в MP4 — без редактора таймлайна и проприетарных форматов.</span>
+  </p>
+  <div class="ctas">
+    <a href="https://github.com/homgorn/reframemotion" class="bp" target="_blank" rel="noopener">
+      <span data-en>Get Started Free →</span><span data-ru>Начать бесплатно →</span>
+    </a>
+    <a href="#how" class="bs">
+      <span data-en>See how it works</span><span data-ru>Как это работает</span>
+    </a>
+  </div>
+  <div class="hc">
+    <div class="cb">
+      <div class="cd"></div><div class="cd"></div><div class="cd"></div>
+      <span class="ct">compositions/launch.html → out.mp4</span>
+    </div>
+    <pre><code><span class="cm">&lt;!-- Your video is just HTML --&gt;</span>
+<span class="tg">&lt;div</span> <span class="at">data-composition-id</span>=<span class="str">"launch"</span>
+     <span class="at">data-width</span>=<span class="str">"1920"</span> <span class="at">data-height</span>=<span class="str">"1080"</span><span class="tg">&gt;</span>
+
+  <span class="tg">&lt;video</span> <span class="at">id</span>=<span class="str">"bg"</span> <span class="at">class</span>=<span class="str">"clip"</span>
+         <span class="at">data-start</span>=<span class="str">"0"</span> <span class="at">data-duration</span>=<span class="str">"30"</span> <span class="at">data-track-index</span>=<span class="str">"0"</span>
+         <span class="at">src</span>=<span class="str">"assets/bg.mp4"</span> muted playsinline<span class="tg">/&gt;</span>
+
+  <span class="tg">&lt;h1</span> <span class="at">id</span>=<span class="str">"title"</span> <span class="at">class</span>=<span class="str">"clip"</span>
+       <span class="at">data-start</span>=<span class="str">"1.2"</span> <span class="at">data-duration</span>=<span class="str">"8"</span> <span class="at">data-track-index</span>=<span class="str">"1"</span>
+       <span class="at">style</span>=<span class="str">"font-size:96px; color:#d4f542"</span><span class="tg">&gt;</span>
+    Product Launch 2026
+  <span class="tg">&lt;/h1&gt;</span>
+
+<span class="tg">&lt;/div&gt;</span>
+
+<span class="cm"># Then just render</span>
+<span class="nm">$</span> npx reframemotion render <span class="str">--quality high --output launch.mp4</span>
+<span class="str">✓ 900 frames → launch.mp4 (30s @ 30fps)</span></code></pre>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="mq">
+  <p class="mq-label"><span data-en>Works with</span><span data-ru>Работает с</span></p>
+  <div class="mt">
+    <span class="mi">Claude Code</span><span class="mi">Cursor</span><span class="mi">Windsurf</span><span class="mi">MCP Protocol</span><span class="mi">GSAP 3.14</span><span class="mi">Lottie</span><span class="mi">Three.js</span><span class="mi">FFmpeg</span><span class="mi">WayinVideo</span><span class="mi">HeyGen</span><span class="mi">Remotion</span><span class="mi">n8n</span><span class="mi">Docker</span>
+    <span class="mi">Claude Code</span><span class="mi">Cursor</span><span class="mi">Windsurf</span><span class="mi">MCP Protocol</span><span class="mi">GSAP 3.14</span><span class="mi">Lottie</span><span class="mi">Three.js</span><span class="mi">FFmpeg</span><span class="mi">WayinVideo</span><span class="mi">HeyGen</span><span class="mi">Remotion</span><span class="mi">n8n</span><span class="mi">Docker</span>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section id="features" class="feat">
+  <div class="w">
+    <p class="sl"><span data-en>Why ReFrameMotion</span><span data-ru>Почему ReFrameMotion</span></p>
+    <h2 class="sh"><span data-en>Video infrastructure<br>for the agentic era</span><span data-ru>Видео-инфраструктура<br>для эпохи агентов</span></h2>
+    <div class="fg">
+      <div class="fc reveal">
+        <div class="fi">⌨️</div>
+        <h3><span data-en>HTML-native</span><span data-ru>HTML-native</span></h3>
+        <p><span data-en>Compositions are plain HTML with data-* attributes. Every LLM already knows how to write them. No React, no DSL.</span><span data-ru>Compositions — обычный HTML с data-* атрибутами. Любая LLM умеет их писать. Никакого React или DSL.</span></p>
+      </div>
+      <div class="fc reveal">
+        <div class="fi">🔗</div>
+        <h3><span data-en>MCP-native</span><span data-ru>MCP-native</span></h3>
+        <p><span data-en>Native MCP server: agents call render(), lint(), validate(), addBlock() directly — no shell wrappers needed.</span><span data-ru>Нативный MCP server: агенты вызывают render(), lint(), validate(), addBlock() напрямую.</span></p>
+      </div>
+      <div class="fc reveal">
+        <div class="fi">🎯</div>
+        <h3><span data-en>Deterministic</span><span data-ru>Детерминированный</span></h3>
+        <p><span data-en>frame = floor(time × fps). Same input → identical output, every time. Built for CI/CD and batch generation.</span><span data-ru>frame = floor(time × fps). Один input → идентичный output всегда. Для CI/CD и batch-генерации.</span></p>
+      </div>
+      <div class="fc reveal">
+        <div class="fi">🧩</div>
+        <h3><span data-en>50+ ready blocks</span><span data-ru>50+ готовых блоков</span></h3>
+        <p><span data-en>Social overlays, shader transitions (WebGL), data charts. Install with one command. Extend the catalog.</span><span data-ru>Social overlays, shader transitions (WebGL), data charts. Установка одной командой.</span></p>
+      </div>
+      <div class="fc reveal">
+        <div class="fi">🔊</div>
+        <h3><span data-en>TTS + captions</span><span data-ru>TTS + субтитры</span></h3>
+        <p><span data-en>Built-in Kokoro-82M TTS, word-level caption sync, audio-reactive GSAP animations. Full narration pipeline.</span><span data-ru>Встроенный Kokoro-82M TTS, субтитры с точностью до слова, аудио-реактивные анимации.</span></p>
+      </div>
+      <div class="fc reveal">
+        <div class="fi">🔓</div>
+        <h3><span data-en>Apache 2.0 forever</span><span data-ru>Apache 2.0 навсегда</span></h3>
+        <p><span data-en>Self-host on your VPS. No per-render fees from the engine. Full source on GitHub, fork-friendly.</span><span data-ru>Self-host на своём VPS. Никаких комиссий за рендер. Полный исходный код на GitHub.</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how" class="how">
+  <div class="w">
+    <p class="sl"><span data-en>How it works</span><span data-ru>Как работает</span></p>
+    <h2 class="sh"><span data-en>From brief to MP4<br>in three steps</span><span data-ru>От брифа до MP4<br>за три шага</span></h2>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="sn">01</div>
+        <div>
+          <h3><span data-en>Describe — agent writes HTML</span><span data-ru>Опиши — агент пишет HTML</span></h3>
+          <p><span data-en>Prompt Claude Code, Cursor, or any agent. The /hyperframes skill teaches it exact composition patterns, GSAP animation rules, and timing constraints.</span><span data-ru>Промпти Claude Code, Cursor или любого агента. Skill /hyperframes обучает его точным паттернам compositions, правилам GSAP и ограничениям тайминга.</span></p>
+        </div>
+        <div class="sc"><span class="acc">Using /hyperframes</span>, create a 30s<br>product demo with GSAP animations<br>and TTS narration synced to captions.</div>
+      </div>
+      <div class="step reveal">
+        <div class="sn">02</div>
+        <div>
+          <h3><span data-en>Preview — instant feedback</span><span data-ru>Превью — мгновенная обратная связь</span></h3>
+          <p><span data-en>Live Studio in the browser. Edit HTML, see changes instantly. Lint catches timing conflicts. WCAG contrast validator built-in.</span><span data-ru>Живой Studio в браузере. Редактируй HTML, видь изменения сразу. Lint ловит конфликты тайминга.</span></p>
+        </div>
+        <div class="sc"><span class="acc">$ npx reframemotion preview</span><br>Studio → localhost:3000<br>Hot reload on every save</div>
+      </div>
+      <div class="step reveal">
+        <div class="sn">03</div>
+        <div>
+          <h3><span data-en>Render — deterministic MP4</span><span data-ru>Рендер — детерминированный MP4</span></h3>
+          <p><span data-en>Chrome BeginFrame API captures each frame. FFmpeg encodes to MP4/WebM. GPU-accelerated. Parallel workers auto-scale by CPU/RAM.</span><span data-ru>Chrome BeginFrame API захватывает каждый кадр. FFmpeg кодирует в MP4/WebM. GPU-ускорение. Параллельные workers автомасштабируются.</span></p>
+        </div>
+        <div class="sc"><span class="acc">$ npx reframemotion render</span><br>900 frames captured in parallel<br><span class="acc">✓ output.mp4</span> ready in 38s</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INTEGRATIONS -->
+<section class="ints">
+  <div class="w">
+    <p class="sl"><span data-en>Integrations</span><span data-ru>Интеграции</span></p>
+    <h2 class="sh" style="margin-bottom:0"><span data-en>Plugs into your stack</span><span data-ru>Встраивается в ваш стек</span></h2>
+    <div class="ig">
+      <div class="ic reveal">Claude Code<small>AI agent</small></div>
+      <div class="ic reveal">Cursor<small>IDE</small></div>
+      <div class="ic reveal">Windsurf<small>IDE</small></div>
+      <div class="ic reveal">MCP Protocol<small>agent tools</small></div>
+      <div class="ic reveal">GSAP 3.14<small>animation</small></div>
+      <div class="ic reveal">Lottie<small>animation</small></div>
+      <div class="ic reveal">Three.js<small>WebGL / 3D</small></div>
+      <div class="ic reveal">WayinVideo<small>AI clipping</small></div>
+      <div class="ic reveal">HeyGen<small>avatars</small></div>
+      <div class="ic reveal">Remotion<small>Lambda</small></div>
+      <div class="ic reveal">n8n<small>automation</small></div>
+      <div class="ic reveal">Docker<small>self-host</small></div>
+      <div class="ic reveal">FFmpeg<small>encode</small></div>
+      <div class="ic reveal">Whisper<small>transcription</small></div>
+      <div class="ic reveal">S3 / MinIO<small>storage</small></div>
+      <div class="ic reveal">Stripe<small>billing</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing" class="pricing">
+  <div class="w">
+    <p class="sl"><span data-en>Pricing</span><span data-ru>Цены</span></p>
+    <h2 class="sh"><span data-en>Start free.<br>Scale as you grow.</span><span data-ru>Начни бесплатно.<br>Масштабируй по мере роста.</span></h2>
+    <div class="pg">
+      <!-- OSS -->
+      <div class="plan reveal">
+        <p class="pn">Open Source</p>
+        <div class="pp">$0<span><span data-en>/ forever</span><span data-ru>/ навсегда</span></span></div>
+        <p class="pd"><span data-en>Self-host. Full source code. Apache 2.0.</span><span data-ru>Self-host. Полный исходный код. Apache 2.0.</span></p>
+        <ul class="pf">
+          <li><span data-en>Unlimited local renders</span><span data-ru>Безлимитный локальный рендер</span></li>
+          <li><span data-en>All 50+ catalog blocks</span><span data-ru>Все 50+ блоков каталога</span></li>
+          <li><span data-en>MCP server</span><span data-ru>MCP server</span></li>
+          <li><span data-en>Studio editor</span><span data-ru>Studio редактор</span></li>
+          <li><span data-en>TTS + captions</span><span data-ru>TTS + субтитры</span></li>
+          <li><span data-en>Community support</span><span data-ru>Community поддержка</span></li>
+        </ul>
+        <a href="https://github.com/homgorn/reframemotion" class="pc" target="_blank" rel="noopener"><span data-en>Clone on GitHub</span><span data-ru>Клонировать на GitHub</span></a>
+      </div>
+      <!-- Starter -->
+      <div class="plan ft reveal">
+        <span class="pb"><span data-en>Most popular</span><span data-ru>Популярный</span></span>
+        <p class="pn">Starter</p>
+        <div class="pp">$10<span><span data-en>/ credit pack</span><span data-ru>/ пакет</span></span></div>
+        <p class="pd"><span data-en>API credits for cloud rendering. No infra to manage.</span><span data-ru>API кредиты для cloud рендеринга. Без управления инфраструктурой.</span></p>
+        <ul class="pf">
+          <li><span data-en>200 render-minutes</span><span data-ru>200 рендер-минут</span></li>
+          <li><span data-en>REST API access</span><span data-ru>Доступ к REST API</span></li>
+          <li><span data-en>Bulk render (CSV → N videos)</span><span data-ru>Bulk render (CSV → N видео)</span></li>
+          <li><span data-en>WayinVideo auto-clipping</span><span data-ru>Автонарезка WayinVideo</span></li>
+          <li><span data-en>10 GB asset storage</span><span data-ru>Хранилище 10 ГБ</span></li>
+          <li><span data-en>Email support</span><span data-ru>Email поддержка</span></li>
+        </ul>
+        <button class="pc"><span data-en>Get API Access →</span><span data-ru>Получить доступ к API →</span></button>
+      </div>
+      <!-- Enterprise -->
+      <div class="plan reveal">
+        <p class="pn">Enterprise</p>
+        <div class="pp" style="font-size:1.7rem"><span data-en>Custom</span><span data-ru>Custom</span></div>
+        <p class="pd"><span data-en>High-volume, white-label Studio, dedicated infra.</span><span data-ru>Высокая нагрузка, white-label Studio, выделенная инфра.</span></p>
+        <ul class="pf">
+          <li><span data-en>Unlimited renders</span><span data-ru>Безлимитный рендер</span></li>
+          <li><span data-en>White-label Studio</span><span data-ru>White-label Studio</span></li>
+          <li><span data-en>Dedicated worker fleet</span><span data-ru>Выделенный worker fleet</span></li>
+          <li><span data-en>SLA + priority support</span><span data-ru>SLA + приоритетная поддержка</span></li>
+          <li><span data-en>Webhooks + n8n native</span><span data-ru>Webhooks + n8n нативно</span></li>
+          <li><span data-en>Custom integrations</span><span data-ru>Кастомные интеграции</span></li>
+        </ul>
+        <button class="pc"><span data-en>Contact us</span><span data-ru>Написать нам</span></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<section style="padding:clamp(56px,8vw,96px) 0;position:relative;z-index:1">
+  <div class="ctab">
+    <div>
+      <h2><span data-en>Start rendering in 60 seconds.</span><span data-ru>Начни рендерить за 60 секунд.</span></h2>
+      <p><span data-en>Apache 2.0. No sign-up for local use. Your AI agent already knows HTML.</span><span data-ru>Apache 2.0. Регистрация не нужна для локального использования. Твой AI агент уже знает HTML.</span></p>
+    </div>
+    <div class="ctab-a">
+      <a href="https://github.com/homgorn/reframemotion" class="bp" target="_blank" rel="noopener"><span data-en>View on GitHub →</span><span data-ru>Открыть на GitHub →</span></a>
+      <a href="#pricing" class="bs"><span data-en>Get API credits</span><span data-ru>Купить API кредиты</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="fl">Reframe<em>Motion</em></span>
+  <ul class="flinks">
+    <li><a href="https://github.com/homgorn/reframemotion" target="_blank" rel="noopener">GitHub</a></li>
+    <li><a href="#"><span data-en>Docs</span><span data-ru>Документация</span></a></li>
+    <li><a href="#"><span data-en>Changelog</span><span data-ru>Changelog</span></a></li>
+    <li><a href="mailto:hello@reframemotion.com">hello@reframemotion.com</a></li>
+  </ul>
+  <span class="fc2"><span data-en>© 2026 ReFrameMotion. Apache 2.0 license.</span><span data-ru>© 2026 ReFrameMotion. Лицензия Apache 2.0.</span></span>
+</footer>
+
+<script>
+function toggleLang(){
+  const h=document.documentElement,c=h.getAttribute('data-lang'),n=c==='en'?'ru':'en';
+  h.setAttribute('data-lang',n);h.setAttribute('lang',n);
+  try{localStorage.setItem('rm-lang',n)}catch(e){}
+}
+try{const s=localStorage.getItem('rm-lang');if(s&&s!=='en'){document.documentElement.setAttribute('data-lang',s);document.documentElement.setAttribute('lang',s)}}catch(e){}
+
+// Scroll reveal
+const io=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const i=Array.from(e.target.parentElement.children).indexOf(e.target);
+      e.target.style.animationDelay=(i*0.055)+'s';
+      e.target.classList.add('revealed');
+      io.unobserve(e.target);
+    }
+  });
+},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
