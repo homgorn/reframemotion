@@ -1,0 +1,23 @@
+{
+  "name": "@hyperframes/worker",
+  "version": "0.1.0",
+  "type": "module",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "scripts": {
+    "dev": "bun run --watch src/index.ts",
+    "build": "tsup src/index.ts",
+    "start": "bun run src/index.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "bullmq": "^5.0.0",
+    "ioredis": "^5.0.0"
+  },
+  "devDependencies": {
+    "@hyperframes/tsconfig": "workspace:*",
+    "tsup": "^8.0.0",
+    "typescript": "^5.0.0"
+  }
+}

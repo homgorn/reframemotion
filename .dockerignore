@@ -1,0 +1,7 @@
+node_modules
+.git
+*.mp4
+*.log
+.DS_Store
+*.png
+*.md
