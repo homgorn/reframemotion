@@ -10,12 +10,14 @@ export function loadConfig(overrides = {}) {
   const root = path.resolve(overrides.root ?? process.env.REFRAMOTION_ROOT ?? process.cwd());
   const dataDir = path.resolve(root, overrides.dataDir ?? process.env.REFRAMOTION_DATA_DIR ?? 'data');
   const templatesDir = path.resolve(root, overrides.templatesDir ?? process.env.REFRAMOTION_TEMPLATES_DIR ?? 'templates');
+  const projectsDir = path.resolve(root, overrides.projectsDir ?? process.env.REFRAMOTION_PROJECTS_DIR ?? 'projects');
   const config = {
     root,
     host: overrides.host ?? process.env.HOST ?? '127.0.0.1',
     port: int(overrides.port ?? process.env.PORT, 8787, 0),
     dataDir,
     templatesDir,
+    projectsDir,
     dbPath: path.resolve(dataDir, overrides.dbPath ?? process.env.REFRAMOTION_DB_PATH ?? 'reframemotion.sqlite'),
     outputsDir: path.resolve(dataDir, 'outputs'),
     workDir: path.resolve(dataDir, 'work'),

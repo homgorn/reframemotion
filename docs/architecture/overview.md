@@ -8,7 +8,7 @@ ReFrameMotion v1 is a production-oriented **single-node** system for mass genera
 
 ### Dashboard
 
-Static HTML/CSS/JavaScript served by the API. It creates jobs and batches, polls state and exposes retry/cancel controls. There is no frontend build step and no runtime dependency on a CDN.
+Static HTML/CSS/JavaScript served by the API. It creates jobs and batches, polls state, exposes retry/cancel controls and displays the site/video project catalog from `projects/`. There is no frontend build step and no runtime dependency on a CDN.
 
 ### API
 
@@ -25,6 +25,10 @@ Static HTML/CSS/JavaScript served by the API. It creates jobs and batches, polls
 ### Template registry
 
 Every template has a `template.json` manifest. The registry validates IDs, engines and typed variables, copies only the registered directory and rejects remote assets unless the template explicitly opts in.
+
+### Project catalog
+
+`projects/` stores lightweight Git manifests for sites and video projects. A site directory contains `site.json` and optional `videos/*.json` manifests. The catalog is not the render queue and does not store MP4/WAV. It links business context, project status, preview URLs, checks and artifacts to jobs/batches and templates.
 
 ### Render adapters
 
@@ -55,6 +59,19 @@ renderer process
     │
     ├─ success → output path + event
     └─ failure → retry or terminal failure
+```
+
+Site and video discovery flows separately:
+
+```text
+projects/<site>/site.json
+projects/<site>/videos/*.json
+    │
+    ▼
+ProjectCatalog
+    │
+    ▼
+GET /api/catalog → dashboard project registry
 ```
 
 ## Security boundaries

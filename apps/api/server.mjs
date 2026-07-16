@@ -10,6 +10,7 @@ import {jobsFromCsv, jobsFromJson} from '../../packages/core/batch.mjs';
 import {json, text, readJson} from '../../packages/core/http.mjs';
 import {safeEqualText, assertInside} from '../../packages/core/security.mjs';
 import {createLogger} from '../../packages/core/logger.mjs';
+import {ProjectCatalog} from '../../packages/core/projects.mjs';
 
 const dashboardDir = fileURLToPath(new URL('../dashboard/public/', import.meta.url));
 const mime = new Map([['.html', 'text/html; charset=utf-8'], ['.js', 'text/javascript; charset=utf-8'], ['.css', 'text/css; charset=utf-8'], ['.svg', 'image/svg+xml']]);
@@ -44,6 +45,7 @@ async function serveStatic(reqPath, res) {
 export async function createApiServer({config = loadConfig(), store, registry, logger = createLogger('api')} = {}) {
   const ownedStore = store ?? await createStore(config);
   const ownedRegistry = registry ?? new TemplateRegistry(config.templatesDir);
+  const projectCatalog = new ProjectCatalog(config.projectsDir);
 
   const server = http.createServer(async (req, res) => {
     const requestId = crypto.randomUUID();
@@ -61,6 +63,19 @@ export async function createApiServer({config = loadConfig(), store, registry, l
       }
       if (req.method === 'GET' && url.pathname === '/api/templates') {
         return json(res, 200, {templates: ownedRegistry.list()});
+      }
+      if (req.method === 'GET' && url.pathname === '/api/catalog') {
+        return json(res, 200, projectCatalog.load());
+      }
+      if (req.method === 'GET' && url.pathname === '/api/sites') {
+        const catalog = projectCatalog.load();
+        return json(res, 200, {sites: catalog.sites, summary: catalog.summary});
+      }
+      if (req.method === 'GET' && url.pathname === '/api/projects') {
+        const catalog = projectCatalog.load();
+        const siteId = url.searchParams.get('siteId');
+        const projects = siteId ? catalog.projects.filter((project) => project.siteId === siteId) : catalog.projects;
+        return json(res, 200, {projects, summary: catalog.summary});
       }
       if (req.method === 'POST' && url.pathname === '/api/templates/reload') {
         return json(res, 200, {templates: ownedRegistry.reload()});

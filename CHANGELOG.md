@@ -7,5 +7,6 @@
 - Добавлен безопасный реестр шаблонов вместо приема произвольного HTML.
 - Добавлены адаптеры HyperFrames, Remotion и mock-renderer.
 - Добавлены массовый импорт JSON/CSV, повторы, отмена и журнал событий.
+- Добавлены git-каталог проектов, API `/api/catalog`, `/api/sites`, `/api/projects` и dashboard для управления тысячами сайтов и видео.
 - Добавлены Docker Compose, инструкции Google Cloud, Codex `AGENTS.md`.
 - Добавлена актуальная Video Creation Wiki и пример пяти рекламных концепций РОСПАН.

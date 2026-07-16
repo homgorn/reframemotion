@@ -6,6 +6,7 @@ Last checked: **2026-07-16**.
 - Remotion core repository package version: `4.0.490`.
 - ReFrameMotion v1 uses Node.js `node:sqlite`; it is a single-host store.
 - API job creation accepts registered template IDs and variables, not arbitrary HTML.
+- Site/video project manifests live in `projects/` and are safe to commit because they do not contain MP4/WAV payloads.
 - Rospan example claims are separated in `examples/rospan-ads/FACTS-AND-LIMITATIONS.md` and require landing-page revalidation before paid traffic.
 - Generated MP4/WAV files are not source control artifacts.
 

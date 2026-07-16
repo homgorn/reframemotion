@@ -1,0 +1,23 @@
+{
+  "id": "rospan-site-3min",
+  "title": "ROSPAN 3-minute presentation",
+  "kind": "website-to-video",
+  "status": "ready",
+  "engine": "hyperframes",
+  "templateId": "custom-hyperframes-site",
+  "durationSec": 180,
+  "audioMode": "voice",
+  "sourcePath": "videos/rospan-site-3min",
+  "previewUrl": "http://localhost:3021/#project/rospan-site-3min",
+  "tags": ["rospan", "presentation", "validated"],
+  "checks": {
+    "lint": {"status": "passed", "errors": 0, "warnings": 1, "note": "composition_file_too_large"},
+    "validate": {"status": "passed", "errors": 0, "warnings": 0},
+    "inspect": {"status": "passed", "errors": 0, "warnings": 0, "layoutIssues": 0}
+  },
+  "artifacts": [
+    {"type": "source", "label": "Local source", "path": "videos/rospan-site-3min"},
+    {"type": "snapshot", "label": "Snapshots", "path": "videos/rospan-site-3min/snapshots"}
+  ],
+  "updatedAt": "2026-07-16"
+}

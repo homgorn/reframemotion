@@ -24,3 +24,4 @@ Priorities are mirrored in `ROADMAP.md`.
 - brand kits and locked claim library;
 - analytics feedback loop;
 - WordPress and advertising exporters.
+- project catalog actions from dashboard: create/edit site, attach rendered output, and promote approved assets.

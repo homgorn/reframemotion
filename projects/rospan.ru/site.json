@@ -1,0 +1,10 @@
+{
+  "id": "rospan.ru",
+  "name": "ROSPAN",
+  "domain": "rospan.ru",
+  "client": "РОСПАН",
+  "status": "active",
+  "tags": ["b2b", "construction", "panels", "ru"],
+  "factsFile": "examples/rospan-ads/FACTS-AND-LIMITATIONS.md",
+  "notes": "ROSPAN video factory projects. Source claims must remain tied to dated facts files."
+}

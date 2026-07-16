@@ -27,3 +27,24 @@ test('API queues a job and worker produces an artifact', async (t) => {
   assert.equal(finished.status, 'succeeded');
   assert.equal(fs.existsSync(finished.outputPath), true);
 });
+
+test('API exposes the site and video project catalog', async (t) => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'reframotion-api-catalog-'));
+  const templates = path.join(root, 'templates', 'demo-card');
+  const site = path.join(root, 'projects', 'example.com');
+  fs.mkdirSync(templates, {recursive:true});
+  fs.mkdirSync(path.join(site, 'videos'), {recursive:true});
+  fs.writeFileSync(path.join(templates, 'template.json'), JSON.stringify({id:'demo-card',engine:'mock',outputFormat:'json',variables:{},security:{allowRemoteAssets:false}}));
+  fs.writeFileSync(path.join(site, 'site.json'), JSON.stringify({id:'example.com',name:'Example'}));
+  fs.writeFileSync(path.join(site, 'videos', 'launch.json'), JSON.stringify({id:'launch',title:'Launch',status:'ready',audioMode:'silent'}));
+  const config = loadConfig({root, templatesDir:path.join(root,'templates'), projectsDir:path.join(root,'projects'), dataDir:path.join(root,'data'), port:0});
+  const instance = await createApiServer({config});
+  await new Promise((resolve) => instance.server.listen(0, '127.0.0.1', resolve));
+  t.after(() => new Promise((resolve) => instance.server.close(resolve)));
+  const port = instance.server.address().port;
+  const response = await fetch(`http://127.0.0.1:${port}/api/catalog`);
+  assert.equal(response.status, 200);
+  const catalog = await response.json();
+  assert.equal(catalog.sites[0].id, 'example.com');
+  assert.equal(catalog.projects[0].id, 'launch');
+});

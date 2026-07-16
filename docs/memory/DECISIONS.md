@@ -29,3 +29,9 @@ SQLite WAL provides atomic batches and recoverable jobs on one persistent host. 
 Date: 2026-07-16. Status: accepted.
 
 HyperFrames is primary for deterministic HTML/GSAP and website-derived motion. Remotion remains available for React compositions, Player-oriented products and existing Remotion projects.
+
+## ADR-006 — Git catalog for sites and video projects
+
+Date: 2026-07-16. Status: accepted.
+
+Large-scale production needs a durable registry above individual render jobs. `projects/` stores lightweight site and video manifests in Git, while MP4/WAV outputs remain outside source control. The dashboard reads this catalog through `/api/catalog` and uses the existing queue for rendering.

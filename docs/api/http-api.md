@@ -21,6 +21,15 @@ Returns version, time and aggregate job/batch counts.
 
 Template responses omit absolute server paths.
 
+## Project catalog
+
+- `GET /api/catalog`
+- `GET /api/sites`
+- `GET /api/projects`
+- `GET /api/projects?siteId=rospan.ru`
+
+The project catalog is loaded from `projects/`. It is a lightweight Git registry for sites, video projects, validation status, preview URLs and artifact pointers. It does not enqueue jobs and does not store render outputs.
+
 ## Jobs
 
 ### Create
