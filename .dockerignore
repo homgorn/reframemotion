@@ -1,7 +1,7 @@
-node_modules
 .git
-*.mp4
+.github
+node_modules
+data
+renders
+.tmp
 *.log
-.DS_Store
-*.png
-*.md

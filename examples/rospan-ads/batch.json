@@ -1,0 +1,10 @@
+{
+  "name": "ROSPAN five-angle test",
+  "jobs": [
+    {"templateId":"rospan-fast-install","variables":{}},
+    {"templateId":"rospan-fire-safety","variables":{}},
+    {"templateId":"rospan-durability","variables":{}},
+    {"templateId":"rospan-decors","variables":{}},
+    {"templateId":"rospan-free-samples","variables":{}}
+  ]
+}

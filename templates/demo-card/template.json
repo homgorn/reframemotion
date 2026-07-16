@@ -1,0 +1,29 @@
+{
+  "id": "demo-card",
+  "name": "Demo card",
+  "description": "Быстрый mock-шаблон для проверки API, очереди и dashboard без запуска браузерного рендера.",
+  "engine": "mock",
+  "outputFormat": "json",
+  "allowAdditionalVariables": false,
+  "variables": {
+    "headline": {
+      "type": "string",
+      "required": true,
+      "maxLength": 120,
+      "pattern": "^[^<>]*$"
+    },
+    "subtitle": {
+      "type": "string",
+      "default": "ReFrameMotion",
+      "maxLength": 180,
+      "pattern": "^[^<>]*$"
+    }
+  },
+  "security": {
+    "allowRemoteAssets": false
+  },
+  "tags": [
+    "test",
+    "mock"
+  ]
+}

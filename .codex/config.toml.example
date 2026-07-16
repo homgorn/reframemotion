@@ -1,0 +1,7 @@
+# Copy relevant sections into your Codex configuration and replace the path.
+
+[mcp_servers.reframotion]
+command = "node"
+args = ["apps/mcp/server.mjs"]
+cwd = "/absolute/path/to/reframemotion"
+env = { REFRAMOTION_API_URL = "http://127.0.0.1:8787", REFRAMOTION_API_KEY = "replace-in-local-secret-config" }

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ReFrameMotion Dashboard</title>
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="stylesheet" href="/dashboard/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div><strong>ReFrameMotion</strong><span>mass video production</span></div>
+    <div class="auth"><input id="api-key" type="password" placeholder="API key"><button id="save-key">Сохранить</button></div>
+  </header>
+  <main>
+    <section class="hero">
+      <div><p class="eyebrow">Production dashboard</p><h1>Шаблоны → задания → видео</h1><p>Локальная очередь, массовый импорт и контроль рендера HyperFrames/Remotion.</p></div>
+      <div class="stats" id="stats"></div>
+    </section>
+
+    <section class="grid two">
+      <article class="panel">
+        <h2>Один ролик</h2>
+        <label>Шаблон<select id="template"></select></label>
+        <label>Переменные JSON<textarea id="variables" rows="9">{}</textarea></label>
+        <div class="row"><label>Формат<select id="format"><option>mp4</option><option>webm</option><option>mov</option><option>gif</option><option>json</option></select></label><label>Приоритет<input id="priority" type="number" min="-100" max="100" value="0"></label></div>
+        <button class="primary" id="create-job">Поставить в очередь</button>
+      </article>
+
+      <article class="panel">
+        <h2>Массовый импорт</h2>
+        <label>Название партии<input id="batch-name" value="Campaign batch"></label>
+        <label>Формат<select id="batch-format"><option value="json">JSON</option><option value="csv">CSV</option></select></label>
+        <label>Содержимое<textarea id="batch-content" rows="12">[{"templateId":"demo-card","variables":{"headline":"Первый ролик","subtitle":"Проверка очереди"},"engine":"mock","outputFormat":"json"}]</textarea></label>
+        <button class="primary" id="create-batch">Импортировать партию</button>
+      </article>
+    </section>
+
+    <section class="panel">
+      <div class="section-head"><div><p class="eyebrow">Queue</p><h2>Задания</h2></div><button id="refresh">Обновить</button></div>
+      <div class="table-wrap"><table><thead><tr><th>Статус</th><th>ID</th><th>Шаблон</th><th>Движок</th><th>Попытки</th><th>Создано</th><th>Результат</th><th></th></tr></thead><tbody id="jobs"></tbody></table></div>
+    </section>
+
+    <section class="panel">
+      <div class="section-head"><div><p class="eyebrow">Batches</p><h2>Партии</h2></div></div>
+      <div class="cards" id="batches"></div>
+    </section>
+
+    <div id="toast" role="status"></div>
+  </main>
+  <script type="module" src="/dashboard/app.js"></script>
+</body>
+</html>

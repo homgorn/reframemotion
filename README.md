@@ -1,89 +1,161 @@
 # ReFrameMotion
 
-**HTML to Video API для AI-агентов.** Пиши HTML — получай MP4.
+**Локальная production-платформа для массовой программной генерации видео.**
 
-[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg)](https://www.apache.org/licenses/LICENSE-2.0)
-[![npm version](https://img.shields.io/npm/v/hyperframes.svg)](https://www.npmjs.com/package/hyperframes)
-[![Discord](https://img.shields.io/badge/Discord-Join-blue.svg)](https://discord.gg/hyperframes)
+ReFrameMotion связывает параметризованные шаблоны, очередь заданий, dashboard, HyperFrames, Remotion и MCP для Codex. Версия `1.0.0` полностью заменяет прежний концептуальный прототип и датирована **16 июля 2026 года**.
 
----
+> Текущий production-профиль — один сервер или одна VM с постоянным диском. Горизонтальный Google Cloud-профиль с Cloud SQL и Cloud Run Jobs вынесен в roadmap, потому что SQLite нельзя безопасно разделять между несколькими Cloud Run-инстансами.
 
-## Что это?
+## Что работает
 
-**ReFrameMotion** — open-source платформа для программного рендеринга видео. Пишешь HTML-композиции с GSAP-анимациями, отправляешь в API — получаешь MP4/WebM.
+- REST API и встроенный dashboard без отдельной frontend-сборки;
+- надежная SQLite-очередь в режиме WAL;
+- массовые партии до 10 000 заданий через JSON или CSV;
+- claim/retry/cancel/recovery для render jobs;
+- безопасный реестр шаблонов: API не принимает произвольный HTML или shell-команды;
+- HyperFrames renderer, Remotion renderer и mock renderer для тестов;
+- MCP tools/resources/prompts для Codex и других MCP-клиентов;
+- Docker Compose для одного production-узла;
+- актуальная русская [Video Creation Wiki](docs/wiki/README.md);
+- пять параметризованных рекламных шаблонов РОСПАН.
 
-```
-HTML → ReFrameMotion → MP4
-```
+## Проверенные версии на 2026-07-16
 
-## Зачем?
-
-- **API-first** — REST API для рендеринга
-- **MCP-native** — нативная поддержка AI-агентов (Claude, Cursor, Windsurf)
-- **Deterministic** — один и тот же HTML = один и тот же MP4
-- **Self-hostable** — запусти у себя (Docker)
-- **Apache 2.0** — бесплатный для любого использования
+- Node.js `>=22.16`;
+- HyperFrames `0.7.60`;
+- Remotion `4.0.490` для optional Remotion templates;
+- FFmpeg 7.x рекомендуется, совместимость проверяется командой `npm run doctor`.
 
 ## Быстрый старт
 
 ```bash
-# Установка
-npm install -g hyperframes
+git clone https://github.com/homgorn/reframemotion.git
+cd reframemotion
+cp .env.example .env
+npm ci
+npm run init
 
-# Создание проекта
-hyperframes init my-video
+# HyperFrames нужен только для реальных HyperFrames-роликов
+npm install --global hyperframes@0.7.60
 
-# Рендеринг
-hyperframes render --output video.mp4
+npm run dev
+```
+
+Откройте `http://127.0.0.1:8787/`.
+
+Для первой проверки выберите шаблон `demo-card`. Он использует mock renderer и создает JSON-артефакт без Chromium.
+
+## Массовый импорт
+
+JSON:
+
+```json
+{
+  "name": "July campaign",
+  "jobs": [
+    {
+      "templateId": "rospan-fast-install",
+      "variables": {
+        "headline": "ОТДЕЛКА НЕ ДОЛЖНА ТОРМОЗИТЬ ОБЪЕКТ"
+      }
+    }
+  ]
+}
+```
+
+CSV:
+
+```csv
+template_id,engine,output_format,priority,max_attempts,variables_json
+rospan-fast-install,hyperframes,mp4,10,2,"{""headline"":""Новый заголовок""}"
+```
+
+Импорт из CLI:
+
+```bash
+npm run import:batch -- examples/rospan-ads/batch.json "ROSPAN tests"
 ```
 
 ## API
 
 ```bash
-curl -X POST https://api.reframemotion.com/render \
-  -H "Authorization: Bearer YOUR_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "compositionHtml": "<div class=\"clip\" data-start=\"0\">Hello World</div>",
-    "variables": {"name": "World"}
-  }'
+curl http://127.0.0.1:8787/api/templates
+
+curl -X POST http://127.0.0.1:8787/api/jobs \
+  -H 'Content-Type: application/json' \
+  -d '{"templateId":"demo-card","variables":{"headline":"Проверка"}}'
 ```
 
-## AI-агенты
+В production задайте `REFRAMOTION_API_KEY` длиной не менее 24 символов и отправляйте `Authorization: Bearer ...`.
+
+Полная спецификация: [docs/api/http-api.md](docs/api/http-api.md).
+
+## Codex и MCP
+
+В корне находится [AGENTS.md](AGENTS.md) — это основной контекст для Codex. MCP-сервер запускается так:
 
 ```bash
-# Claude Code
-npx @anthropic-ai/claude-code@latest
-
-# MCP server
-hyperframes mcp | claude
+REFRAMOTION_API_URL=http://127.0.0.1:8787 npm run mcp
 ```
 
-## Сравнение
+Пример конфигурации клиента:
 
-| | ReFrameMotion | HeyGen | Remotion |
-|--|--------------|--------|----------|
-| **Цена** | Бесплатно | $25/мес | $100/мес |
-| **Лицензия** | Apache 2.0 | Проприетарная | Платная |
-| **API** | REST | REST | Lambda |
-| **HTML-рендер** | ✅ Нативный | ❌ | ❌ |
-| **MCP** | ✅ Встроен | ✅ Remote | ✅ |
-| **Self-host** | ✅ | ❌ | ✅ |
+```toml
+[mcp_servers.reframotion]
+command = "node"
+args = ["apps/mcp/server.mjs"]
+cwd = "/absolute/path/to/reframemotion"
+```
 
-## Развёртывание
+MCP намеренно не принимает произвольный HTML. Агент сначала выбирает зарегистрированный template ID, затем передает только валидируемые variables.
+
+## Архитектура
+
+```text
+Dashboard / Codex / CLI
+          │
+          ▼
+       HTTP API ───── MCP server
+          │
+          ▼
+     SQLite job store
+          │ claim/retry/cancel
+          ▼
+     Render worker
+       ├─ HyperFrames CLI
+       ├─ Remotion CLI
+       └─ Mock renderer
+          │
+          ▼
+      data/outputs
+```
+
+Подробнее: [docs/architecture/overview.md](docs/architecture/overview.md).
+
+## Production
 
 ```bash
-docker-compose up -d
+export REFRAMOTION_API_KEY='replace-with-a-long-random-secret'
+docker compose up --build -d
 ```
 
-## Contributing
+Перед запуском прочитайте [production runbook](docs/operations/runbook.md) и [security policy](SECURITY.md).
 
-См. [CONTRIBUTING.md](CONTRIBUTING.md)
+## Что не следует считать готовым
 
-## Лицензия
+- горизонтальное масштабирование на нескольких машинах;
+- multi-tenant auth, биллинг и квоты;
+- Cloud SQL/PostgreSQL job store;
+- автоматическая загрузка результатов в Google Cloud Storage;
+- визуальный template editor;
+- юридическая проверка рекламных утверждений.
 
-Apache License 2.0 — свободное использование.
+Эти задачи перечислены в [ROADMAP.md](ROADMAP.md). Текущая версия рассчитана на реальную работу на одном устойчивом узле, а не на фиктивный SaaS API.
 
----
+## Репозиторий и артефакты
 
-**ReFrameMotion** — часть экосистемы HyperFrames.
+MP4 и WAV не коммитятся в Git. Исходники шаблонов хранятся в `templates/`, а batch-файлы и facts — в `examples/`; результаты рендера создаются в `data/outputs/` или публикуются как release artifacts.
+
+## Лицензии
+
+Код ReFrameMotion — Apache-2.0. HyperFrames также публикуется под Apache-2.0. У Remotion отдельная лицензия; перед коммерческим использованием проверяйте актуальные условия для размера организации и сценария использования.

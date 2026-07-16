@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<script src="assets/gsap.min.js"></script>
+<style>
+@font-face{font-family:"Clear Sans";src:local("Clear Sans");font-style:normal;font-weight:100 900;}
+@font-face{font-family:"Cousine";src:local("Cousine");font-style:normal;font-weight:400 700;}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#111722}
+body{font-family:"Clear Sans","DejaVu Sans",sans-serif;color:#F2EEE6}
+#root{position:relative;width:1080px;height:1920px;overflow:hidden;background:#111722}
+.scene{position:absolute;inset:0;width:100%;height:100%;padding:92px 72px 82px;display:flex;flex-direction:column;box-sizing:border-box;overflow:hidden}
+.scene-1{z-index:1;background:#111722}
+.scene-2{z-index:2;background:{{scene2Background}};color:{{scene2Text}}}
+.scene-3{z-index:3;background:#111722;color:#F2EEE6}
+.grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:72px 72px;opacity:.7}
+.panel-field{position:absolute;inset:-160px -260px -160px 720px;transform:rotate(-10deg);display:flex;gap:14px;opacity:.92}
+.panel{flex:1;border-radius:8px;background:linear-gradient(180deg,{{accent}},rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.18);box-shadow:0 30px 90px rgba(0,0,0,.22)}
+.panel:nth-child(2n){background:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,.02))}
+.topbar{position:relative;z-index:5;display:flex;align-items:center;justify-content:space-between;font-family:"Cousine","DejaVu Sans Mono",monospace;font-size:25px;letter-spacing:.08em}
+.wordmark{font-weight:700;font-size:31px;letter-spacing:.12em}
+.badge{padding:10px 16px;border:1px solid currentColor;border-radius:999px;font-size:19px;opacity:.86}
+.hero{position:relative;z-index:5;margin-top:220px;display:flex;flex-direction:column;gap:38px;max-width:920px}
+.eyebrow{font-family:"Cousine","DejaVu Sans Mono",monospace;font-size:25px;letter-spacing:.12em;color:{{accent}};font-weight:700}
+.title{font-size:74px;line-height:.94;letter-spacing:-.052em;font-weight:900;max-width:700px}
+.rule{height:9px;width:240px;background:{{accent}};transform-origin:left center}
+.micro{font-size:28px;line-height:1.35;max-width:740px;color:#B7C0CA}
+.s2-layout{position:relative;z-index:5;display:flex;flex-direction:column;height:100%;padding-top:110px}
+.stat{font-size:214px;line-height:.88;letter-spacing:-.075em;font-weight:900;color:{{accent}};font-variant-numeric:tabular-nums}
+.stat-compact{font-size:165px;letter-spacing:-.055em}
+.stat-label{font-size:53px;line-height:1.02;max-width:820px;font-weight:800;letter-spacing:-.035em;margin-top:35px}
+.support{font-size:31px;line-height:1.35;max-width:780px;margin-top:42px;color:color-mix(in srgb,{{scene2Text}} 72%,transparent)}
+.module-wall{margin-top:auto;display:grid;grid-template-columns:1.2fr .8fr 1fr .7fr;gap:12px;height:430px;transform-origin:center bottom}
+.module-wall span{border-radius:8px;background:{{accent}};box-shadow:inset 0 0 0 1px rgba(255,255,255,.18)}
+.module-wall span:nth-child(2){background:color-mix(in srgb,{{accent}} 35%,{{scene2Background}})}
+.module-wall span:nth-child(3){background:color-mix(in srgb,{{accent}} 65%,{{scene2Background}})}
+.module-wall span:nth-child(4){background:{{scene2Text}}}
+.s3-content{position:relative;z-index:5;height:100%;display:flex;flex-direction:column}
+.cta-kicker{margin-top:235px;color:{{accent}};font-family:"Cousine","DejaVu Sans Mono",monospace;font-size:24px;letter-spacing:.12em}
+.cta-title{margin-top:30px;font-size:82px;line-height:.96;letter-spacing:-.05em;font-weight:900;max-width:910px}
+.cta-button{margin-top:68px;align-self:flex-start;padding:30px 38px;border-radius:8px;background:{{accent}};color:{{buttonTextColor}};font-weight:900;font-size:28px;letter-spacing:.035em;box-shadow:0 18px 70px color-mix(in srgb,{{accent}} 35%,transparent)}
+.contacts{margin-top:auto;display:flex;align-items:flex-end;justify-content:space-between;border-top:1px solid rgba(255,255,255,.25);padding-top:28px;font-family:"Cousine","DejaVu Sans Mono",monospace;font-size:25px;line-height:1.45}
+.contacts .url{font-size:36px;font-weight:700;letter-spacing:.04em}
+.contacts .phone{text-align:right}
+.outro-grid{position:absolute;inset:0;opacity:.5;background:repeating-linear-gradient(90deg,transparent 0 105px,rgba(255,255,255,.04) 105px 108px)}
+.corner{position:absolute;width:230px;height:230px;border:3px solid {{accent}};right:72px;top:120px;transform:rotate(45deg);opacity:.75}
+.fade-black{position:absolute;inset:0;background:#080B10;opacity:0;z-index:20;pointer-events:none}
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="12" data-width="1080" data-height="1920">
+  <div id="scene-1" class="scene scene-1">
+    <div class="grid"></div>
+    <div class="panel-field"><div class="panel"></div><div class="panel"></div><div class="panel"></div><div class="panel"></div><div class="panel"></div><div class="panel"></div></div>
+    <div class="topbar"><div class="wordmark">{{brand}}</div><div class="badge">ТЕСТ 9:16</div></div>
+    <div class="hero">
+      <div id="s1-eye" class="eyebrow">{{eyebrow}}</div>
+      <div id="s1-title" class="title">{{headline}}</div>
+      <div id="s1-rule" class="rule"></div>
+      <div id="s1-micro" class="micro">{{micro}}</div>
+    </div>
+  </div>
+  <div id="scene-2" class="scene scene-2">
+    <div class="topbar"><div class="wordmark">{{brand}}</div><div class="badge">ФАКТ С САЙТА</div></div>
+    <div class="s2-layout">
+      <div id="s2-stat" class="stat {{statClass}}">{{stat}}</div>
+      <div id="s2-label" class="stat-label">{{statLabel}}</div>
+      <div id="s2-support" class="support">{{support}}</div>
+      <div id="s2-wall" class="module-wall"><span></span><span></span><span></span><span></span></div>
+    </div>
+  </div>
+  <div id="scene-3" class="scene scene-3">
+    <div class="outro-grid"></div><div class="corner"></div>
+    <div class="topbar"><div class="wordmark">{{brand}}</div><div class="badge">ROSPAN.RU</div></div>
+    <div class="s3-content">
+      <div id="s3-kicker" class="cta-kicker">{{ctaKicker}}</div>
+      <div id="s3-title" class="cta-title">{{ctaTitle}}</div>
+      <div id="s3-button" class="cta-button">{{buttonText}}</div>
+      <div id="s3-contacts" class="contacts"><div class="url">{{website}}</div><div class="phone">{{phone}}<br>ПН–ПТ · 9:00–18:00</div></div>
+    </div>
+  </div>
+  <div class="fade-black"></div>
+</div>
+<script>
+window.__timelines=window.__timelines||{};
+const tl=gsap.timeline({paused:true});
+tl.from(".scene-1 .wordmark",{x:-40,opacity:0,duration:.46,ease:"expo.out"},.16);
+tl.from(".scene-1 .badge",{scale:.72,opacity:0,duration:.42,ease:"back.out(1.6)"},.24);
+tl.from("#s1-eye",{x:52,opacity:0,duration:.44,ease:"power3.out"},.30);
+tl.from("#s1-title",{y:90,opacity:0,duration:.68,ease:"expo.out"},.42);
+tl.from("#s1-rule",{scaleX:0,duration:.48,ease:"power4.out"},.82);
+tl.from("#s1-micro",{y:35,opacity:0,duration:.52,ease:"sine.out"},.92);
+tl.from(".panel-field",{x:190,rotation:-3,opacity:0,duration:.9,ease:"power3.out"},.12);
+tl.to(".panel-field",{x:-80,duration:10.4,ease:"none"},1.12);
+tl.from("#scene-2", { xPercent: 105, duration: 0.58, ease: "power3.inOut" }, 3.75);
+tl.from(".scene-2 .wordmark",{x:-45,opacity:0,duration:.42,ease:"expo.out"},4.16);
+tl.from(".scene-2 .badge",{scale:.7,opacity:0,duration:.38,ease:"back.out(1.8)"},4.22);
+tl.from("#s2-stat",{y:105,opacity:0,duration:.58,ease:"power4.out"},4.25);
+tl.from("#s2-label",{x:-65,opacity:0,duration:.48,ease:"circ.out"},4.55);
+tl.from("#s2-support",{x:55,opacity:0,duration:.48,ease:"power2.out"},4.75);
+tl.from("#s2-wall span",{scaleY:0,transformOrigin:"center bottom",duration:.56,stagger:{each:.09,from:"edges"},ease:"expo.out"},5.05);
+tl.to("#s2-wall",{scaleY:.96,duration:2.1,yoyo:true,repeat:0,ease:"sine.inOut"},5.75);
+tl.from("#scene-3", { yPercent: 105, duration: 0.62, ease: "power4.inOut" }, 7.75);
+tl.from(".scene-3 .wordmark",{x:-40,opacity:0,duration:.42,ease:"expo.out"},8.12);
+tl.from(".scene-3 .badge",{scale:.74,opacity:0,duration:.38,ease:"back.out(1.7)"},8.18);
+tl.from("#s3-kicker",{x:55,opacity:0,duration:.44,ease:"power3.out"},8.28);
+tl.from("#s3-title",{y:85,opacity:0,duration:.64,ease:"expo.out"},8.40);
+tl.from("#s3-button",{scale:.84,opacity:0,duration:.46,ease:"back.out(1.65)"},8.88);
+tl.from("#s3-contacts",{y:42,opacity:0,duration:.48,ease:"sine.out"},9.10);
+tl.from(".corner",{rotation:-40,scale:.3,opacity:0,duration:.72,ease:"power4.out"},8.38);
+tl.to(".corner",{rotation:80,duration:2.45,ease:"none"},9.16);
+tl.to(".fade-black",{opacity:1,duration:.34,ease:"power2.in"},11.63);
+window.__timelines["main"]=tl;
+</script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+template_id,engine,output_format,priority,max_attempts,variables_json
+rospan-fast-install,hyperframes,mp4,10,2,"{}"
+rospan-fire-safety,hyperframes,mp4,10,2,"{}"
+rospan-durability,hyperframes,mp4,10,2,"{}"
+rospan-decors,hyperframes,mp4,10,2,"{}"
+rospan-free-samples,hyperframes,mp4,10,2,"{}"

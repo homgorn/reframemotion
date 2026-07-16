@@ -1,0 +1,30 @@
+{
+  "name": "reframemotion",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Local-first production pipeline for mass programmatic video generation with HyperFrames, Remotion, a dashboard and MCP for Codex.",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=22.16.0"
+  },
+  "scripts": {
+    "init": "node scripts/init.mjs",
+    "dev": "node scripts/dev.mjs",
+    "api": "node apps/api/server.mjs",
+    "worker": "node apps/worker/worker.mjs",
+    "worker:once": "node apps/worker/worker.mjs --once",
+    "mcp": "node apps/mcp/server.mjs",
+    "doctor": "node scripts/doctor.mjs",
+    "import:batch": "node scripts/import-batch.mjs",
+    "check:syntax": "node scripts/check-syntax.mjs",
+    "check:docs": "node scripts/check-docs.mjs",
+    "test": "node --test --test-reporter=spec",
+    "check": "npm run check:syntax && npm run test && npm run check:docs && npm run check:index",
+    "index": "node scripts/build-index.mjs",
+    "check:index": "node scripts/build-index.mjs --check"
+  },
+  "dependencies": {
+    "gsap": "3.14.2"
+  }
+}

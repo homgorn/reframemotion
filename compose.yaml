@@ -1,0 +1,42 @@
+services:
+  api:
+    build:
+      context: .
+      args:
+        HYPERFRAMES_VERSION: 0.7.60
+    command: ["node", "apps/api/server.mjs"]
+    environment:
+      NODE_ENV: production
+      HOST: 0.0.0.0
+      PORT: 8787
+      REFRAMOTION_API_KEY: ${REFRAMOTION_API_KEY:?set REFRAMOTION_API_KEY}
+    ports:
+      - "8787:8787"
+    volumes:
+      - reframotion-data:/app/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:8787/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+
+  worker:
+    build:
+      context: .
+      args:
+        HYPERFRAMES_VERSION: 0.7.60
+    command: ["node", "apps/worker/worker.mjs"]
+    environment:
+      NODE_ENV: production
+      REFRAMOTION_API_KEY: ${REFRAMOTION_API_KEY:?set REFRAMOTION_API_KEY}
+      REFRAMOTION_WORKER_CONCURRENCY: ${REFRAMOTION_WORKER_CONCURRENCY:-1}
+    volumes:
+      - reframotion-data:/app/data
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  reframemotion-data:

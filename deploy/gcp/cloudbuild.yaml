@@ -1,0 +1,11 @@
+steps:
+  - name: gcr.io/cloud-builders/docker
+    args: ['build', '--build-arg', 'HYPERFRAMES_VERSION=0.7.60', '-t', '${_IMAGE}', '.']
+  - name: gcr.io/cloud-builders/docker
+    args: ['push', '${_IMAGE}']
+images:
+  - '${_IMAGE}'
+substitutions:
+  _IMAGE: 'REGION-docker.pkg.dev/PROJECT/reframemotion/app:1.0.0'
+options:
+  logging: CLOUD_LOGGING_ONLY
