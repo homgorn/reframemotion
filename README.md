@@ -86,6 +86,9 @@ projects/
   rospan.ru/
     site.json
     videos/
+      rospan-site.json
+      rospan-site-minute.json
+      rospan-site-3min.json
       rospan-site-6min.json
 ```
 

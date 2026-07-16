@@ -1,0 +1,24 @@
+{
+  "id": "rospan-site-minute",
+  "title": "ROSPAN 1-minute explainer",
+  "kind": "website-to-video",
+  "status": "ready",
+  "engine": "hyperframes",
+  "templateId": "custom-hyperframes-site",
+  "durationSec": 60,
+  "audioMode": "voice+sfx",
+  "sourcePath": "videos/rospan-site-minute",
+  "previewUrl": "http://localhost:3020/#project/rospan-site-minute",
+  "tags": ["rospan", "explainer", "one-minute", "tts"],
+  "checks": {
+    "lint": {"status": "passed", "errors": 0, "warnings": 3, "note": "duplicate_media_discovery_risk and composition_file_too_large"},
+    "validate": {"status": "passed", "errors": 0, "warnings": 0},
+    "inspect": {"status": "passed", "errors": 0, "warnings": 0, "layoutIssues": 0, "info": 1}
+  },
+  "artifacts": [
+    {"type": "source", "label": "Local source", "path": "videos/rospan-site-minute"},
+    {"type": "audio", "label": "Segmented TTS timings", "path": "videos/rospan-site-minute/audio/timings.json"},
+    {"type": "snapshot", "label": "Snapshots", "path": "videos/rospan-site-minute/snapshots"}
+  ],
+  "updatedAt": "2026-07-16"
+}

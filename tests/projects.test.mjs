@@ -27,6 +27,24 @@ test('ProjectCatalog loads sites and video project manifests', () => {
   assert.equal(catalog.summary.byAudioMode.silent, 1);
 });
 
+test('ProjectCatalog reports pending checks before passed', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'reframotion-projects-'));
+  const siteDir = path.join(root, 'example.com');
+  fs.mkdirSync(path.join(siteDir, 'videos'), {recursive: true});
+  fs.writeFileSync(path.join(siteDir, 'site.json'), JSON.stringify({id: 'example.com', name: 'Example'}));
+  fs.writeFileSync(path.join(siteDir, 'videos', 'pending.json'), JSON.stringify({
+    id: 'pending-video',
+    checks: {
+      lint: {status: 'passed', errors: 0, warnings: 0},
+      inspect: {status: 'pending', errors: 0, warnings: 0},
+    },
+  }));
+
+  const catalog = new ProjectCatalog(root).load();
+  assert.equal(catalog.projects[0].checkStatus, 'pending');
+  assert.equal(catalog.summary.byCheckStatus.pending, 1);
+});
+
 test('ProjectCatalog rejects unsafe IDs', () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'reframotion-projects-'));
   const siteDir = path.join(root, 'bad');

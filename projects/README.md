@@ -9,6 +9,8 @@ projects/
   rospan.ru/
     site.json
     videos/
+      rospan-site.json
+      rospan-site-minute.json
       rospan-site-3min.json
       rospan-site-6min.json
 ```
@@ -16,4 +18,3 @@ projects/
 `site.json` описывает сайт/клиента. JSON в `videos/` описывает конкретный ролик, его источник, режим звука, проверки, preview URL и артефакты.
 
 Dashboard читает эти файлы через `GET /api/catalog`, `GET /api/sites` и `GET /api/projects`.
-

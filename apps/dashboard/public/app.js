@@ -63,8 +63,8 @@ function renderCatalog() {
   $('#catalog-summary').innerHTML = [
     ['Сайтов', catalogState.sites.length],
     ['Проектов', summary.totalProjects ?? projects.length],
-    ['Проверено', checkSummary.passed ?? 0],
-    ['Нужны правки', (checkSummary.failed ?? 0) + (checkSummary.warning ?? 0)],
+    ['Без замечаний', checkSummary.passed ?? 0],
+    ['С замечаниями', (checkSummary.failed ?? 0) + (checkSummary.warning ?? 0) + (checkSummary.pending ?? 0)],
   ].map(([name, value]) => `<div class="mini-stat"><b>${escape(value)}</b><span>${escape(name)}</span></div>`).join('');
 
   $('#site-filter').innerHTML = '<option value="">Все сайты</option>' + catalogState.sites

@@ -1,0 +1,25 @@
+{
+  "id": "rospan-site",
+  "title": "ROSPAN first short promo",
+  "kind": "website-to-video",
+  "status": "ready",
+  "engine": "hyperframes",
+  "templateId": "custom-hyperframes-site",
+  "durationSec": 26,
+  "audioMode": "voice",
+  "sourcePath": "videos/rospan-site",
+  "previewUrl": "http://localhost:3019/#project/rospan-site",
+  "tags": ["rospan", "promo", "first", "rendered"],
+  "checks": {
+    "lint": {"status": "passed", "errors": 0, "warnings": 61, "note": "overlapping_gsap_tweens and duplicate_media_discovery_risk"},
+    "validate": {"status": "passed", "errors": 0, "warnings": 0},
+    "inspect": {"status": "passed", "errors": 0, "warnings": 0, "layoutIssues": 0, "info": 24}
+  },
+  "artifacts": [
+    {"type": "source", "label": "Local source", "path": "videos/rospan-site"},
+    {"type": "render", "label": "Rendered MP4", "path": "videos/rospan-site/renders/rospan-site_2026-07-16_17-40-28.mp4"},
+    {"type": "audio", "label": "Narration WAV", "path": "videos/rospan-site/narration.wav"},
+    {"type": "snapshot", "label": "Snapshots", "path": "videos/rospan-site/snapshots"}
+  ],
+  "updatedAt": "2026-07-16"
+}

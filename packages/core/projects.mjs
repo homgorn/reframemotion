@@ -25,8 +25,10 @@ function asArray(value) {
 function summarizeChecks(checks = {}) {
   const entries = Object.entries(checks).filter(([, value]) => value && typeof value === 'object');
   const failures = entries.filter(([, value]) => value.status === 'failed' || value.errors > 0);
+  const pending = entries.filter(([, value]) => ['pending', 'running'].includes(value.status));
   const warnings = entries.filter(([, value]) => value.warnings > 0);
   if (failures.length) return 'failed';
+  if (pending.length) return 'pending';
   if (warnings.length) return 'warning';
   if (entries.length) return 'passed';
   return 'unknown';
