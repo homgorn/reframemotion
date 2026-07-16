@@ -48,3 +48,18 @@ test('API exposes the site and video project catalog', async (t) => {
   assert.equal(catalog.sites[0].id, 'example.com');
   assert.equal(catalog.projects[0].id, 'launch');
 });
+
+test('dashboard assets are not cached across deploys', async (t) => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'reframotion-api-static-'));
+  const templates = path.join(root, 'templates', 'demo-card');
+  fs.mkdirSync(templates, {recursive:true});
+  fs.writeFileSync(path.join(templates, 'template.json'), JSON.stringify({id:'demo-card',engine:'mock',outputFormat:'json',variables:{},security:{allowRemoteAssets:false}}));
+  const config = loadConfig({root, templatesDir:path.join(root,'templates'), dataDir:path.join(root,'data'), port:0});
+  const instance = await createApiServer({config});
+  await new Promise((resolve) => instance.server.listen(0, '127.0.0.1', resolve));
+  t.after(() => new Promise((resolve) => instance.server.close(resolve)));
+  const port = instance.server.address().port;
+  const response = await fetch(`http://127.0.0.1:${port}/dashboard/app.js`);
+  assert.equal(response.status, 200);
+  assert.equal(response.headers.get('cache-control'), 'no-cache');
+});

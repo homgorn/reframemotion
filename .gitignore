@@ -8,3 +8,4 @@ renders/
 *.log
 .DS_Store
 coverage/
+qa/

@@ -37,7 +37,7 @@ async function serveStatic(reqPath, res) {
   catch { return false; }
   if (!fs.existsSync(file) || !fs.statSync(file).isFile()) return false;
   const data = fs.readFileSync(file);
-  res.writeHead(200, {'content-type': mime.get(path.extname(file)) ?? 'application/octet-stream', 'content-length': data.length, 'cache-control': relative === 'index.html' ? 'no-cache' : 'public, max-age=3600'});
+  res.writeHead(200, {'content-type': mime.get(path.extname(file)) ?? 'application/octet-stream', 'content-length': data.length, 'cache-control': 'no-cache'});
   res.end(data);
   return true;
 }
