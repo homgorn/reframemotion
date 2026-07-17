@@ -35,35 +35,15 @@
       "info": 24
     },
     "contentReview": {
-      "status": "failed",
-      "errors": 2,
-      "warnings": 1,
+      "status": "passed",
+      "errors": 0,
+      "warnings": 0,
       "reviewedSources": [
         "../videos/rospan-site/SCRIPT.md",
         "../videos/rospan-site/narration.txt"
       ],
-      "issues": [
-        {
-          "severity": "error",
-          "code": "website_meta_in_client_voice",
-          "message": "Client-facing narration should sell the offer, not describe the website, pages, screenshots, URLs or browser capture.",
-          "source": "SCRIPT.md",
-          "file": "../videos/rospan-site/SCRIPT.md",
-          "line": 24,
-          "excerpt": "е панели, отбойные доски, профили. - Факты с сайта: КМ0/КМ1, более 100 декоров, монтаж в 3-5 раз быстрее мокрых процессов, срок службы от 15 лет, 1000+ довольных клиентов, 2GIS 5.0, Янд"
-        },
-        {
-          "severity": "warning",
-          "code": "missing_pronunciation_guide",
-          "message": "Voice project should include PRONUNCIATION.md for brand names, abbreviations and Russian TTS fixes."
-        },
-        {
-          "severity": "error",
-          "code": "voice_too_fast",
-          "message": "Estimated voice speed is 459 wpm; keep Russian presentation voice under 180 wpm."
-        }
-      ],
-      "updatedAt": "2026-07-17T02:51:36.176Z"
+      "issues": [],
+      "updatedAt": "2026-07-17T06:47:46.899Z"
     }
   },
   "artifacts": [

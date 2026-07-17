@@ -82,8 +82,8 @@
       "outputBytes": 42378152
     },
     "contentReview": {
-      "status": "failed",
-      "errors": 9,
+      "status": "passed",
+      "errors": 0,
       "warnings": 0,
       "reviewedSources": [
         "../videos/rospan-site-7min-silent-projects/SCRIPT.md",
@@ -91,90 +91,8 @@
         "../videos/rospan-site-7min-silent-projects/exports/captions.srt",
         "../videos/rospan-site-7min-silent-projects/exports/captions.vtt"
       ],
-      "issues": [
-        {
-          "severity": "error",
-          "code": "website_meta_in_client_voice",
-          "message": "Client-facing narration should sell the offer, not describe the website, pages, screenshots, URLs or browser capture.",
-          "source": "SCRIPT.md",
-          "file": "../videos/rospan-site-7min-silent-projects/SCRIPT.md",
-          "line": 17,
-          "excerpt": "с сайта. В проекте сохранены свежие capture-страницы: главная, продукция, проекты и доставка. Это база для проверки фактов и визуала. ## Beat 04 — сегменты Сферы применения дают"
-        },
-        {
-          "severity": "error",
-          "code": "website_meta_in_client_voice",
-          "message": "Client-facing narration should sell the offer, not describe the website, pages, screenshots, URLs or browser capture.",
-          "source": "SCRIPT.md",
-          "file": "../videos/rospan-site-7min-silent-projects/SCRIPT.md",
-          "line": 9,
-          "excerpt": "как маркетинговый актив. Показываем, как из сайта, карточек проектов, продуктовой линейки и доказательств собрать длинный полезный ролик для B2B-продаж. ## Beat 02 — позиционировани"
-        },
-        {
-          "severity": "error",
-          "code": "website_meta_in_client_voice",
-          "message": "Client-facing narration should sell the offer, not describe the website, pages, screenshots, URLs or browser capture.",
-          "source": "SCRIPT.md",
-          "file": "../videos/rospan-site-7min-silent-projects/SCRIPT.md",
-          "line": 17,
-          "excerpt": "ка взята с сайта. В проекте сохранены свежие capture-страницы: главная, продукция, проекты и доставка. Это база для проверки фактов и визуала. ## Beat 04 — сегменты Сферы применен"
-        },
-        {
-          "severity": "error",
-          "code": "website_meta_in_client_voice",
-          "message": "Client-facing narration should sell the offer, not describe the website, pages, screenshots, URLs or browser capture.",
-          "source": "script-text.txt",
-          "file": "../videos/rospan-site-7min-silent-projects/exports/script-text.txt",
-          "line": 11,
-          "excerpt": "аталог помогает собрать точные офферы 06. Страница проектов уже сегментирована 07. Медицина: уход, дезинфекция, спокойная среда 08. Образование: сроки, безопасность и ремонт"
-        },
-        {
-          "severity": "error",
-          "code": "website_meta_in_client_voice",
-          "message": "Client-facing narration should sell the offer, not describe the website, pages, screenshots, URLs or browser capture.",
-          "source": "script-text.txt",
-          "file": "../videos/rospan-site-7min-silent-projects/exports/script-text.txt",
-          "line": 5,
-          "excerpt": "лист материала 03. Основа ролика взята с сайта 04. Сферы применения дают готовую карту кампаний 05. Каталог помогает собрать точные офферы 06. Страница проектов уже сегмент"
-        },
-        {
-          "severity": "error",
-          "code": "website_meta_in_client_voice",
-          "message": "Client-facing narration should sell the offer, not describe the website, pages, screenshots, URLs or browser capture.",
-          "source": "captions.srt",
-          "file": "../videos/rospan-site-7min-silent-projects/exports/captions.srt",
-          "line": 23,
-          "excerpt": "офферы 6 00:01:40,000 --> 00:02:00,000 Страница проектов уже сегментирована 7 00:02:00,000 --> 00:02:20,000 Медицина: уход, дезинфекция, спокойная среда 8 00:02:20,000 --"
-        },
-        {
-          "severity": "error",
-          "code": "website_meta_in_client_voice",
-          "message": "Client-facing narration should sell the offer, not describe the website, pages, screenshots, URLs or browser capture.",
-          "source": "captions.srt",
-          "file": "../videos/rospan-site-7min-silent-projects/exports/captions.srt",
-          "line": 11,
-          "excerpt": ",000 --> 00:01:00,000 Основа ролика взята с сайта 4 00:01:00,000 --> 00:01:20,000 Сферы применения дают готовую карту кампаний 5 00:01:20,000 --> 00:01:40,000 Каталог помогае"
-        },
-        {
-          "severity": "error",
-          "code": "website_meta_in_client_voice",
-          "message": "Client-facing narration should sell the offer, not describe the website, pages, screenshots, URLs or browser capture.",
-          "source": "captions.vtt",
-          "file": "../videos/rospan-site-7min-silent-projects/exports/captions.vtt",
-          "line": 19,
-          "excerpt": "ные офферы 00:01:40.000 --> 00:02:00.000 Страница проектов уже сегментирована 00:02:00.000 --> 00:02:20.000 Медицина: уход, дезинфекция, спокойная среда 00:02:20.000 --> 00:0"
-        },
-        {
-          "severity": "error",
-          "code": "website_meta_in_client_voice",
-          "message": "Client-facing narration should sell the offer, not describe the website, pages, screenshots, URLs or browser capture.",
-          "source": "captions.vtt",
-          "file": "../videos/rospan-site-7min-silent-projects/exports/captions.vtt",
-          "line": 10,
-          "excerpt": ".000 --> 00:01:00.000 Основа ролика взята с сайта 00:01:00.000 --> 00:01:20.000 Сферы применения дают готовую карту кампаний 00:01:20.000 --> 00:01:40.000 Каталог помогает собр"
-        }
-      ],
-      "updatedAt": "2026-07-17T02:51:36.152Z"
+      "issues": [],
+      "updatedAt": "2026-07-17T06:47:46.885Z"
     }
   },
   "artifacts": [

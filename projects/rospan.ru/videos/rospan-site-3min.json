@@ -33,53 +33,15 @@
       "layoutIssues": 0
     },
     "contentReview": {
-      "status": "failed",
-      "errors": 4,
-      "warnings": 1,
+      "status": "passed",
+      "errors": 0,
+      "warnings": 0,
       "reviewedSources": [
         "../videos/rospan-site-3min/SCRIPT.md",
         "../videos/rospan-site-3min/narration.txt"
       ],
-      "issues": [
-        {
-          "severity": "error",
-          "code": "website_meta_in_client_voice",
-          "message": "Client-facing narration should sell the offer, not describe the website, pages, screenshots, URLs or browser capture.",
-          "source": "SCRIPT.md",
-          "file": "../videos/rospan-site-3min/SCRIPT.md",
-          "line": 46,
-          "excerpt": "ное пространство. ## Beat 10 — Projects На сайте показаны реальные проекты: поликлиники, школы, офисы, рестораны, суды, спорткомплексы, чистые помещения и транспортные объекты. ## Be"
-        },
-        {
-          "severity": "error",
-          "code": "website_meta_in_client_voice",
-          "message": "Client-facing narration should sell the offer, not describe the website, pages, screenshots, URLs or browser capture.",
-          "source": "SCRIPT.md",
-          "file": "../videos/rospan-site-3min/SCRIPT.md",
-          "line": 6,
-          "excerpt": "aptured ROSPAN website text and assets from `capture-live/` ## Beat 01 — Problem Отделка в публичном объекте должна не просто выглядеть хорошо. Она должна выдерживать людей, уборку, у"
-        },
-        {
-          "severity": "error",
-          "code": "website_meta_in_client_voice",
-          "message": "Client-facing narration should sell the offer, not describe the website, pages, screenshots, URLs or browser capture.",
-          "source": "narration.txt",
-          "file": "../videos/rospan-site-3min/narration.txt",
-          "line": 19,
-          "excerpt": ", отель или брендированное пространство. На сайте показаны реальные проекты: поликлиники, школы, офисы, рестораны, суды, спорткомплексы, чистые помещения и транспортные объекты. Есть"
-        },
-        {
-          "severity": "warning",
-          "code": "missing_pronunciation_guide",
-          "message": "Voice project should include PRONUNCIATION.md for brand names, abbreviations and Russian TTS fixes."
-        },
-        {
-          "severity": "error",
-          "code": "voice_too_fast",
-          "message": "Estimated voice speed is 186 wpm; keep Russian presentation voice under 180 wpm."
-        }
-      ],
-      "updatedAt": "2026-07-17T02:51:36.036Z"
+      "issues": [],
+      "updatedAt": "2026-07-17T06:47:46.859Z"
     }
   },
   "artifacts": [

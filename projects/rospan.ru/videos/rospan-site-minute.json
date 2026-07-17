@@ -35,43 +35,15 @@
       "info": 1
     },
     "contentReview": {
-      "status": "failed",
-      "errors": 3,
-      "warnings": 1,
+      "status": "passed",
+      "errors": 0,
+      "warnings": 0,
       "reviewedSources": [
-        "../videos/rospan-site-minute/SCRIPT.md"
+        "../videos/rospan-site-minute/SCRIPT.md",
+        "../videos/rospan-site-minute/narration.txt"
       ],
-      "issues": [
-        {
-          "severity": "error",
-          "code": "internal_process_in_client_voice",
-          "message": "Client-facing narration must not mention generation, render pipeline, HyperFrames, Codex or production internals.",
-          "source": "SCRIPT.md",
-          "file": "../videos/rospan-site-minute/SCRIPT.md",
-          "line": 31,
-          "excerpt": "enerated as a separate WAV file in `audio/`. HyperFrames places every audio file at the start of its scene. Scene timings are driven by the target durations, so the sound and visuals st"
-        },
-        {
-          "severity": "error",
-          "code": "website_meta_in_client_voice",
-          "message": "Client-facing narration should sell the offer, not describe the website, pages, screenshots, URLs or browser capture.",
-          "source": "SCRIPT.md",
-          "file": "../videos/rospan-site-minute/SCRIPT.md",
-          "line": 23,
-          "excerpt": "есторана, от школы до делового офиса. 8. На сайте есть реальные проекты, отзывы, независимые рейтинги 2GIS и Яндекс, а также доставка по России и СНГ. 9. Закажите образцы размером два"
-        },
-        {
-          "severity": "warning",
-          "code": "missing_pronunciation_guide",
-          "message": "Voice project should include PRONUNCIATION.md for brand names, abbreviations and Russian TTS fixes."
-        },
-        {
-          "severity": "error",
-          "code": "voice_too_fast",
-          "message": "Estimated voice speed is 236 wpm; keep Russian presentation voice under 180 wpm."
-        }
-      ],
-      "updatedAt": "2026-07-17T02:51:36.161Z"
+      "issues": [],
+      "updatedAt": "2026-07-17T06:47:46.892Z"
     }
   },
   "artifacts": [
