@@ -80,6 +80,29 @@ function countWords(text) {
   return matches ? matches.length : 0;
 }
 
+function uniqueTexts(sources) {
+  const seen = new Set();
+  const result = [];
+  for (const source of sources) {
+    const normalized = source.text.toLowerCase().replace(/\s+/g, ' ').trim();
+    const key = normalized.slice(0, 2000);
+    if (!key || seen.has(key)) continue;
+    seen.add(key);
+    result.push(source.text);
+  }
+  return result;
+}
+
+function tempoSources(voiceSources) {
+  const narration = voiceSources.filter((source) => /narration\.txt$/i.test(source.file));
+  if (narration.length) return narration;
+  const sidecar = voiceSources.filter((source) => /script-text\.txt$/i.test(source.file));
+  if (sidecar.length) return sidecar;
+  const script = voiceSources.filter((source) => /SCRIPT\.md$/i.test(source.file));
+  if (script.length) return script;
+  return voiceSources;
+}
+
 function textSourcesForProject(manifest, manifestPath, roots) {
   const sources = [];
   const addFile = (label, filePath) => {
@@ -138,7 +161,7 @@ export function validateProjectContent({manifest, manifestPath = '', roots = [pr
     }
   }
 
-  const combinedVoiceText = voiceSources.map((source) => source.text).join('\n\n');
+  const combinedVoiceText = uniqueTexts(tempoSources(voiceSources)).join('\n\n');
   if (String(manifest.audioMode ?? '').includes('voice')) {
     if (!voiceSources.length) {
       issues.push({severity: 'error', code: 'missing_voice_text', message: 'Voice project has no script, transcript, narration or captions text to review.'});

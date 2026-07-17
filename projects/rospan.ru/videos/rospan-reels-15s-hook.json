@@ -1,0 +1,141 @@
+{
+  "id": "rospan-reels-15s-hook",
+  "title": "ROSPAN 15-second vertical reel with hook",
+  "kind": "website-to-video",
+  "status": "rendered",
+  "approvalStatus": "review",
+  "engine": "hyperframes",
+  "templateId": "custom-hyperframes-site",
+  "durationSec": 15,
+  "audioMode": "voice+music",
+  "aspectRatio": "portrait",
+  "formats": [
+    {
+      "id": "portrait",
+      "label": "Vertical 9:16",
+      "width": 1080,
+      "height": 1920
+    }
+  ],
+  "sourcePath": "videos/rospan-reels-15s-hook",
+  "previewUrl": "http://localhost:3030/#project/rospan-reels-15s-hook",
+  "sourceUrls": [
+    "https://rospan.ru/"
+  ],
+  "brief": {
+    "goal": "Conversion-focused vertical B2B presentation for ROSPAN panels.",
+    "audience": "Architects, contractors, procurement and facility owners.",
+    "cta": "Request samples and project calculation.",
+    "style": "Technical, confident, direct response, client-facing only."
+  },
+  "tags": [
+    "rospan",
+    "vertical",
+    "conversion",
+    "voice",
+    "cta"
+  ],
+  "checks": {
+    "contentReview": {
+      "status": "passed",
+      "errors": 0,
+      "warnings": 0,
+      "reviewedSources": [
+        "../videos/rospan-reels-15s-hook/SCRIPT.md",
+        "../videos/rospan-reels-15s-hook/narration.txt",
+        "../videos/rospan-reels-15s-hook/exports/script-text.txt",
+        "../videos/rospan-reels-15s-hook/exports/captions.srt"
+      ],
+      "issues": [],
+      "updatedAt": "2026-07-17T05:18:36.660Z"
+    }
+  },
+  "artifacts": [
+    {
+      "type": "source",
+      "label": "Local source",
+      "path": "videos/rospan-reels-15s-hook"
+    },
+    {
+      "type": "script",
+      "label": "Script",
+      "path": "videos/rospan-reels-15s-hook/SCRIPT.md"
+    },
+    {
+      "type": "storyboard",
+      "label": "Storyboard",
+      "path": "videos/rospan-reels-15s-hook/STORYBOARD.md"
+    },
+    {
+      "type": "render",
+      "label": "Final MP4",
+      "path": "videos/rospan-reels-15s-hook/renders/rospan-reels-15s-hook-final.mp4"
+    },
+    {
+      "type": "audio",
+      "label": "Mixed soundtrack WAV",
+      "path": "videos/rospan-reels-15s-hook/audio/soundtrack.wav"
+    },
+    {
+      "type": "subtitle",
+      "label": "Captions SRT",
+      "path": "videos/rospan-reels-15s-hook/exports/captions.srt"
+    },
+    {
+      "type": "text",
+      "label": "Script text sidecar",
+      "path": "videos/rospan-reels-15s-hook/exports/script-text.txt"
+    }
+  ],
+  "exportProfiles": [
+    {
+      "id": "demo_watermark",
+      "label": "DEMO",
+      "description": "Client preview with watermark, audio and captions.",
+      "watermark": true,
+      "audioMode": "normal",
+      "captions": "on",
+      "approvalRequired": false,
+      "variablesPath": "exports/demo-watermark.variables.json",
+      "variables": {
+        "exportProfile": "demo",
+        "audioMode": "normal",
+        "captions": "on"
+      },
+      "outputSuffix": "demo-watermark",
+      "renderCommand": "npx hyperframes render videos/rospan-reels-15s-hook --variables-file videos/rospan-reels-15s-hook/exports/demo-watermark.variables.json --output videos/rospan-reels-15s-hook/renders/rospan-reels-15s-hook-demo-watermark.mp4 --fps 30 --quality standard",
+      "artifacts": [
+        {
+          "type": "render",
+          "label": "DEMO MP4 target",
+          "path": "videos/rospan-reels-15s-hook/renders/rospan-reels-15s-hook-demo-watermark.mp4"
+        }
+      ]
+    },
+    {
+      "id": "final_master",
+      "label": "FINAL",
+      "description": "Clean final export after approval.",
+      "watermark": false,
+      "audioMode": "normal",
+      "captions": "off",
+      "approvalRequired": true,
+      "variablesPath": "exports/final.variables.json",
+      "variables": {
+        "exportProfile": "final",
+        "audioMode": "normal",
+        "captions": "off"
+      },
+      "outputSuffix": "final",
+      "renderCommand": "npx hyperframes render videos/rospan-reels-15s-hook --variables-file videos/rospan-reels-15s-hook/exports/final.variables.json --output videos/rospan-reels-15s-hook/renders/rospan-reels-15s-hook-final.mp4 --fps 30 --quality high",
+      "artifacts": [
+        {
+          "type": "render",
+          "label": "Final MP4 target",
+          "path": "videos/rospan-reels-15s-hook/renders/rospan-reels-15s-hook-final.mp4"
+        }
+      ]
+    }
+  ],
+  "updatedAt": "2026-07-17"
+}

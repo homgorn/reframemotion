@@ -1,0 +1,141 @@
+{
+  "id": "rospan-vertical-2min-conversion",
+  "title": "ROSPAN 2-minute vertical conversion presentation",
+  "kind": "website-to-video",
+  "status": "rendered",
+  "approvalStatus": "review",
+  "engine": "hyperframes",
+  "templateId": "custom-hyperframes-site",
+  "durationSec": 120,
+  "audioMode": "voice+music",
+  "aspectRatio": "portrait",
+  "formats": [
+    {
+      "id": "portrait",
+      "label": "Vertical 9:16",
+      "width": 1080,
+      "height": 1920
+    }
+  ],
+  "sourcePath": "videos/rospan-vertical-2min-conversion",
+  "previewUrl": "http://localhost:3030/#project/rospan-vertical-2min-conversion",
+  "sourceUrls": [
+    "https://rospan.ru/"
+  ],
+  "brief": {
+    "goal": "Conversion-focused vertical B2B presentation for ROSPAN panels.",
+    "audience": "Architects, contractors, procurement and facility owners.",
+    "cta": "Request samples and project calculation.",
+    "style": "Technical, confident, direct response, client-facing only."
+  },
+  "tags": [
+    "rospan",
+    "vertical",
+    "conversion",
+    "voice",
+    "cta"
+  ],
+  "checks": {
+    "contentReview": {
+      "status": "passed",
+      "errors": 0,
+      "warnings": 0,
+      "reviewedSources": [
+        "../videos/rospan-vertical-2min-conversion/SCRIPT.md",
+        "../videos/rospan-vertical-2min-conversion/narration.txt",
+        "../videos/rospan-vertical-2min-conversion/exports/script-text.txt",
+        "../videos/rospan-vertical-2min-conversion/exports/captions.srt"
+      ],
+      "issues": [],
+      "updatedAt": "2026-07-17T05:18:36.643Z"
+    }
+  },
+  "artifacts": [
+    {
+      "type": "source",
+      "label": "Local source",
+      "path": "videos/rospan-vertical-2min-conversion"
+    },
+    {
+      "type": "script",
+      "label": "Script",
+      "path": "videos/rospan-vertical-2min-conversion/SCRIPT.md"
+    },
+    {
+      "type": "storyboard",
+      "label": "Storyboard",
+      "path": "videos/rospan-vertical-2min-conversion/STORYBOARD.md"
+    },
+    {
+      "type": "render",
+      "label": "Final MP4",
+      "path": "videos/rospan-vertical-2min-conversion/renders/rospan-vertical-2min-conversion-final.mp4"
+    },
+    {
+      "type": "audio",
+      "label": "Mixed soundtrack WAV",
+      "path": "videos/rospan-vertical-2min-conversion/audio/soundtrack.wav"
+    },
+    {
+      "type": "subtitle",
+      "label": "Captions SRT",
+      "path": "videos/rospan-vertical-2min-conversion/exports/captions.srt"
+    },
+    {
+      "type": "text",
+      "label": "Script text sidecar",
+      "path": "videos/rospan-vertical-2min-conversion/exports/script-text.txt"
+    }
+  ],
+  "exportProfiles": [
+    {
+      "id": "demo_watermark",
+      "label": "DEMO",
+      "description": "Client preview with watermark, audio and captions.",
+      "watermark": true,
+      "audioMode": "normal",
+      "captions": "on",
+      "approvalRequired": false,
+      "variablesPath": "exports/demo-watermark.variables.json",
+      "variables": {
+        "exportProfile": "demo",
+        "audioMode": "normal",
+        "captions": "on"
+      },
+      "outputSuffix": "demo-watermark",
+      "renderCommand": "npx hyperframes render videos/rospan-vertical-2min-conversion --variables-file videos/rospan-vertical-2min-conversion/exports/demo-watermark.variables.json --output videos/rospan-vertical-2min-conversion/renders/rospan-vertical-2min-conversion-demo-watermark.mp4 --fps 30 --quality standard",
+      "artifacts": [
+        {
+          "type": "render",
+          "label": "DEMO MP4 target",
+          "path": "videos/rospan-vertical-2min-conversion/renders/rospan-vertical-2min-conversion-demo-watermark.mp4"
+        }
+      ]
+    },
+    {
+      "id": "final_master",
+      "label": "FINAL",
+      "description": "Clean final export after approval.",
+      "watermark": false,
+      "audioMode": "normal",
+      "captions": "off",
+      "approvalRequired": true,
+      "variablesPath": "exports/final.variables.json",
+      "variables": {
+        "exportProfile": "final",
+        "audioMode": "normal",
+        "captions": "off"
+      },
+      "outputSuffix": "final",
+      "renderCommand": "npx hyperframes render videos/rospan-vertical-2min-conversion --variables-file videos/rospan-vertical-2min-conversion/exports/final.variables.json --output videos/rospan-vertical-2min-conversion/renders/rospan-vertical-2min-conversion-final.mp4 --fps 30 --quality high",
+      "artifacts": [
+        {
+          "type": "render",
+          "label": "Final MP4 target",
+          "path": "videos/rospan-vertical-2min-conversion/renders/rospan-vertical-2min-conversion-final.mp4"
+        }
+      ]
+    }
+  ],
+  "updatedAt": "2026-07-17"
+}
