@@ -17,6 +17,7 @@
     "mcp": "node apps/mcp/server.mjs",
     "doctor": "node scripts/doctor.mjs",
     "import:batch": "node scripts/import-batch.mjs",
+    "validate:content": "node scripts/validate-content.mjs",
     "check:syntax": "node scripts/check-syntax.mjs",
     "check:docs": "node scripts/check-docs.mjs",
     "test": "node --test --test-reporter=spec",

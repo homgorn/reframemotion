@@ -31,10 +31,13 @@ test('API queues a job and worker produces an artifact', async (t) => {
 test('API exposes the site and video project catalog', async (t) => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'reframotion-api-catalog-'));
   const templates = path.join(root, 'templates', 'demo-card');
+  const exportTemplate = path.join(root, 'templates', 'project-export-command');
   const site = path.join(root, 'projects', 'example.com');
   fs.mkdirSync(templates, {recursive:true});
+  fs.mkdirSync(exportTemplate, {recursive:true});
   fs.mkdirSync(path.join(site, 'videos'), {recursive:true});
   fs.writeFileSync(path.join(templates, 'template.json'), JSON.stringify({id:'demo-card',engine:'mock',outputFormat:'json',variables:{},security:{allowRemoteAssets:false}}));
+  fs.writeFileSync(path.join(exportTemplate, 'template.json'), JSON.stringify({id:'project-export-command',engine:'command',outputFormat:'json',variables:{trusted:{type:'boolean',required:true},siteId:{type:'string',required:true},projectId:{type:'string',required:true},profileId:{type:'string',required:true},label:{type:'string',default:''},command:{type:'string',required:true},expectedOutputPath:{type:'string',default:''}},security:{trustedCatalogOnly:true}}));
   fs.writeFileSync(path.join(site, 'site.json'), JSON.stringify({id:'example.com',name:'Example'}));
   fs.writeFileSync(path.join(site, 'videos', 'launch.json'), JSON.stringify({
     id:'launch',
@@ -42,6 +45,9 @@ test('API exposes the site and video project catalog', async (t) => {
     status:'ready',
     audioMode:'silent',
     sourcePath:'videos/launch',
+    approvalStatus:'draft',
+    sourceUrls:['https://example.com/one'],
+    brief:{goal:'Approval demo'},
     exportProfiles:[{
       id:'demo',
       label:'DEMO',
@@ -49,7 +55,7 @@ test('API exposes the site and video project catalog', async (t) => {
       audioMode:'muted',
       captions:'on',
       variablesPath:'exports/demo-watermark.variables.json',
-      renderCommand:'npx hyperframes render --variables-file exports/demo-watermark.variables.json',
+      renderCommand:`node -e "require('fs').writeFileSync('data/outputs/export-demo.txt','ok')"`,
       variables:{exportProfile:'demo',captions:'on'},
       artifacts:[{type:'render',label:'Demo MP4',path:'videos/launch/renders/demo.mp4'}],
     }],
@@ -75,7 +81,33 @@ test('API exposes the site and video project catalog', async (t) => {
   assert.equal(planned.exportRequest.audioMode, 'muted');
   assert.equal(planned.exportRequest.captions, 'on');
   assert.equal(planned.exportRequest.variablesPath, 'exports/demo-watermark.variables.json');
-  assert.match(planned.exportRequest.renderCommand, /variables-file/);
+  assert.match(planned.exportRequest.renderCommand, /writeFileSync/);
+
+  const queueResponse = await fetch(`http://127.0.0.1:${port}/api/projects/example.com/launch/exports`, {method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({profileId:'demo', action:'queue'})});
+  assert.equal(queueResponse.status, 202);
+  const queued = await queueResponse.json();
+  assert.equal(queued.exportRequest.status, 'queued');
+  assert.equal(queued.job.templateId, 'project-export-command');
+  assert.equal(queued.job.engine, 'command');
+  assert.equal(queued.job.variables.projectId, 'launch');
+  assert.equal(await processOne({store:instance.store,registry:instance.registry,config,workerId:'export-worker'}), true);
+  const exportJob = await instance.store.getJob(queued.job.id);
+  assert.equal(exportJob.status, 'succeeded');
+  assert.equal(fs.existsSync(path.join(root, 'data', 'outputs', 'export-demo.txt')), true);
+
+  const approvalResponse = await fetch(`http://127.0.0.1:${port}/api/projects/example.com/launch/approval`, {method:'PATCH',headers:{'content-type':'application/json'},body:JSON.stringify({approvalStatus:'approved'})});
+  assert.equal(approvalResponse.status, 200);
+  const approved = await approvalResponse.json();
+  assert.equal(approved.project.approvalStatus, 'approved');
+
+  const briefResponse = await fetch(`http://127.0.0.1:${port}/api/project-briefs`, {method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({siteId:'new-site.ru',domain:'new-site.ru',title:'New site video',sourceUrls:['https://new-site.ru/','https://new-site.ru/about'],prompt:'Сделать 90 секунд про продукт',durationSec:90,audioMode:'voice',aspectRatio:'square'})});
+  assert.equal(briefResponse.status, 201);
+  const brief = await briefResponse.json();
+  assert.match(brief.draft.path, /projects\/_drafts\//);
+  assert.equal(brief.draft.manifest.brief.prompt, 'Сделать 90 секунд про продукт');
+  assert.equal(brief.draft.manifest.sourceUrls.length, 2);
+  assert.equal(brief.draft.manifest.aspectRatio, 'square');
+  assert.deepEqual(brief.draft.manifest.formats[0], {id:'square',label:'Square 1:1',width:1080,height:1080});
 });
 
 test('dashboard assets are not cached across deploys', async (t) => {

@@ -1,0 +1,22 @@
+{
+  "id": "project-export-command",
+  "name": "Project export command",
+  "description": "Trusted local export task created only from Git-backed project export profiles.",
+  "engine": "command",
+  "outputFormat": "json",
+  "allowAdditionalVariables": false,
+  "variables": {
+    "trusted": {"type": "boolean", "required": true},
+    "siteId": {"type": "string", "required": true, "maxLength": 140},
+    "projectId": {"type": "string", "required": true, "maxLength": 140},
+    "profileId": {"type": "string", "required": true, "maxLength": 140},
+    "label": {"type": "string", "default": "", "maxLength": 120},
+    "command": {"type": "string", "required": true, "maxLength": 4000},
+    "expectedOutputPath": {"type": "string", "default": "", "maxLength": 1000}
+  },
+  "security": {
+    "allowRemoteAssets": false,
+    "trustedCatalogOnly": true
+  },
+  "tags": ["internal", "export"]
+}

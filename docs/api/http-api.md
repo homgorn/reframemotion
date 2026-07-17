@@ -65,6 +65,52 @@ Use these profiles for client workflow buttons:
 - `captions_on` — clean video with burned-in subtitles enabled.
 - audio profiles may point to `ffmpeg` commands for soundtrack review or final audio masters.
 
+To enqueue a trusted export command from the project manifest:
+
+```json
+{"profileId": "demo_watermark", "action": "queue"}
+```
+
+This creates a `project-export-command` job. The API does not accept arbitrary shell commands from the request body; it only queues the `renderCommand` already stored in the Git-backed project manifest.
+
+## Project approval
+
+`PATCH /api/projects/:siteId/:projectId/approval`
+
+```json
+{"approvalStatus": "approved", "note": "Client approved clean final"}
+```
+
+Allowed statuses: `draft`, `review`, `approved`, `final`, `rejected`.
+
+## Brief drafts from manual URLs
+
+`POST /api/project-briefs`
+
+```json
+{
+  "siteId": "example.com",
+  "title": "Example product video",
+  "sourceUrls": ["https://example.com/", "https://example.com/pricing"],
+  "prompt": "90 seconds, explain value for B2B buyers, include CTA",
+  "durationSec": 90,
+  "audioMode": "voice+music",
+  "aspectRatio": "portrait"
+}
+```
+
+The API writes a draft manifest under `projects/_drafts/`. It does not crawl or render by itself; it creates a durable brief for Codex/agents or a future generator job. `aspectRatio` accepts `landscape`, `portrait` or `square`.
+
+## Content Review
+
+Run text, captions and voice-script QA before approving any client preview:
+
+```bash
+npm run validate:content -- rospan-site-10min-projects-marketing --write
+```
+
+The review rejects client-facing narration that talks about generation internals, HyperFrames, render process, storyboard files, website pages, screenshots, URLs or browser capture. It also warns when voice projects miss `PRONUNCIATION.md`, have weak CTA/value language, or estimate an overly fast voice pace.
+
 ## Jobs
 
 ### Create

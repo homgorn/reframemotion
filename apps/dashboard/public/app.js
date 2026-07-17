@@ -62,16 +62,43 @@ function projectSearchText(project) {
     project.id,
     project.status,
     project.audioMode,
+    project.aspectRatio,
+    project.formats?.map((format) => `${format.label} ${format.width} ${format.height}`).join(' ') ?? '',
     project.checkStatus,
+    project.approvalStatus,
     project.tags.join(' '),
+    project.sourceUrls?.join(' ') ?? '',
+    Object.values(project.brief ?? {}).join(' '),
     project.artifacts.map((artifact) => `${artifact.label} ${artifact.path}`).join(' '),
   ].join(' ').toLowerCase();
 }
 
 function renderExportProfiles(project) {
   if (!project.exportProfiles?.length) return '';
-  const buttons = project.exportProfiles.map((profile) => `<button class="export-action" data-site="${escape(project.siteId)}" data-project="${escape(project.id)}" data-profile="${escape(profile.id)}" title="${escape(profile.description)}">${escape(profile.label)}</button>`).join('');
+  const buttons = project.exportProfiles.map((profile) => `<span class="export-profile"><button class="export-action" data-export-action="plan" data-site="${escape(project.siteId)}" data-project="${escape(project.id)}" data-profile="${escape(profile.id)}" title="${escape(profile.description)}">${escape(profile.label)}</button><button class="export-run" data-export-action="queue" data-site="${escape(project.siteId)}" data-project="${escape(project.id)}" data-profile="${escape(profile.id)}" title="Поставить этот экспорт в очередь">▶</button></span>`).join('');
   return `<div class="export-actions">${buttons}</div>`;
+}
+
+function renderApproval(project) {
+  const current = project.approvalStatus || 'draft';
+  return `<select class="approval-select" data-site="${escape(project.siteId)}" data-project="${escape(project.id)}">
+    ${['draft', 'review', 'approved', 'final', 'rejected'].map((status) => `<option value="${status}"${status === current ? ' selected' : ''}>${status}</option>`).join('')}
+  </select>`;
+}
+
+function renderArtifacts(project) {
+  return project.artifacts.map((artifact) => `<code class="artifact ${artifact.exists ? 'exists' : 'missing'}" title="${escape(artifact.path)}">${escape(artifact.exists ? '✓ ' : '× ')}${escape(artifact.label)}</code>`).join(' ');
+}
+
+function formatLabel(project) {
+  const format = project.formats?.[0];
+  if (format?.width && format?.height) return `${format.label} · ${format.width}x${format.height}`;
+  return project.aspectRatio || 'landscape';
+}
+
+function projectActions(project) {
+  const preview = project.previewUrl ? `<a href="${escape(project.previewUrl)}" target="_blank" rel="noreferrer">preview</a>` : '—';
+  return `${preview}${renderExportProfiles(project)}<div class="artifact-list">${renderArtifacts(project)}</div>`;
 }
 
 async function loadTemplates() {
@@ -126,19 +153,26 @@ function renderCatalog() {
     <small>${escape(site.tags.join(', '))}</small>
   </article>`).join('');
 
-  $('#projects').innerHTML = projects.length ? projects.map((project) => {
-    const artifacts = project.artifacts.map((artifact) => `<code title="${escape(artifact.path)}">${escape(artifact.label)}</code>`).join(' ');
-    const preview = project.previewUrl ? `<a href="${escape(project.previewUrl)}" target="_blank" rel="noreferrer">preview</a>` : '—';
-    return `<tr>
+  const rows = projects.length ? projects.map((project) => `<tr>
       <td>${escape(project.siteName)}<br><code>${escape(project.siteId)}</code></td>
-      <td><strong>${escape(project.title)}</strong><br><code>${escape(project.id)}</code></td>
+      <td><strong>${escape(project.title)}</strong><br><code>${escape(project.id)}</code><br><span class="muted-line">${escape(formatLabel(project))}</span></td>
       <td>${pill(project.status)}</td>
+      <td>${renderApproval(project)}</td>
       <td>${pill(project.checkStatus)}<br><code>${escape(Object.keys(project.checks ?? {}).join(' / ') || 'no checks')}</code></td>
       <td>${escape(project.audioMode)}</td>
       <td>${seconds(project.durationSec)}</td>
-      <td>${preview}${renderExportProfiles(project)}<div class="artifact-list">${artifacts}</div></td>
-    </tr>`;
-  }).join('') : '<tr><td colspan="7">Ничего не найдено по текущим фильтрам.</td></tr>';
+      <td>${projectActions(project)}</td>
+    </tr>`).join('') : '<tr><td colspan="8">Ничего не найдено по текущим фильтрам.</td></tr>';
+  $('#projects').innerHTML = rows;
+  $('#project-cards').innerHTML = projects.length ? projects.map((project) => `<article class="project-card">
+    <div class="project-card-head"><div><strong>${escape(project.title)}</strong><code>${escape(project.id)}</code></div>${pill(project.status)}</div>
+    <div class="project-meta"><span>${escape(project.siteName)}</span><span>${escape(project.audioMode)}</span><span>${seconds(project.durationSec)}</span><span>${escape(formatLabel(project))}</span></div>
+    <div>${renderApproval(project)}</div>
+    <div class="project-card-checks">${pill(project.checkStatus)} <code>${escape(Object.keys(project.checks ?? {}).join(' / ') || 'no checks')}</code></div>
+    ${project.sourceUrls?.length ? `<details><summary>Ссылки: ${escape(project.sourceUrls.length)}</summary><pre>${escape(project.sourceUrls.join('\n'))}</pre></details>` : ''}
+    ${project.brief && Object.keys(project.brief).length ? `<details><summary>Brief</summary><pre>${escape(JSON.stringify(project.brief, null, 2))}</pre></details>` : ''}
+    <div>${projectActions(project)}</div>
+  </article>`).join('') : '<div class="empty-card">Ничего не найдено по текущим фильтрам.</div>';
 }
 
 async function loadState() {
@@ -165,6 +199,28 @@ $('#audio-filter').addEventListener('change', renderCatalog);
 $('#sort-projects').addEventListener('change', renderCatalog);
 $('#catalog-search').addEventListener('input', renderCatalog);
 $('#refresh-catalog').addEventListener('click', () => loadCatalog().catch((e) => toast(e.message, true)));
+
+$('#create-brief').addEventListener('click', async () => {
+  try {
+    const sourceUrls = $('#brief-urls').value.split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
+    const payload = {
+      siteId: $('#brief-site').value.trim(),
+      title: $('#brief-title').value.trim(),
+      sourceUrls,
+      prompt: $('#brief-prompt').value.trim(),
+      durationSec: Number($('#brief-duration').value),
+      audioMode: $('#brief-audio').value,
+      aspectRatio: $('#brief-format').value,
+    };
+    const {draft} = await request('/api/project-briefs', {method: 'POST', body: JSON.stringify(payload)});
+    $('#export-result').hidden = false;
+    $('#export-result').textContent = JSON.stringify(draft, null, 2);
+    toast(`Draft brief сохранен: ${draft.path}`);
+    await loadCatalog();
+  } catch (error) {
+    toast(error.message, true);
+  }
+});
 
 $('#create-job').addEventListener('click', async () => {
   try {
@@ -195,16 +251,49 @@ $('#projects').addEventListener('click', async (event) => {
   try {
     const {exportRequest} = await request(`/api/projects/${encodeURIComponent(button.dataset.site)}/${encodeURIComponent(button.dataset.project)}/exports`, {
       method: 'POST',
-      body: JSON.stringify({profileId: button.dataset.profile}),
+      body: JSON.stringify({profileId: button.dataset.profile, action: button.dataset.exportAction}),
     });
     const output = JSON.stringify(exportRequest, null, 2);
     $('#export-result').hidden = false;
     $('#export-result').textContent = output;
     await navigator.clipboard?.writeText(output).catch(() => {});
-    toast(`Экспорт-профиль подготовлен: ${exportRequest.label}`);
+    toast(button.dataset.exportAction === 'queue' ? `Экспорт поставлен в очередь: ${exportRequest.label}` : `Экспорт-профиль подготовлен: ${exportRequest.label}`);
+    await loadState();
   } catch (error) {
     toast(error.message, true);
   }
+});
+
+$('#project-cards').addEventListener('click', async (event) => {
+  const button = event.target.closest('button[data-profile]');
+  if (!button) return;
+  try {
+    const {exportRequest} = await request(`/api/projects/${encodeURIComponent(button.dataset.site)}/${encodeURIComponent(button.dataset.project)}/exports`, {
+      method: 'POST',
+      body: JSON.stringify({profileId: button.dataset.profile, action: button.dataset.exportAction}),
+    });
+    $('#export-result').hidden = false;
+    $('#export-result').textContent = JSON.stringify(exportRequest, null, 2);
+    toast(button.dataset.exportAction === 'queue' ? `Экспорт поставлен в очередь: ${exportRequest.label}` : `Экспорт-профиль подготовлен: ${exportRequest.label}`);
+    await loadState();
+  } catch (error) {
+    toast(error.message, true);
+  }
+});
+
+async function updateApproval(select) {
+  const {project} = await request(`/api/projects/${encodeURIComponent(select.dataset.site)}/${encodeURIComponent(select.dataset.project)}/approval`, {
+    method: 'PATCH',
+    body: JSON.stringify({approvalStatus: select.value}),
+  });
+  toast(`Approval обновлен: ${project.title} → ${project.approvalStatus}`);
+  await loadCatalog();
+}
+
+document.addEventListener('change', (event) => {
+  const select = event.target.closest('.approval-select');
+  if (!select) return;
+  updateApproval(select).catch((error) => toast(error.message, true));
 });
 
 $('#jobs').addEventListener('click', async (event) => {

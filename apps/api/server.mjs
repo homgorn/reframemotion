@@ -35,6 +35,108 @@ function findCatalogProject(projectCatalog, siteId, projectId) {
   return project;
 }
 
+function readJsonFile(file) {
+  return JSON.parse(fs.readFileSync(file, 'utf8'));
+}
+
+function writeJsonFile(file, value) {
+  fs.mkdirSync(path.dirname(file), {recursive: true});
+  fs.writeFileSync(file, `${JSON.stringify(value, null, 2)}\n`);
+}
+
+function projectManifestPath(config, siteId, projectId) {
+  const file = path.join(config.projectsDir, siteId, 'videos', `${projectId}.json`);
+  return assertInside(config.projectsDir, file);
+}
+
+function normalizeApprovalStatus(value) {
+  const status = String(value ?? '').trim();
+  if (!['draft', 'review', 'approved', 'final', 'rejected'].includes(status)) {
+    throw new TypeError('approvalStatus must be draft, review, approved, final or rejected');
+  }
+  return status;
+}
+
+function expectedOutputPath(profile) {
+  return profile.artifacts.find((artifact) => artifact.type === 'render' || artifact.type === 'audio')?.path ?? '';
+}
+
+function exportRequestFrom(project, profile, status = 'planned') {
+  return {
+    id: crypto.randomUUID(),
+    status,
+    siteId: project.siteId,
+    projectId: project.id,
+    profileId: profile.id,
+    label: profile.label,
+    description: profile.description,
+    sourcePath: project.sourcePath,
+    outputSuffix: profile.outputSuffix,
+    watermark: profile.watermark,
+    audioMode: profile.audioMode,
+    captions: profile.captions,
+    variables: profile.variables,
+    variablesPath: profile.variablesPath,
+    renderCommand: profile.renderCommand,
+    approvalRequired: profile.approvalRequired,
+    artifacts: profile.artifacts,
+  };
+}
+
+const VIDEO_FORMATS = {
+  landscape: {id: 'landscape', label: 'Landscape 16:9', width: 1920, height: 1080},
+  portrait: {id: 'portrait', label: 'Vertical 9:16', width: 1080, height: 1920},
+  square: {id: 'square', label: 'Square 1:1', width: 1080, height: 1080},
+};
+
+function normalizeAspectRatio(value) {
+  const format = String(value ?? 'landscape').trim().toLowerCase();
+  if (!Object.hasOwn(VIDEO_FORMATS, format)) {
+    throw new TypeError('aspectRatio must be landscape, portrait or square');
+  }
+  return format;
+}
+
+function briefDraftFrom(body) {
+  const siteId = String(body.siteId ?? body.domain ?? '').trim().toLowerCase();
+  if (!/^[a-z0-9][a-z0-9._-]{1,120}$/.test(siteId)) throw new TypeError('siteId must be a safe domain-like id');
+  const sourceUrls = Array.isArray(body.sourceUrls) ? body.sourceUrls.map(String).map((url) => url.trim()).filter(Boolean) : [];
+  if (sourceUrls.length === 0) throw new TypeError('sourceUrls must contain at least one URL');
+  for (const url of sourceUrls) {
+    const parsed = new URL(url);
+    if (!['http:', 'https:'].includes(parsed.protocol)) throw new TypeError(`Unsupported URL protocol: ${url}`);
+  }
+  const title = String(body.title ?? `${siteId} video`).trim().slice(0, 180);
+  const projectId = String(body.projectId ?? `${siteId.replaceAll('.', '-')}-${Date.now()}`).toLowerCase().replace(/[^a-z0-9._-]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 96);
+  const aspectRatio = normalizeAspectRatio(body.aspectRatio ?? body.format);
+  return {
+    id: projectId,
+    title,
+    kind: 'website-to-video',
+    status: 'planned',
+    approvalStatus: 'draft',
+    engine: 'hyperframes',
+    templateId: 'custom-hyperframes-site',
+    durationSec: Number.isFinite(Number(body.durationSec)) ? Number(body.durationSec) : null,
+    audioMode: String(body.audioMode ?? 'voice'),
+    aspectRatio,
+    formats: [VIDEO_FORMATS[aspectRatio]],
+    sourceUrls,
+    brief: {
+      prompt: String(body.prompt ?? '').trim(),
+      audience: String(body.audience ?? '').trim(),
+      goal: String(body.goal ?? '').trim(),
+      cta: String(body.cta ?? '').trim(),
+      style: String(body.style ?? '').trim(),
+    },
+    tags: ['draft', 'manual-urls'],
+    checks: {brief: {status: 'pending', errors: 0, warnings: 0}},
+    artifacts: [],
+    exportProfiles: [],
+    updatedAt: new Date().toISOString().slice(0, 10),
+  };
+}
+
 function authenticate(req, config) {
   if (!config.apiKey) return true;
   const header = req.headers.authorization ?? '';
@@ -56,7 +158,7 @@ async function serveStatic(reqPath, res) {
 export async function createApiServer({config = loadConfig(), store, registry, logger = createLogger('api')} = {}) {
   const ownedStore = store ?? await createStore(config);
   const ownedRegistry = registry ?? new TemplateRegistry(config.templatesDir);
-  const projectCatalog = new ProjectCatalog(config.projectsDir);
+  const projectCatalog = new ProjectCatalog(config.projectsDir, {artifactRoots: [config.root, path.dirname(config.root)]});
 
   const server = http.createServer(async (req, res) => {
     const requestId = crypto.randomUUID();
@@ -97,27 +199,51 @@ export async function createApiServer({config = loadConfig(), store, registry, l
         const profileId = String(body.profileId ?? '');
         const profile = project.exportProfiles.find((item) => item.id === profileId);
         if (!profile) throw new TypeError(`Unknown export profile: ${profileId}`);
+        if (body.action === 'queue') {
+          if (!profile.renderCommand) throw new TypeError(`Export profile ${profileId} has no renderCommand`);
+          const job = await ownedStore.createJob(normalizeJob(ownedRegistry, {
+            templateId: 'project-export-command',
+            engine: 'command',
+            outputFormat: 'json',
+            priority: Number(body.priority ?? 0),
+            maxAttempts: Number(body.maxAttempts ?? 1),
+            variables: {
+              trusted: true,
+              siteId,
+              projectId,
+              profileId: profile.id,
+              label: profile.label,
+              command: profile.renderCommand,
+              expectedOutputPath: expectedOutputPath(profile),
+            },
+          }));
+          return json(res, 202, {exportRequest: {...exportRequestFrom(project, profile, 'queued'), jobId: job.id}, job});
+        }
         return json(res, 202, {
-          exportRequest: {
-            id: crypto.randomUUID(),
-            status: 'planned',
-            siteId,
-            projectId,
-            profileId: profile.id,
-            label: profile.label,
-            description: profile.description,
-            sourcePath: project.sourcePath,
-            outputSuffix: profile.outputSuffix,
-            watermark: profile.watermark,
-            audioMode: profile.audioMode,
-            captions: profile.captions,
-            variables: profile.variables,
-            variablesPath: profile.variablesPath,
-            renderCommand: profile.renderCommand,
-            approvalRequired: profile.approvalRequired,
-            artifacts: profile.artifacts,
-          },
+          exportRequest: exportRequestFrom(project, profile),
         });
+      }
+      const projectApproval = url.pathname.match(/^\/api\/projects\/([^/]+)\/([^/]+)\/approval$/);
+      if (req.method === 'PATCH' && projectApproval) {
+        const body = await readJson(req, config.maxBodyBytes);
+        const siteId = decodeURIComponent(projectApproval[1]);
+        const projectId = decodeURIComponent(projectApproval[2]);
+        const file = projectManifestPath(config, siteId, projectId);
+        const raw = readJsonFile(file);
+        raw.approvalStatus = normalizeApprovalStatus(body.approvalStatus);
+        raw.updatedAt = new Date().toISOString().slice(0, 10);
+        if (typeof body.note === 'string' && body.note.trim()) raw.approvalNote = body.note.trim().slice(0, 2000);
+        writeJsonFile(file, raw);
+        projectCatalog.reload?.();
+        return json(res, 200, {project: findCatalogProject(projectCatalog, siteId, projectId)});
+      }
+      if (req.method === 'POST' && url.pathname === '/api/project-briefs') {
+        const body = await readJson(req, config.maxBodyBytes);
+        const manifest = briefDraftFrom(body);
+        const siteId = String(body.siteId ?? body.domain).trim().toLowerCase();
+        const file = assertInside(config.projectsDir, path.join(config.projectsDir, '_drafts', `${siteId}__${manifest.id}.json`));
+        writeJsonFile(file, manifest);
+        return json(res, 201, {draft: {path: path.relative(config.root, file).replaceAll('\\', '/'), manifest}});
       }
       if (req.method === 'POST' && url.pathname === '/api/templates/reload') {
         return json(res, 200, {templates: ownedRegistry.reload()});

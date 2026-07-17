@@ -88,6 +88,42 @@ npx hyperframes render videos/rospan-site-10min-projects-marketing \
 
 В дашборде кнопка профиля вызывает API и копирует JSON-план с `renderCommand`, `variablesPath`, `audioMode`, `captions` и `watermark`.
 
+Кнопка запуска рядом с профилем ставит trusted command в очередь:
+
+```json
+{"profileId": "demo_watermark", "action": "queue"}
+```
+
+Команда берется только из Git-backed project manifest. Не передавать shell-команду из произвольного пользовательского поля.
+
+## Dashboard: ручные ссылки и prompt
+
+Для нового сайта оператор может сохранить draft brief:
+
+```json
+{
+  "siteId": "example.com",
+  "title": "Example video",
+  "sourceUrls": ["https://example.com/", "https://example.com/about"],
+  "prompt": "Сделать 90 секунд для B2B: проблема, решение, доказательства, CTA",
+  "durationSec": 90,
+  "audioMode": "voice+music",
+  "aspectRatio": "square"
+}
+```
+
+Draft появляется в `projects/_drafts/`. Это вход для агента/generator, а не готовое видео.
+
+## Контентная проверка голоса и текста
+
+Перед клиентским preview прогонять:
+
+```bash
+npm run validate:content -- rospan-site-10min-projects-marketing --write
+```
+
+Проверка должна падать, если голос или субтитры рассказывают про HyperFrames, рендер, storyboard, процесс генерации, страницы сайта, скриншоты, URL или capture. Для презентации клиент слышит продукт, пользу, доказательства и CTA; внутренняя кухня остается в `DESIGN.md`, `STORYBOARD.md`, audit-файлах и dashboard, но не в ролике.
+
 ## Remotion: новый проект
 
 ```bash

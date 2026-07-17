@@ -10,6 +10,11 @@ cd /d "%ROOT%"
 powershell -NoProfile -ExecutionPolicy Bypass -Command "try { $r = Invoke-WebRequest -UseBasicParsing '%HEALTH%' -TimeoutSec 2; if ($r.StatusCode -eq 200) { exit 0 } } catch { exit 1 }"
 if %ERRORLEVEL% EQU 0 (
   echo ReFrameMotion dashboard is already running.
+  powershell -NoProfile -ExecutionPolicy Bypass -Command "$p = Get-CimInstance Win32_Process | Where-Object { $_.CommandLine -match 'apps[\\/]worker[\\/]worker\.mjs' }; if ($p) { exit 0 } else { exit 1 }"
+  if %ERRORLEVEL% NEQ 0 (
+    echo Starting ReFrameMotion worker...
+    start "ReFrameMotion worker" /min cmd /k "cd /d ""%ROOT%"" && node apps/worker/worker.mjs"
+  )
   start "" "%URL%"
   exit /b 0
 )
@@ -39,9 +44,7 @@ if not exist "node_modules" (
 )
 
 echo Starting ReFrameMotion dashboard at %URL%
+start "ReFrameMotion API" /min cmd /k "cd /d ""%ROOT%"" && node apps/api/server.mjs"
+start "ReFrameMotion worker" /min cmd /k "cd /d ""%ROOT%"" && node apps/worker/worker.mjs"
 start "" "%URL%"
-node apps/api/server.mjs
-
-echo.
-echo ReFrameMotion dashboard stopped.
-pause
+exit /b 0

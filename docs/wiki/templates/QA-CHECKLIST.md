@@ -28,6 +28,9 @@
 
 ## Media/audio
 
+- [ ] Content review passed (`npm run validate:content -- <project-id> --write`)
+- [ ] Voiceover sells the offer, not the production process
+- [ ] No client-facing mentions of HyperFrames, render, storyboard, pages, screenshots, URLs or capture
 - [ ] Video seeks correctly
 - [ ] Audio not duplicated
 - [ ] Loudness/peak checked

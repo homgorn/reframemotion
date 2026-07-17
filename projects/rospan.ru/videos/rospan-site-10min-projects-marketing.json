@@ -3,33 +3,339 @@
   "title": "ROSPAN 10-minute projects marketing",
   "kind": "website-to-video",
   "status": "rendered",
+  "approvalStatus": "review",
   "engine": "hyperframes",
   "templateId": "custom-hyperframes-site",
   "durationSec": 600,
   "audioMode": "voice+music",
+  "aspectRatio": "landscape",
+  "formats": [
+    {
+      "id": "landscape",
+      "label": "Landscape 16:9",
+      "width": 1920,
+      "height": 1080
+    }
+  ],
   "sourcePath": "videos/rospan-site-10min-projects-marketing",
   "previewUrl": "http://localhost:3023/#project/rospan-site-10min-projects-marketing",
-  "tags": ["rospan", "projects", "marketing", "long-form", "tts", "captions", "demo-watermark"],
+  "sourceUrls": [
+    "https://rospan.ru/",
+    "https://rospan.ru/projects/",
+    "https://rospan.ru/production/",
+    "https://rospan.ru/advantages/",
+    "https://rospan.ru/delivery/",
+    "https://rospan.ru/docs/",
+    "https://rospan.ru/contacts/"
+  ],
+  "brief": {
+    "goal": "Long-form marketing presentation focused on ROSPAN projects, proof points, product fit and lead generation.",
+    "audience": "B2B buyers, architects, contractors, public and commercial facility decision makers.",
+    "cta": "Request samples, price list or project calculation.",
+    "style": "Corporate technical, source-backed, calm pacing, visual proof from site screenshots and project pages."
+  },
+  "tags": [
+    "rospan",
+    "projects",
+    "marketing",
+    "long-form",
+    "tts",
+    "captions",
+    "demo-watermark"
+  ],
   "checks": {
-    "sourceCrawl": {"status": "passed", "pages": 49, "errors": 0, "warnings": 1, "failedPages": 1, "desktopScreenshots": 44, "mobileScreenshots": 5, "note": "One /firesafety/ng/ crawl hit ConnectionResetError; other 48 indexed pages were captured."},
-    "lint": {"status": "passed", "errors": 0, "warnings": 1, "note": "composition_file_too_large"},
-    "validate": {"status": "passed", "errors": 0, "warnings": 0},
-    "inspectMidpoints": {"status": "passed", "errors": 0, "warnings": 0, "layoutIssues": 0, "samples": 30},
-    "snapshots": {"status": "passed", "frames": 30, "contactSheets": 4},
-    "renderReview": {"status": "passed", "durationSec": 600, "fps": 6, "hasAudio": true, "outputBytes": 65422997}
+    "sourceCrawl": {
+      "status": "passed",
+      "pages": 49,
+      "errors": 0,
+      "warnings": 1,
+      "failedPages": 1,
+      "desktopScreenshots": 44,
+      "mobileScreenshots": 5,
+      "note": "One /firesafety/ng/ crawl hit ConnectionResetError; other 48 indexed pages were captured."
+    },
+    "lint": {
+      "status": "passed",
+      "errors": 0,
+      "warnings": 1,
+      "note": "composition_file_too_large"
+    },
+    "validate": {
+      "status": "passed",
+      "errors": 0,
+      "warnings": 0
+    },
+    "inspectMidpoints": {
+      "status": "passed",
+      "errors": 0,
+      "warnings": 0,
+      "layoutIssues": 0,
+      "samples": 30
+    },
+    "snapshots": {
+      "status": "passed",
+      "frames": 30,
+      "contactSheets": 4
+    },
+    "renderReview": {
+      "status": "passed",
+      "durationSec": 600,
+      "fps": 6,
+      "hasAudio": true,
+      "outputBytes": 65422997
+    },
+    "contentReview": {
+      "status": "failed",
+      "errors": 36,
+      "warnings": 0,
+      "reviewedSources": [
+        "../videos/rospan-site-10min-projects-marketing/SCRIPT.md",
+        "../videos/rospan-site-10min-projects-marketing/narration.txt",
+        "../videos/rospan-site-10min-projects-marketing/exports/script-text.txt",
+        "../videos/rospan-site-10min-projects-marketing/exports/captions.srt",
+        "../videos/rospan-site-10min-projects-marketing/exports/captions.vtt"
+      ],
+      "issues": [
+        {
+          "severity": "error",
+          "code": "internal_process_in_client_voice",
+          "message": "Client-facing narration must not mention generation, render pipeline, HyperFrames, Codex or production internals.",
+          "source": "SCRIPT.md",
+          "file": "../videos/rospan-site-10min-projects-marketing/SCRIPT.md",
+          "line": 122,
+          "excerpt": "оизношение, факты, скрины, layout, контраст, HyperFrames lint, validate, inspect, dashboard и манифесты в каталоге. ## Beat 30 Итог: РОСПАН дает материал не только для презентации"
+        },
+        {
+          "severity": "error",
+          "code": "internal_process_in_client_voice",
+          "message": "Client-facing narration must not mention generation, render pipeline, HyperFrames, Codex or production internals.",
+          "source": "SCRIPT.md",
+          "file": "../videos/rospan-site-10min-projects-marketing/SCRIPT.md",
+          "line": 122,
+          "excerpt": "аб не ломал качество. ## Beat 29 Перед рендером проверяем техническую часть и смысл. Storyboard, произношение, факты, скрины, layout, контраст, HyperFrames lint, validate, inspect"
+        },
+        {
+          "severity": "error",
+          "code": "internal_process_in_client_voice",
+          "message": "Client-facing narration must not mention generation, render pipeline, HyperFrames, Codex or production internals.",
+          "source": "SCRIPT.md",
+          "file": "../videos/rospan-site-10min-projects-marketing/SCRIPT.md",
+          "line": 122,
+          "excerpt": "ендером проверяем техническую часть и смысл. Storyboard, произношение, факты, скрины, layout, контраст, HyperFrames lint, validate, inspect, dashboard и манифесты в каталоге. ## Beat"
+        },
+        {
+          "severity": "error",
+          "code": "internal_process_in_client_voice",
+          "message": "Client-facing narration must not mention generation, render pipeline, HyperFrames, Codex or production internals.",
+          "source": "SCRIPT.md",
+          "file": "../videos/rospan-site-10min-projects-marketing/SCRIPT.md",
+          "line": 18,
+          "excerpt": "и поддержка менеджера. ## Beat 03 Этот ролик собран по материалам сайта. В проекте сохранены свежие скрины главной, продукции, проектов и доставки. Фотографии и карточки не придум"
+        },
+        {
+          "severity": "error",
+          "code": "website_meta_in_client_voice",
+          "message": "Client-facing narration should sell the offer, not describe the website, pages, screenshots, URLs or browser capture.",
+          "source": "SCRIPT.md",
+          "file": "../videos/rospan-site-10min-projects-marketing/SCRIPT.md",
+          "line": 34,
+          "excerpt": "ка и профили для крепления. ## Beat 07 Страница проектов уже устроена как маркетинговый фильтр. Там можно выбирать тип панелей, сферу применения и город. Значит, из одного сайта м"
+        },
+        {
+          "severity": "error",
+          "code": "website_meta_in_client_voice",
+          "message": "Client-facing narration should sell the offer, not describe the website, pages, screenshots, URLs or browser capture.",
+          "source": "SCRIPT.md",
+          "file": "../videos/rospan-site-10min-projects-marketing/SCRIPT.md",
+          "line": 10,
+          "excerpt": "Начнем с главного. Для РОСПАН проекты на сайте — это не просто витрина. Это готовая база для маркетинга: реальные объекты, реальные типы помещений, реальные задачи заказчика и понят"
+        },
+        {
+          "severity": "error",
+          "code": "website_meta_in_client_voice",
+          "message": "Client-facing narration should sell the offer, not describe the website, pages, screenshots, URLs or browser capture.",
+          "source": "SCRIPT.md",
+          "file": "../videos/rospan-site-10min-projects-marketing/SCRIPT.md",
+          "line": 6,
+          "excerpt": "tured ROSPAN website pages and assets under `capture-live/` and `capture-pages/` ## Beat 01 Начнем с главного. Для РОСПАН проекты на сайте — это не просто витрина. Это готовая баз"
+        },
+        {
+          "severity": "error",
+          "code": "internal_process_in_client_voice",
+          "message": "Client-facing narration must not mention generation, render pipeline, HyperFrames, Codex or production internals.",
+          "source": "narration.txt",
+          "file": "../videos/rospan-site-10min-projects-marketing/narration.txt",
+          "line": 57,
+          "excerpt": "оизношение, факты, скрины, layout, контраст, HyperFrames lint, validate, inspect, dashboard и манифесты в каталоге. Итог: РОСПАН дает материал не только для презентации продукта, но"
+        },
+        {
+          "severity": "error",
+          "code": "internal_process_in_client_voice",
+          "message": "Client-facing narration must not mention generation, render pipeline, HyperFrames, Codex or production internals.",
+          "source": "narration.txt",
+          "file": "../videos/rospan-site-10min-projects-marketing/narration.txt",
+          "line": 57,
+          "excerpt": "я, чтобы масштаб не ломал качество. Перед рендером проверяем техническую часть и смысл. Storyboard, произношение, факты, скрины, layout, контраст, HyperFrames lint, validate, inspect"
+        },
+        {
+          "severity": "error",
+          "code": "internal_process_in_client_voice",
+          "message": "Client-facing narration must not mention generation, render pipeline, HyperFrames, Codex or production internals.",
+          "source": "narration.txt",
+          "file": "../videos/rospan-site-10min-projects-marketing/narration.txt",
+          "line": 57,
+          "excerpt": "ендером проверяем техническую часть и смысл. Storyboard, произношение, факты, скрины, layout, контраст, HyperFrames lint, validate, inspect, dashboard и манифесты в каталоге. Итог: Р"
+        },
+        {
+          "severity": "error",
+          "code": "internal_process_in_client_voice",
+          "message": "Client-facing narration must not mention generation, render pipeline, HyperFrames, Codex or production internals.",
+          "source": "narration.txt",
+          "file": "../videos/rospan-site-10min-projects-marketing/narration.txt",
+          "line": 5,
+          "excerpt": "или, поставка и поддержка менеджера. Этот ролик собран по материалам сайта. В проекте сохранены свежие скрины главной, продукции, проектов и доставки. Фотографии и карточки не придум"
+        },
+        {
+          "severity": "error",
+          "code": "website_meta_in_client_voice",
+          "message": "Client-facing narration should sell the offer, not describe the website, pages, screenshots, URLs or browser capture.",
+          "source": "narration.txt",
+          "file": "../videos/rospan-site-10min-projects-marketing/narration.txt",
+          "line": 13,
+          "excerpt": ", отбойная доска и профили для крепления. Страница проектов уже устроена как маркетинговый фильтр. Там можно выбирать тип панелей, сферу применения и город. Значит, из одного сайта м"
+        },
+        {
+          "severity": "error",
+          "code": "website_meta_in_client_voice",
+          "message": "Client-facing narration should sell the offer, not describe the website, pages, screenshots, URLs or browser capture.",
+          "source": "narration.txt",
+          "file": "../videos/rospan-site-10min-projects-marketing/narration.txt",
+          "line": 1,
+          "excerpt": "Начнем с главного. Для РОСПАН проекты на сайте — это не просто витрина. Это готовая база для маркетинга: реальные объекты, реальные типы помещений, реальные задачи заказчика и понят"
+        },
+        {
+          "severity": "error",
+          "code": "website_meta_in_client_voice",
+          "message": "Client-facing narration should sell the offer, not describe the website, pages, screenshots, URLs or browser capture.",
+          "source": "narration.txt",
+          "file": "../videos/rospan-site-10min-projects-marketing/narration.txt",
+          "line": 55,
+          "excerpt": "ручной монтаж. Каталог проектов, dashboard, capture, сценарий, проверка, preview и render должны повторяться, чтобы масштаб не ломал качество. Перед рендером проверяем техническую ч"
+        },
+        {
+          "severity": "error",
+          "code": "internal_process_in_client_voice",
+          "message": "Client-facing narration must not mention generation, render pipeline, HyperFrames, Codex or production internals.",
+          "source": "script-text.txt",
+          "file": "../videos/rospan-site-10min-projects-marketing/exports/script-text.txt",
+          "line": 57,
+          "excerpt": "оизношение, факты, скрины, layout, контраст, HyperFrames lint, validate, inspect, dashboard и манифесты в каталоге. 30. Итог: РОСПАН дает материал не только для презентации продукта,"
+        },
+        {
+          "severity": "error",
+          "code": "internal_process_in_client_voice",
+          "message": "Client-facing narration must not mention generation, render pipeline, HyperFrames, Codex or production internals.",
+          "source": "script-text.txt",
+          "file": "../videos/rospan-site-10min-projects-marketing/exports/script-text.txt",
+          "line": 57,
+          "excerpt": "тобы масштаб не ломал качество. 29. Перед рендером проверяем техническую часть и смысл. Storyboard, произношение, факты, скрины, layout, контраст, HyperFrames lint, validate, inspect"
+        },
+        {
+          "severity": "error",
+          "code": "internal_process_in_client_voice",
+          "message": "Client-facing narration must not mention generation, render pipeline, HyperFrames, Codex or production internals.",
+          "source": "script-text.txt",
+          "file": "../videos/rospan-site-10min-projects-marketing/exports/script-text.txt",
+          "line": 57,
+          "excerpt": "ендером проверяем техническую часть и смысл. Storyboard, произношение, факты, скрины, layout, контраст, HyperFrames lint, validate, inspect, dashboard и манифесты в каталоге. 30. Ито"
+        },
+        {
+          "severity": "error",
+          "code": "internal_process_in_client_voice",
+          "message": "Client-facing narration must not mention generation, render pipeline, HyperFrames, Codex or production internals.",
+          "source": "script-text.txt",
+          "file": "../videos/rospan-site-10min-projects-marketing/exports/script-text.txt",
+          "line": 5,
+          "excerpt": "поставка и поддержка менеджера. 03. Этот ролик собран по материалам сайта. В проекте сохранены свежие скрины главной, продукции, проектов и доставки. Фотографии и карточки не придум"
+        },
+        {
+          "severity": "error",
+          "code": "website_meta_in_client_voice",
+          "message": "Client-facing narration should sell the offer, not describe the website, pages, screenshots, URLs or browser capture.",
+          "source": "script-text.txt",
+          "file": "../videos/rospan-site-10min-projects-marketing/exports/script-text.txt",
+          "line": 13,
+          "excerpt": "бойная доска и профили для крепления. 07. Страница проектов уже устроена как маркетинговый фильтр. Там можно выбирать тип панелей, сферу применения и город. Значит, из одного сайта м"
+        },
+        {
+          "severity": "error",
+          "code": "website_meta_in_client_voice",
+          "message": "Client-facing narration should sell the offer, not describe the website, pages, screenshots, URLs or browser capture.",
+          "source": "script-text.txt",
+          "file": "../videos/rospan-site-10min-projects-marketing/exports/script-text.txt",
+          "line": 1,
+          "excerpt": "01. Начнем с главного. Для РОСПАН проекты на сайте — это не просто витрина. Это готовая база для маркетинга: реальные объекты, реальные типы помещений, реальные задачи заказчика и понят"
+        }
+      ],
+      "updatedAt": "2026-07-17T02:51:36.001Z"
+    }
   },
   "artifacts": [
-    {"type": "source", "label": "Local source", "path": "videos/rospan-site-10min-projects-marketing"},
-    {"type": "script", "label": "Script", "path": "videos/rospan-site-10min-projects-marketing/SCRIPT.md"},
-    {"type": "storyboard", "label": "Storyboard", "path": "videos/rospan-site-10min-projects-marketing/STORYBOARD.md"},
-    {"type": "facts", "label": "Source audit", "path": "videos/rospan-site-10min-projects-marketing/SOURCE-AUDIT.md"},
-    {"type": "crawl", "label": "Parsed pages and screenshots", "path": "videos/rospan-site-10min-projects-marketing/capture-extra"},
-    {"type": "snapshot", "label": "Keyframe snapshots", "path": "videos/rospan-site-10min-projects-marketing/snapshots-keyframes"},
-    {"type": "render", "label": "Review MP4 6fps", "path": "videos/rospan-site-10min-projects-marketing/renders/rospan-site-10min-projects-marketing-review-6fps.mp4"},
-    {"type": "audio", "label": "Mixed soundtrack WAV", "path": "videos/rospan-site-10min-projects-marketing/audio/soundtrack.wav"},
-    {"type": "subtitle", "label": "Captions VTT", "path": "videos/rospan-site-10min-projects-marketing/exports/captions.vtt"},
-    {"type": "subtitle", "label": "Captions SRT", "path": "videos/rospan-site-10min-projects-marketing/exports/captions.srt"},
-    {"type": "text", "label": "Script text sidecar", "path": "videos/rospan-site-10min-projects-marketing/exports/script-text.txt"}
+    {
+      "type": "source",
+      "label": "Local source",
+      "path": "videos/rospan-site-10min-projects-marketing"
+    },
+    {
+      "type": "script",
+      "label": "Script",
+      "path": "videos/rospan-site-10min-projects-marketing/SCRIPT.md"
+    },
+    {
+      "type": "storyboard",
+      "label": "Storyboard",
+      "path": "videos/rospan-site-10min-projects-marketing/STORYBOARD.md"
+    },
+    {
+      "type": "facts",
+      "label": "Source audit",
+      "path": "videos/rospan-site-10min-projects-marketing/SOURCE-AUDIT.md"
+    },
+    {
+      "type": "crawl",
+      "label": "Parsed pages and screenshots",
+      "path": "videos/rospan-site-10min-projects-marketing/capture-extra"
+    },
+    {
+      "type": "snapshot",
+      "label": "Keyframe snapshots",
+      "path": "videos/rospan-site-10min-projects-marketing/snapshots-keyframes"
+    },
+    {
+      "type": "render",
+      "label": "Review MP4 6fps",
+      "path": "videos/rospan-site-10min-projects-marketing/renders/rospan-site-10min-projects-marketing-review-6fps.mp4"
+    },
+    {
+      "type": "audio",
+      "label": "Mixed soundtrack WAV",
+      "path": "videos/rospan-site-10min-projects-marketing/audio/soundtrack.wav"
+    },
+    {
+      "type": "subtitle",
+      "label": "Captions VTT",
+      "path": "videos/rospan-site-10min-projects-marketing/exports/captions.vtt"
+    },
+    {
+      "type": "subtitle",
+      "label": "Captions SRT",
+      "path": "videos/rospan-site-10min-projects-marketing/exports/captions.srt"
+    },
+    {
+      "type": "text",
+      "label": "Script text sidecar",
+      "path": "videos/rospan-site-10min-projects-marketing/exports/script-text.txt"
+    }
   ],
   "exportProfiles": [
     {
@@ -41,12 +347,24 @@
       "captions": "on",
       "approvalRequired": false,
       "variablesPath": "exports/demo-watermark.variables.json",
-      "variables": {"exportProfile": "demo", "audioMode": "normal", "captions": "on"},
+      "variables": {
+        "exportProfile": "demo",
+        "audioMode": "normal",
+        "captions": "on"
+      },
       "outputSuffix": "demo-watermark",
       "renderCommand": "npx hyperframes render videos/rospan-site-10min-projects-marketing --variables-file videos/rospan-site-10min-projects-marketing/exports/demo-watermark.variables.json --output videos/rospan-site-10min-projects-marketing/renders/rospan-site-10min-projects-marketing-demo-watermark.mp4 --fps 30 --quality standard",
       "artifacts": [
-        {"type": "variables", "label": "DEMO variables", "path": "videos/rospan-site-10min-projects-marketing/exports/demo-watermark.variables.json"},
-        {"type": "render", "label": "DEMO MP4 target", "path": "videos/rospan-site-10min-projects-marketing/renders/rospan-site-10min-projects-marketing-demo-watermark.mp4"}
+        {
+          "type": "variables",
+          "label": "DEMO variables",
+          "path": "videos/rospan-site-10min-projects-marketing/exports/demo-watermark.variables.json"
+        },
+        {
+          "type": "render",
+          "label": "DEMO MP4 target",
+          "path": "videos/rospan-site-10min-projects-marketing/renders/rospan-site-10min-projects-marketing-demo-watermark.mp4"
+        }
       ]
     },
     {
@@ -58,12 +376,24 @@
       "captions": "off",
       "approvalRequired": true,
       "variablesPath": "exports/final.variables.json",
-      "variables": {"exportProfile": "final", "audioMode": "normal", "captions": "off"},
+      "variables": {
+        "exportProfile": "final",
+        "audioMode": "normal",
+        "captions": "off"
+      },
       "outputSuffix": "final",
       "renderCommand": "npx hyperframes render videos/rospan-site-10min-projects-marketing --variables-file videos/rospan-site-10min-projects-marketing/exports/final.variables.json --output videos/rospan-site-10min-projects-marketing/renders/rospan-site-10min-projects-marketing-final.mp4 --fps 30 --quality high",
       "artifacts": [
-        {"type": "variables", "label": "Final variables", "path": "videos/rospan-site-10min-projects-marketing/exports/final.variables.json"},
-        {"type": "render", "label": "Final MP4 target", "path": "videos/rospan-site-10min-projects-marketing/renders/rospan-site-10min-projects-marketing-final.mp4"}
+        {
+          "type": "variables",
+          "label": "Final variables",
+          "path": "videos/rospan-site-10min-projects-marketing/exports/final.variables.json"
+        },
+        {
+          "type": "render",
+          "label": "Final MP4 target",
+          "path": "videos/rospan-site-10min-projects-marketing/renders/rospan-site-10min-projects-marketing-final.mp4"
+        }
       ]
     },
     {
@@ -75,14 +405,34 @@
       "captions": "on",
       "approvalRequired": false,
       "variablesPath": "exports/silent-text.variables.json",
-      "variables": {"exportProfile": "silent_text", "audioMode": "muted", "captions": "on"},
+      "variables": {
+        "exportProfile": "silent_text",
+        "audioMode": "muted",
+        "captions": "on"
+      },
       "outputSuffix": "silent-text",
       "renderCommand": "npx hyperframes render videos/rospan-site-10min-projects-marketing --variables-file videos/rospan-site-10min-projects-marketing/exports/silent-text.variables.json --output videos/rospan-site-10min-projects-marketing/renders/rospan-site-10min-projects-marketing-silent-text.mp4 --fps 30 --quality standard",
       "artifacts": [
-        {"type": "variables", "label": "Silent text variables", "path": "videos/rospan-site-10min-projects-marketing/exports/silent-text.variables.json"},
-        {"type": "subtitle", "label": "Captions VTT", "path": "videos/rospan-site-10min-projects-marketing/exports/captions.vtt"},
-        {"type": "subtitle", "label": "Captions SRT", "path": "videos/rospan-site-10min-projects-marketing/exports/captions.srt"},
-        {"type": "text", "label": "Separate script text", "path": "videos/rospan-site-10min-projects-marketing/exports/script-text.txt"}
+        {
+          "type": "variables",
+          "label": "Silent text variables",
+          "path": "videos/rospan-site-10min-projects-marketing/exports/silent-text.variables.json"
+        },
+        {
+          "type": "subtitle",
+          "label": "Captions VTT",
+          "path": "videos/rospan-site-10min-projects-marketing/exports/captions.vtt"
+        },
+        {
+          "type": "subtitle",
+          "label": "Captions SRT",
+          "path": "videos/rospan-site-10min-projects-marketing/exports/captions.srt"
+        },
+        {
+          "type": "text",
+          "label": "Separate script text",
+          "path": "videos/rospan-site-10min-projects-marketing/exports/script-text.txt"
+        }
       ]
     },
     {
@@ -94,11 +444,19 @@
       "captions": "on",
       "approvalRequired": true,
       "variablesPath": "exports/captions-on.variables.json",
-      "variables": {"exportProfile": "final", "audioMode": "normal", "captions": "on"},
+      "variables": {
+        "exportProfile": "final",
+        "audioMode": "normal",
+        "captions": "on"
+      },
       "outputSuffix": "captions-on",
       "renderCommand": "npx hyperframes render videos/rospan-site-10min-projects-marketing --variables-file videos/rospan-site-10min-projects-marketing/exports/captions-on.variables.json --output videos/rospan-site-10min-projects-marketing/renders/rospan-site-10min-projects-marketing-captions-on.mp4 --fps 30 --quality high",
       "artifacts": [
-        {"type": "variables", "label": "Captions-on variables", "path": "videos/rospan-site-10min-projects-marketing/exports/captions-on.variables.json"}
+        {
+          "type": "variables",
+          "label": "Captions-on variables",
+          "path": "videos/rospan-site-10min-projects-marketing/exports/captions-on.variables.json"
+        }
       ]
     },
     {
@@ -110,12 +468,24 @@
       "captions": "off",
       "approvalRequired": false,
       "variablesPath": "exports/final.variables.json",
-      "variables": {"exportProfile": "final", "audioMode": "normal", "captions": "off"},
+      "variables": {
+        "exportProfile": "final",
+        "audioMode": "normal",
+        "captions": "off"
+      },
       "outputSuffix": "audio-demo",
       "renderCommand": "ffmpeg -y -i videos/rospan-site-10min-projects-marketing/audio/soundtrack.wav -c:a libmp3lame -b:a 192k videos/rospan-site-10min-projects-marketing/exports/rospan-site-10min-projects-marketing-audio-demo.mp3",
       "artifacts": [
-        {"type": "audio", "label": "Mixed soundtrack WAV", "path": "videos/rospan-site-10min-projects-marketing/audio/soundtrack.wav"},
-        {"type": "audio", "label": "Audio demo MP3 target", "path": "videos/rospan-site-10min-projects-marketing/exports/rospan-site-10min-projects-marketing-audio-demo.mp3"}
+        {
+          "type": "audio",
+          "label": "Mixed soundtrack WAV",
+          "path": "videos/rospan-site-10min-projects-marketing/audio/soundtrack.wav"
+        },
+        {
+          "type": "audio",
+          "label": "Audio demo MP3 target",
+          "path": "videos/rospan-site-10min-projects-marketing/exports/rospan-site-10min-projects-marketing-audio-demo.mp3"
+        }
       ]
     },
     {
@@ -127,12 +497,24 @@
       "captions": "off",
       "approvalRequired": true,
       "variablesPath": "exports/final.variables.json",
-      "variables": {"exportProfile": "final", "audioMode": "normal", "captions": "off"},
+      "variables": {
+        "exportProfile": "final",
+        "audioMode": "normal",
+        "captions": "off"
+      },
       "outputSuffix": "audio-final",
       "renderCommand": "ffmpeg -y -i videos/rospan-site-10min-projects-marketing/audio/soundtrack.wav -c:a flac videos/rospan-site-10min-projects-marketing/exports/rospan-site-10min-projects-marketing-audio-final.flac",
       "artifacts": [
-        {"type": "audio", "label": "Mixed soundtrack WAV", "path": "videos/rospan-site-10min-projects-marketing/audio/soundtrack.wav"},
-        {"type": "audio", "label": "Audio final FLAC target", "path": "videos/rospan-site-10min-projects-marketing/exports/rospan-site-10min-projects-marketing-audio-final.flac"}
+        {
+          "type": "audio",
+          "label": "Mixed soundtrack WAV",
+          "path": "videos/rospan-site-10min-projects-marketing/audio/soundtrack.wav"
+        },
+        {
+          "type": "audio",
+          "label": "Audio final FLAC target",
+          "path": "videos/rospan-site-10min-projects-marketing/exports/rospan-site-10min-projects-marketing-audio-final.flac"
+        }
       ]
     }
   ],

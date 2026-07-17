@@ -62,7 +62,7 @@ export class TemplateRegistry {
     for (const file of walk(this.templatesDir).filter((candidate) => path.basename(candidate) === 'template.json')) {
       const manifest = JSON.parse(fs.readFileSync(file, 'utf8'));
       if (!manifest.id || !/^[a-z0-9][a-z0-9._-]{1,95}$/i.test(manifest.id)) throw new Error(`Invalid template id in ${file}`);
-      if (!['hyperframes', 'remotion', 'mock'].includes(manifest.engine)) throw new Error(`Invalid engine in ${file}`);
+      if (!['hyperframes', 'remotion', 'mock', 'command'].includes(manifest.engine)) throw new Error(`Invalid engine in ${file}`);
       if (this.cache.has(manifest.id)) throw new Error(`Duplicate template id: ${manifest.id}`);
       const directory = assertInside(this.templatesDir, path.dirname(file));
       this.cache.set(manifest.id, {...manifest, directory, manifestPath: file, revision: stableHash(fs.readFileSync(file))});

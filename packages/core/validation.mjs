@@ -1,5 +1,5 @@
 const statuses = new Set(['queued', 'running', 'succeeded', 'failed', 'cancelled']);
-const engines = new Set(['hyperframes', 'remotion', 'mock']);
+const engines = new Set(['hyperframes', 'remotion', 'mock', 'command']);
 const formats = new Set(['mp4', 'webm', 'mov', 'gif', 'png', 'json']);
 
 export function asObject(value, name = 'value') {

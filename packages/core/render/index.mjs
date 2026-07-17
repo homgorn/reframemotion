@@ -4,8 +4,9 @@ import {sanitizeFileName} from '../security.mjs';
 import {renderHyperFrames} from './hyperframes.mjs';
 import {renderRemotion} from './remotion.mjs';
 import {renderMock} from './mock.mjs';
+import {renderCommand} from './command.mjs';
 
-const renderers = {hyperframes: renderHyperFrames, remotion: renderRemotion, mock: renderMock};
+const renderers = {hyperframes: renderHyperFrames, remotion: renderRemotion, mock: renderMock, command: renderCommand};
 
 export async function renderJob({job, registry, config, signal}) {
   const manifest = registry.get(job.templateId);

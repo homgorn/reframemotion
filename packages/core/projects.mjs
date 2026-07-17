@@ -39,8 +39,9 @@ function summarizeChecks(checks = {}) {
 }
 
 export class ProjectCatalog {
-  constructor(projectsDir) {
+  constructor(projectsDir, {artifactRoots = []} = {}) {
     this.projectsDir = path.resolve(projectsDir);
+    this.artifactRoots = [path.resolve(process.cwd()), path.resolve(this.projectsDir, '..'), ...artifactRoots.map((root) => path.resolve(root))];
   }
 
   load() {
@@ -94,19 +95,20 @@ export class ProjectCatalog {
       title: String(raw.title ?? id),
       kind: String(raw.kind ?? 'video'),
       status: String(raw.status ?? 'planned'),
+      approvalStatus: String(raw.approvalStatus ?? raw.approval?.status ?? 'draft'),
       engine: String(raw.engine ?? ''),
       templateId: String(raw.templateId ?? ''),
       durationSec: Number.isFinite(Number(raw.durationSec)) ? Number(raw.durationSec) : null,
       audioMode: String(raw.audioMode ?? 'unspecified'),
+      aspectRatio: String(raw.aspectRatio ?? raw.format ?? 'landscape'),
+      formats: asArray(raw.formats).map((format) => this.normalizeFormat(format)),
       sourcePath: raw.sourcePath ? String(raw.sourcePath) : '',
       previewUrl: raw.previewUrl ? String(raw.previewUrl) : '',
       batchId: raw.batchId ? String(raw.batchId) : '',
       tags: asArray(raw.tags).map(String),
-      artifacts: asArray(raw.artifacts).map((artifact) => ({
-        type: String(artifact.type ?? 'file'),
-        path: String(artifact.path ?? ''),
-        label: String(artifact.label ?? artifact.type ?? 'artifact'),
-      })),
+      sourceUrls: asArray(raw.sourceUrls).map(String),
+      brief: asObject(raw.brief),
+      artifacts: asArray(raw.artifacts).map((artifact) => this.normalizeArtifact(artifact)),
       exportProfiles: asArray(raw.exportProfiles).map((profile) => ({
         id: requireId(profile.id, 'exportProfile.id'),
         label: String(profile.label ?? profile.id),
@@ -119,16 +121,41 @@ export class ProjectCatalog {
         variablesPath: String(profile.variablesPath ?? ''),
         renderCommand: String(profile.renderCommand ?? ''),
         outputSuffix: String(profile.outputSuffix ?? profile.id),
-        artifacts: asArray(profile.artifacts).map((artifact) => ({
-          type: String(artifact.type ?? 'file'),
-          path: String(artifact.path ?? ''),
-          label: String(artifact.label ?? artifact.type ?? 'artifact'),
-        })),
+        artifacts: asArray(profile.artifacts).map((artifact) => this.normalizeArtifact(artifact)),
       })),
       checks,
       checkStatus: summarizeChecks(checks),
       updatedAt: raw.updatedAt ? String(raw.updatedAt) : '',
     };
+  }
+
+  normalizeArtifact(artifact) {
+    const artifactPath = String(artifact.path ?? '');
+    return {
+      type: String(artifact.type ?? 'file'),
+      path: artifactPath,
+      label: String(artifact.label ?? artifact.type ?? 'artifact'),
+      exists: artifactPath ? this.artifactExists(artifactPath) : false,
+    };
+  }
+
+  normalizeFormat(format) {
+    if (typeof format === 'string') {
+      return {id: format, label: format, width: null, height: null};
+    }
+    const value = asObject(format);
+    return {
+      id: String(value.id ?? value.aspectRatio ?? 'format'),
+      label: String(value.label ?? value.id ?? value.aspectRatio ?? 'format'),
+      width: Number.isFinite(Number(value.width)) ? Number(value.width) : null,
+      height: Number.isFinite(Number(value.height)) ? Number(value.height) : null,
+    };
+  }
+
+  artifactExists(artifactPath) {
+    if (!artifactPath || /^https?:\/\//i.test(artifactPath)) return false;
+    const candidates = path.isAbsolute(artifactPath) ? [artifactPath] : this.artifactRoots.map((root) => path.resolve(root, artifactPath));
+    return candidates.some((candidate) => fs.existsSync(candidate));
   }
 
   summary(projects) {

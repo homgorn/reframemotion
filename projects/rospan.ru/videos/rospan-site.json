@@ -9,17 +9,84 @@
   "audioMode": "voice",
   "sourcePath": "videos/rospan-site",
   "previewUrl": "http://localhost:3019/#project/rospan-site",
-  "tags": ["rospan", "promo", "first", "rendered"],
+  "tags": [
+    "rospan",
+    "promo",
+    "first",
+    "rendered"
+  ],
   "checks": {
-    "lint": {"status": "passed", "errors": 0, "warnings": 61, "note": "overlapping_gsap_tweens and duplicate_media_discovery_risk"},
-    "validate": {"status": "passed", "errors": 0, "warnings": 0},
-    "inspect": {"status": "passed", "errors": 0, "warnings": 0, "layoutIssues": 0, "info": 24}
+    "lint": {
+      "status": "passed",
+      "errors": 0,
+      "warnings": 61,
+      "note": "overlapping_gsap_tweens and duplicate_media_discovery_risk"
+    },
+    "validate": {
+      "status": "passed",
+      "errors": 0,
+      "warnings": 0
+    },
+    "inspect": {
+      "status": "passed",
+      "errors": 0,
+      "warnings": 0,
+      "layoutIssues": 0,
+      "info": 24
+    },
+    "contentReview": {
+      "status": "failed",
+      "errors": 2,
+      "warnings": 1,
+      "reviewedSources": [
+        "../videos/rospan-site/SCRIPT.md",
+        "../videos/rospan-site/narration.txt"
+      ],
+      "issues": [
+        {
+          "severity": "error",
+          "code": "website_meta_in_client_voice",
+          "message": "Client-facing narration should sell the offer, not describe the website, pages, screenshots, URLs or browser capture.",
+          "source": "SCRIPT.md",
+          "file": "../videos/rospan-site/SCRIPT.md",
+          "line": 24,
+          "excerpt": "е панели, отбойные доски, профили. - Факты с сайта: КМ0/КМ1, более 100 декоров, монтаж в 3-5 раз быстрее мокрых процессов, срок службы от 15 лет, 1000+ довольных клиентов, 2GIS 5.0, Янд"
+        },
+        {
+          "severity": "warning",
+          "code": "missing_pronunciation_guide",
+          "message": "Voice project should include PRONUNCIATION.md for brand names, abbreviations and Russian TTS fixes."
+        },
+        {
+          "severity": "error",
+          "code": "voice_too_fast",
+          "message": "Estimated voice speed is 459 wpm; keep Russian presentation voice under 180 wpm."
+        }
+      ],
+      "updatedAt": "2026-07-17T02:51:36.176Z"
+    }
   },
   "artifacts": [
-    {"type": "source", "label": "Local source", "path": "videos/rospan-site"},
-    {"type": "render", "label": "Rendered MP4", "path": "videos/rospan-site/renders/rospan-site_2026-07-16_17-40-28.mp4"},
-    {"type": "audio", "label": "Narration WAV", "path": "videos/rospan-site/narration.wav"},
-    {"type": "snapshot", "label": "Snapshots", "path": "videos/rospan-site/snapshots"}
+    {
+      "type": "source",
+      "label": "Local source",
+      "path": "videos/rospan-site"
+    },
+    {
+      "type": "render",
+      "label": "Rendered MP4",
+      "path": "videos/rospan-site/renders/rospan-site_2026-07-16_17-40-28.mp4"
+    },
+    {
+      "type": "audio",
+      "label": "Narration WAV",
+      "path": "videos/rospan-site/narration.wav"
+    },
+    {
+      "type": "snapshot",
+      "label": "Snapshots",
+      "path": "videos/rospan-site/snapshots"
+    }
   ],
   "updatedAt": "2026-07-16"
 }

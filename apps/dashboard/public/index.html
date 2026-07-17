@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>ReFrameMotion Dashboard</title>
   <meta name="robots" content="noindex,nofollow">
-  <link rel="stylesheet" href="/dashboard/styles.css?v=20260717g">
+  <link rel="stylesheet" href="/dashboard/styles.css?v=20260717h">
 </head>
 <body>
   <header class="topbar">
@@ -38,10 +38,22 @@
       <div class="catalog-summary" id="catalog-summary"></div>
       <pre class="export-result" id="export-result" hidden></pre>
       <div class="site-list" id="sites"></div>
-      <div class="table-wrap"><table><thead><tr><th>Сайт</th><th>Проект</th><th>Статус</th><th>Проверки</th><th>Звук</th><th>Длительность</th><th>Preview / артефакты</th></tr></thead><tbody id="projects"></tbody></table></div>
+      <div class="project-cards" id="project-cards"></div>
+      <div class="table-wrap project-table"><table><thead><tr><th>Сайт</th><th>Проект</th><th>Статус</th><th>Approval</th><th>Проверки</th><th>Звук</th><th>Длительность</th><th>Preview / артефакты</th></tr></thead><tbody id="projects"></tbody></table></div>
     </section>
 
     <section class="grid two">
+      <article class="panel">
+        <h2>Новый brief из ссылок</h2>
+        <label>Site ID / домен<input id="brief-site" placeholder="example.com"></label>
+        <label>Название проекта<input id="brief-title" placeholder="Видео из важных страниц сайта"></label>
+        <label>Ссылки по одной на строку<textarea id="brief-urls" rows="6" placeholder="https://example.com/&#10;https://example.com/about/"></textarea></label>
+        <div class="row"><label>Длительность, сек<input id="brief-duration" type="number" min="10" max="3600" value="90"></label><label>Звук<select id="brief-audio"><option value="voice">voice</option><option value="voice+music">voice+music</option><option value="silent">silent</option></select></label></div>
+        <label>Формат видео<select id="brief-format"><option value="landscape">16:9 landscape</option><option value="portrait">9:16 vertical</option><option value="square">1:1 square</option></select></label>
+        <label>Пожелания / промпт<textarea id="brief-prompt" rows="5" placeholder="Что показать, для кого, какой CTA, стиль, ограничения по звуку и субтитрам"></textarea></label>
+        <button class="primary" id="create-brief">Сохранить draft brief</button>
+      </article>
+
       <article class="panel">
         <h2>Один ролик</h2>
         <label>Шаблон<select id="template"></select></label>
@@ -50,7 +62,7 @@
         <button class="primary" id="create-job">Поставить в очередь</button>
       </article>
 
-      <article class="panel">
+      <article class="panel grid-wide">
         <h2>Массовый импорт</h2>
         <label>Название партии<input id="batch-name" value="Campaign batch"></label>
         <label>Формат<select id="batch-format"><option value="json">JSON</option><option value="csv">CSV</option></select></label>
@@ -71,6 +83,6 @@
 
     <div id="toast" role="status"></div>
   </main>
-  <script type="module" src="/dashboard/app.js?v=20260717g"></script>
+  <script type="module" src="/dashboard/app.js?v=20260717i"></script>
 </body>
 </html>

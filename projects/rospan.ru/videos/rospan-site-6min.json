@@ -9,16 +9,96 @@
   "audioMode": "voice+music+sfx",
   "sourcePath": "videos/rospan-site-6min",
   "previewUrl": "http://localhost:3022/#project/rospan-site-6min",
-  "tags": ["rospan", "presentation", "validated", "tts"],
+  "tags": [
+    "rospan",
+    "presentation",
+    "validated",
+    "tts"
+  ],
   "checks": {
-    "lint": {"status": "passed", "errors": 0, "warnings": 1, "note": "composition_file_too_large"},
-    "validate": {"status": "passed", "errors": 0, "warnings": 0},
-    "inspect": {"status": "passed", "errors": 0, "warnings": 0, "layoutIssues": 0}
+    "lint": {
+      "status": "passed",
+      "errors": 0,
+      "warnings": 1,
+      "note": "composition_file_too_large"
+    },
+    "validate": {
+      "status": "passed",
+      "errors": 0,
+      "warnings": 0
+    },
+    "inspect": {
+      "status": "passed",
+      "errors": 0,
+      "warnings": 0,
+      "layoutIssues": 0
+    },
+    "contentReview": {
+      "status": "failed",
+      "errors": 3,
+      "warnings": 2,
+      "reviewedSources": [
+        "../videos/rospan-site-6min/SCRIPT.md",
+        "../videos/rospan-site-6min/narration.txt"
+      ],
+      "issues": [
+        {
+          "severity": "error",
+          "code": "website_meta_in_client_voice",
+          "message": "Client-facing narration should sell the offer, not describe the website, pages, screenshots, URLs or browser capture.",
+          "source": "SCRIPT.md",
+          "file": "../videos/rospan-site-6min/SCRIPT.md",
+          "line": 62,
+          "excerpt": "важны не обещания, а классы и документы. На сайте выделены решения КМ0 и КМ1 для разных требований. ## Beat 15 — Installation Technology Панели крепятся через декоративные профили. В"
+        },
+        {
+          "severity": "error",
+          "code": "website_meta_in_client_voice",
+          "message": "Client-facing narration should sell the offer, not describe the website, pages, screenshots, URLs or browser capture.",
+          "source": "SCRIPT.md",
+          "file": "../videos/rospan-site-6min/SCRIPT.md",
+          "line": 6,
+          "excerpt": "aptured ROSPAN website text and assets from `capture-live/` ## Beat 01 — Opening Problem Отделка публичного объекта живет тяжелее, чем кажется. Каждый день люди, уборка, удары, нормы"
+        },
+        {
+          "severity": "error",
+          "code": "website_meta_in_client_voice",
+          "message": "Client-facing narration should sell the offer, not describe the website, pages, screenshots, URLs or browser capture.",
+          "source": "narration.txt",
+          "file": "../videos/rospan-site-6min/narration.txt",
+          "line": 27,
+          "excerpt": "важны не обещания, а классы и документы. На сайте выделены решения КМ0 и КМ1 для разных требований. Панели крепятся через декоративные профили. Возможен открытый монтаж с видимыми сты"
+        },
+        {
+          "severity": "warning",
+          "code": "missing_pronunciation_guide",
+          "message": "Voice project should include PRONUNCIATION.md for brand names, abbreviations and Russian TTS fixes."
+        },
+        {
+          "severity": "warning",
+          "code": "voice_fast",
+          "message": "Estimated voice speed is 176 wpm; consider a calmer 120-150 wpm delivery."
+        }
+      ],
+      "updatedAt": "2026-07-17T02:51:36.070Z"
+    }
   },
   "artifacts": [
-    {"type": "source", "label": "Local source", "path": "videos/rospan-site-6min"},
-    {"type": "facts", "label": "Facts and limitations", "path": "videos/rospan-site-6min/FACTS-AND-LIMITATIONS.md"},
-    {"type": "snapshot", "label": "Snapshots", "path": "videos/rospan-site-6min/snapshots"}
+    {
+      "type": "source",
+      "label": "Local source",
+      "path": "videos/rospan-site-6min"
+    },
+    {
+      "type": "facts",
+      "label": "Facts and limitations",
+      "path": "videos/rospan-site-6min/FACTS-AND-LIMITATIONS.md"
+    },
+    {
+      "type": "snapshot",
+      "label": "Snapshots",
+      "path": "videos/rospan-site-6min/snapshots"
+    }
   ],
   "updatedAt": "2026-07-16"
 }
