@@ -39,6 +39,16 @@ The script is idempotent for the default local port. If `http://127.0.0.1:8787/a
 5. Run one HyperFrames template.
 6. Inspect its MP4 before importing a large batch.
 
+## Dashboard UI QA
+
+Run the click-through dashboard smoke test before handing an operator build to a client:
+
+```bash
+npm run qa:dashboard
+```
+
+The QA runner starts an isolated local API process, copies the project catalog to a temporary directory, opens headless Chrome, clicks the dashboard controls, queues test jobs, verifies export buttons and approval changes, and writes screenshots plus a Markdown report under `docs/operations/`. It should leave the real `projects/` directory unchanged.
+
 ## Backup
 
 Stop API writes or take a consistent SQLite snapshot using its backup mechanism. Back up:

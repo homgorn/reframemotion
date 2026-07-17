@@ -130,6 +130,16 @@ npm run validate:content -- <project-id> --write
 
 Для продающей презентации voiceover не должен рассказывать о том, как делался ролик, о HyperFrames, рендере, storyboard, страницах сайта, скриншотах, URL или capture. Эти детали остаются в QA и документации, а в видео остаются продукт, польза, доказательства и действие для клиента.
 
+### Проверка dashboard с кликами
+
+Для полного локального smoke-теста UI dashboard:
+
+```bash
+npm run qa:dashboard
+```
+
+Команда поднимает API на временном порту, копирует `projects/` во временную папку, открывает headless Chrome, кликает основные кнопки и селекты, создает тестовый brief/job/batch, проверяет export DEMO, approval, cancel/retry и мобильные карточки. Скриншоты и отчет пишутся в `docs/operations/dashboard-ui-qa-2026-07-17.md` и `docs/operations/screenshots/`. Рабочий каталог проектов не мутируется.
+
 ## API
 
 ```bash
