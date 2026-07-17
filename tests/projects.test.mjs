@@ -16,6 +16,16 @@ test('ProjectCatalog loads sites and video project manifests', () => {
     status: 'ready',
     durationSec: 30,
     audioMode: 'silent',
+    exportProfiles: [{
+      id: 'demo',
+      label: 'DEMO',
+      watermark: true,
+      audioMode: 'muted',
+      captions: 'on',
+      variablesPath: 'exports/demo-watermark.variables.json',
+      renderCommand: 'npx hyperframes render --variables-file exports/demo-watermark.variables.json',
+      variables: {exportProfile: 'demo'},
+    }],
     checks: {lint: {status: 'passed', errors: 0, warnings: 0}},
   }));
 
@@ -24,6 +34,13 @@ test('ProjectCatalog loads sites and video project manifests', () => {
   assert.equal(catalog.sites[0].projectCount, 1);
   assert.equal(catalog.projects.length, 1);
   assert.equal(catalog.projects[0].checkStatus, 'passed');
+  assert.equal(catalog.projects[0].exportProfiles[0].id, 'demo');
+  assert.equal(catalog.projects[0].exportProfiles[0].variables.exportProfile, 'demo');
+  assert.equal(catalog.projects[0].exportProfiles[0].watermark, true);
+  assert.equal(catalog.projects[0].exportProfiles[0].audioMode, 'muted');
+  assert.equal(catalog.projects[0].exportProfiles[0].captions, 'on');
+  assert.equal(catalog.projects[0].exportProfiles[0].variablesPath, 'exports/demo-watermark.variables.json');
+  assert.match(catalog.projects[0].exportProfiles[0].renderCommand, /variables-file/);
   assert.equal(catalog.summary.byAudioMode.silent, 1);
 });
 

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>ReFrameMotion Dashboard</title>
   <meta name="robots" content="noindex,nofollow">
-  <link rel="stylesheet" href="/dashboard/styles.css?v=20260717e">
+  <link rel="stylesheet" href="/dashboard/styles.css?v=20260717g">
 </head>
 <body>
   <header class="topbar">
@@ -21,9 +21,22 @@
     <section class="panel">
       <div class="section-head">
         <div><p class="eyebrow">Sites & projects</p><h2>Каталог сайтов и видео</h2></div>
-        <div class="toolbar"><select id="site-filter"><option value="">Все сайты</option></select><button id="refresh-catalog">Обновить каталог</button></div>
+        <div class="toolbar catalog-toolbar">
+          <select id="site-filter"><option value="">Все сайты</option></select>
+          <select id="check-filter"><option value="">Все проверки</option></select>
+          <select id="audio-filter"><option value="">Любой звук</option></select>
+          <select id="sort-projects">
+            <option value="updated-desc">Сначала новые</option>
+            <option value="duration-desc">Длинные сверху</option>
+            <option value="duration-asc">Короткие сверху</option>
+            <option value="title-asc">По названию</option>
+          </select>
+          <input id="catalog-search" type="search" placeholder="Поиск проекта, тега, артефакта">
+          <button id="refresh-catalog">Обновить каталог</button>
+        </div>
       </div>
       <div class="catalog-summary" id="catalog-summary"></div>
+      <pre class="export-result" id="export-result" hidden></pre>
       <div class="site-list" id="sites"></div>
       <div class="table-wrap"><table><thead><tr><th>Сайт</th><th>Проект</th><th>Статус</th><th>Проверки</th><th>Звук</th><th>Длительность</th><th>Preview / артефакты</th></tr></thead><tbody id="projects"></tbody></table></div>
     </section>
@@ -58,6 +71,6 @@
 
     <div id="toast" role="status"></div>
   </main>
-  <script type="module" src="/dashboard/app.js?v=20260717e"></script>
+  <script type="module" src="/dashboard/app.js?v=20260717g"></script>
 </body>
 </html>

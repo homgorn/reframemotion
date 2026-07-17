@@ -44,6 +44,36 @@ function pill(value, className = '') {
   return `<span class="status ${escape(className || value)}">${escape(value)}</span>`;
 }
 
+function uniqueSorted(values) {
+  return [...new Set(values.filter(Boolean).map(String))].sort((a, b) => a.localeCompare(b));
+}
+
+function setOptions(select, options, current, fallbackLabel) {
+  select.innerHTML = `<option value="">${escape(fallbackLabel)}</option>` + options
+    .map((value) => `<option value="${escape(value)}"${value === current ? ' selected' : ''}>${escape(value)}</option>`)
+    .join('');
+}
+
+function projectSearchText(project) {
+  return [
+    project.siteName,
+    project.siteId,
+    project.title,
+    project.id,
+    project.status,
+    project.audioMode,
+    project.checkStatus,
+    project.tags.join(' '),
+    project.artifacts.map((artifact) => `${artifact.label} ${artifact.path}`).join(' '),
+  ].join(' ').toLowerCase();
+}
+
+function renderExportProfiles(project) {
+  if (!project.exportProfiles?.length) return '';
+  const buttons = project.exportProfiles.map((profile) => `<button class="export-action" data-site="${escape(project.siteId)}" data-project="${escape(project.id)}" data-profile="${escape(profile.id)}" title="${escape(profile.description)}">${escape(profile.label)}</button>`).join('');
+  return `<div class="export-actions">${buttons}</div>`;
+}
+
 async function loadTemplates() {
   const {templates} = await request('/api/templates');
   $('#template').innerHTML = templates.map((t) => `<option value="${escape(t.id)}">${escape(t.name ?? t.id)} · ${escape(t.engine)}</option>`).join('');
@@ -56,13 +86,29 @@ async function loadCatalog() {
 
 function renderCatalog() {
   const selectedSite = $('#site-filter').value;
-  const projects = selectedSite ? catalogState.projects.filter((project) => project.siteId === selectedSite) : catalogState.projects;
+  const selectedCheck = $('#check-filter').value;
+  const selectedAudio = $('#audio-filter').value;
+  const search = $('#catalog-search').value.trim().toLowerCase();
+  const sortMode = $('#sort-projects').value;
+  const projects = catalogState.projects.filter((project) => {
+    if (selectedSite && project.siteId !== selectedSite) return false;
+    if (selectedCheck && project.checkStatus !== selectedCheck) return false;
+    if (selectedAudio && project.audioMode !== selectedAudio) return false;
+    if (search && !projectSearchText(project).includes(search)) return false;
+    return true;
+  }).sort((a, b) => {
+    if (sortMode === 'duration-desc') return (b.durationSec ?? -1) - (a.durationSec ?? -1);
+    if (sortMode === 'duration-asc') return (a.durationSec ?? Infinity) - (b.durationSec ?? Infinity);
+    if (sortMode === 'title-asc') return a.title.localeCompare(b.title);
+    return String(b.updatedAt).localeCompare(String(a.updatedAt)) || b.id.localeCompare(a.id);
+  });
   const summary = catalogState.summary ?? {};
   const checkSummary = summary.byCheckStatus ?? {};
 
   $('#catalog-summary').innerHTML = [
     ['Сайтов', catalogState.sites.length],
     ['Проектов', summary.totalProjects ?? projects.length],
+    ['На экране', projects.length],
     ['Без замечаний', checkSummary.passed ?? 0],
     ['С замечаниями', (checkSummary.failed ?? 0) + (checkSummary.warning ?? 0) + (checkSummary.pending ?? 0)],
   ].map(([name, value]) => `<div class="mini-stat"><b>${escape(value)}</b><span>${escape(name)}</span></div>`).join('');
@@ -71,13 +117,16 @@ function renderCatalog() {
     .map((site) => `<option value="${escape(site.id)}"${site.id === selectedSite ? ' selected' : ''}>${escape(site.name)} · ${escape(site.projectCount)} видео</option>`)
     .join('');
 
+  setOptions($('#check-filter'), uniqueSorted(catalogState.projects.map((project) => project.checkStatus)), selectedCheck, 'Все проверки');
+  setOptions($('#audio-filter'), uniqueSorted(catalogState.projects.map((project) => project.audioMode)), selectedAudio, 'Любой звук');
+
   $('#sites').innerHTML = catalogState.sites.map((site) => `<article class="site-card">
     <div>${pill(site.status)}<h3>${escape(site.name)}</h3><p>${escape(site.domain)}</p></div>
     <b>${escape(site.projectCount)}</b>
     <small>${escape(site.tags.join(', '))}</small>
   </article>`).join('');
 
-  $('#projects').innerHTML = projects.map((project) => {
+  $('#projects').innerHTML = projects.length ? projects.map((project) => {
     const artifacts = project.artifacts.map((artifact) => `<code title="${escape(artifact.path)}">${escape(artifact.label)}</code>`).join(' ');
     const preview = project.previewUrl ? `<a href="${escape(project.previewUrl)}" target="_blank" rel="noreferrer">preview</a>` : '—';
     return `<tr>
@@ -87,9 +136,9 @@ function renderCatalog() {
       <td>${pill(project.checkStatus)}<br><code>${escape(Object.keys(project.checks ?? {}).join(' / ') || 'no checks')}</code></td>
       <td>${escape(project.audioMode)}</td>
       <td>${seconds(project.durationSec)}</td>
-      <td>${preview}<div class="artifact-list">${artifacts}</div></td>
+      <td>${preview}${renderExportProfiles(project)}<div class="artifact-list">${artifacts}</div></td>
     </tr>`;
-  }).join('');
+  }).join('') : '<tr><td colspan="7">Ничего не найдено по текущим фильтрам.</td></tr>';
 }
 
 async function loadState() {
@@ -111,6 +160,10 @@ $('#save-key').addEventListener('click', () => {
 });
 
 $('#site-filter').addEventListener('change', renderCatalog);
+$('#check-filter').addEventListener('change', renderCatalog);
+$('#audio-filter').addEventListener('change', renderCatalog);
+$('#sort-projects').addEventListener('change', renderCatalog);
+$('#catalog-search').addEventListener('input', renderCatalog);
 $('#refresh-catalog').addEventListener('click', () => loadCatalog().catch((e) => toast(e.message, true)));
 
 $('#create-job').addEventListener('click', async () => {
@@ -131,6 +184,24 @@ $('#create-batch').addEventListener('click', async () => {
     const {batch} = await request('/api/batches/import', {method: 'POST', body: JSON.stringify(payload)});
     toast(`Партия создана: ${batch.id}`);
     await loadState();
+  } catch (error) {
+    toast(error.message, true);
+  }
+});
+
+$('#projects').addEventListener('click', async (event) => {
+  const button = event.target.closest('button[data-profile]');
+  if (!button) return;
+  try {
+    const {exportRequest} = await request(`/api/projects/${encodeURIComponent(button.dataset.site)}/${encodeURIComponent(button.dataset.project)}/exports`, {
+      method: 'POST',
+      body: JSON.stringify({profileId: button.dataset.profile}),
+    });
+    const output = JSON.stringify(exportRequest, null, 2);
+    $('#export-result').hidden = false;
+    $('#export-result').textContent = output;
+    await navigator.clipboard?.writeText(output).catch(() => {});
+    toast(`Экспорт-профиль подготовлен: ${exportRequest.label}`);
   } catch (error) {
     toast(error.message, true);
   }

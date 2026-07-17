@@ -30,6 +30,41 @@ Template responses omit absolute server paths.
 
 The project catalog is loaded from `projects/`. It is a lightweight Git registry for sites, video projects, validation status, preview URLs and artifact pointers. It does not enqueue jobs and does not store render outputs.
 
+## Project export profiles
+
+`POST /api/projects/:siteId/:projectId/exports`
+
+Request:
+
+```json
+{"profileId": "demo_watermark"}
+```
+
+Response status is `202 Accepted`. The response is an export plan, not a running job:
+
+```json
+{
+  "exportRequest": {
+    "status": "planned",
+    "profileId": "demo_watermark",
+    "watermark": true,
+    "audioMode": "normal",
+    "captions": "on",
+    "variablesPath": "exports/demo-watermark.variables.json",
+    "renderCommand": "npx hyperframes render ... --variables-file ...",
+    "approvalRequired": false
+  }
+}
+```
+
+Use these profiles for client workflow buttons:
+
+- `demo_watermark` — preview with a large DEMO watermark.
+- `final_master` — clean export after approval.
+- `silent_text` — muted export plus separate `.vtt`, `.srt` and text sidecars.
+- `captions_on` — clean video with burned-in subtitles enabled.
+- audio profiles may point to `ffmpeg` commands for soundtrack review or final audio masters.
+
 ## Jobs
 
 ### Create

@@ -36,7 +36,24 @@ test('API exposes the site and video project catalog', async (t) => {
   fs.mkdirSync(path.join(site, 'videos'), {recursive:true});
   fs.writeFileSync(path.join(templates, 'template.json'), JSON.stringify({id:'demo-card',engine:'mock',outputFormat:'json',variables:{},security:{allowRemoteAssets:false}}));
   fs.writeFileSync(path.join(site, 'site.json'), JSON.stringify({id:'example.com',name:'Example'}));
-  fs.writeFileSync(path.join(site, 'videos', 'launch.json'), JSON.stringify({id:'launch',title:'Launch',status:'ready',audioMode:'silent'}));
+  fs.writeFileSync(path.join(site, 'videos', 'launch.json'), JSON.stringify({
+    id:'launch',
+    title:'Launch',
+    status:'ready',
+    audioMode:'silent',
+    sourcePath:'videos/launch',
+    exportProfiles:[{
+      id:'demo',
+      label:'DEMO',
+      watermark:true,
+      audioMode:'muted',
+      captions:'on',
+      variablesPath:'exports/demo-watermark.variables.json',
+      renderCommand:'npx hyperframes render --variables-file exports/demo-watermark.variables.json',
+      variables:{exportProfile:'demo',captions:'on'},
+      artifacts:[{type:'render',label:'Demo MP4',path:'videos/launch/renders/demo.mp4'}],
+    }],
+  }));
   const config = loadConfig({root, templatesDir:path.join(root,'templates'), projectsDir:path.join(root,'projects'), dataDir:path.join(root,'data'), port:0});
   const instance = await createApiServer({config});
   await new Promise((resolve) => instance.server.listen(0, '127.0.0.1', resolve));
@@ -47,6 +64,18 @@ test('API exposes the site and video project catalog', async (t) => {
   const catalog = await response.json();
   assert.equal(catalog.sites[0].id, 'example.com');
   assert.equal(catalog.projects[0].id, 'launch');
+  assert.equal(catalog.projects[0].exportProfiles[0].id, 'demo');
+
+  const exportResponse = await fetch(`http://127.0.0.1:${port}/api/projects/example.com/launch/exports`, {method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({profileId:'demo'})});
+  assert.equal(exportResponse.status, 202);
+  const planned = await exportResponse.json();
+  assert.equal(planned.exportRequest.profileId, 'demo');
+  assert.equal(planned.exportRequest.variables.captions, 'on');
+  assert.equal(planned.exportRequest.watermark, true);
+  assert.equal(planned.exportRequest.audioMode, 'muted');
+  assert.equal(planned.exportRequest.captions, 'on');
+  assert.equal(planned.exportRequest.variablesPath, 'exports/demo-watermark.variables.json');
+  assert.match(planned.exportRequest.renderCommand, /variables-file/);
 });
 
 test('dashboard assets are not cached across deploys', async (t) => {

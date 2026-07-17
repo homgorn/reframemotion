@@ -72,6 +72,26 @@ Portrait: lower-middle, но выше platform controls.
 
 Captions должны быть привязаны к timestamps/frames. В HyperFrames после exit рекомендуется hard kill состояния. В Remotion caption page живет в Sequence с точным duration.
 
+## Включаемые субтитры и silent-text
+
+Для масштабного производства не плодить отдельные HTML-композиции под каждый вариант. В HyperFrames объявлять переменные композиции:
+
+```json
+{
+  "exportProfile": {"type": "string", "default": "final"},
+  "audioMode": {"type": "string", "default": "normal"},
+  "captions": {"type": "string", "default": "off"}
+}
+```
+
+Практический контракт:
+
+- `captions=off` — субтитры скрыты, `.vtt`/`.srt` всё равно сохраняются рядом.
+- `captions=on` — burn-in subtitles в видео.
+- `audioMode=muted` — все audio-треки получают volume/mute.
+- `exportProfile=demo` — добавляется видимый DEMO watermark.
+- `exportProfile=silent_text` — видео без звука, субтитры включены, текст отдельно в `exports/script-text.txt`.
+
 ## Audio-reactive motion
 
 Сигнал должен менять meaningful visual property:

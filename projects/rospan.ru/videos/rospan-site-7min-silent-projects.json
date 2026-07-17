@@ -1,0 +1,105 @@
+{
+  "id": "rospan-site-7min-silent-projects",
+  "title": "ROSPAN 7-minute silent projects marketing",
+  "kind": "website-to-video",
+  "status": "rendered",
+  "engine": "hyperframes",
+  "templateId": "custom-hyperframes-site",
+  "durationSec": 420,
+  "audioMode": "silent",
+  "sourcePath": "videos/rospan-site-7min-silent-projects",
+  "previewUrl": "http://localhost:3024/#project/rospan-site-7min-silent-projects",
+  "tags": ["rospan", "projects", "marketing", "silent", "captions", "demo-watermark"],
+  "checks": {
+    "sourceCrawl": {"status": "passed", "pages": 49, "errors": 0, "warnings": 1, "failedPages": 1, "desktopScreenshots": 44, "mobileScreenshots": 5, "note": "One /firesafety/ng/ crawl hit ConnectionResetError; other 48 indexed pages were captured."},
+    "lint": {"status": "passed", "errors": 0, "warnings": 1, "note": "composition_file_too_large"},
+    "validate": {"status": "passed", "errors": 0, "warnings": 0},
+    "inspectMidpoints": {"status": "passed", "errors": 0, "warnings": 0, "layoutIssues": 0, "samples": 21},
+    "snapshots": {"status": "passed", "frames": 21, "contactSheets": 3},
+    "renderReview": {"status": "passed", "durationSec": 420, "fps": 6, "hasAudio": false, "outputBytes": 42378152}
+  },
+  "artifacts": [
+    {"type": "source", "label": "Local source", "path": "videos/rospan-site-7min-silent-projects"},
+    {"type": "script", "label": "Script", "path": "videos/rospan-site-7min-silent-projects/SCRIPT.md"},
+    {"type": "storyboard", "label": "Storyboard", "path": "videos/rospan-site-7min-silent-projects/STORYBOARD.md"},
+    {"type": "facts", "label": "Source audit", "path": "videos/rospan-site-7min-silent-projects/SOURCE-AUDIT.md"},
+    {"type": "crawl", "label": "Parsed pages and screenshots", "path": "videos/rospan-site-7min-silent-projects/capture-extra"},
+    {"type": "snapshot", "label": "Keyframe snapshots", "path": "videos/rospan-site-7min-silent-projects/snapshots-keyframes"},
+    {"type": "render", "label": "Review MP4 6fps", "path": "videos/rospan-site-7min-silent-projects/renders/rospan-site-7min-silent-projects-review-6fps.mp4"},
+    {"type": "subtitle", "label": "Captions VTT", "path": "videos/rospan-site-7min-silent-projects/exports/captions.vtt"},
+    {"type": "subtitle", "label": "Captions SRT", "path": "videos/rospan-site-7min-silent-projects/exports/captions.srt"},
+    {"type": "text", "label": "Script text sidecar", "path": "videos/rospan-site-7min-silent-projects/exports/script-text.txt"}
+  ],
+  "exportProfiles": [
+    {
+      "id": "demo_watermark",
+      "label": "DEMO",
+      "description": "Client preview with a large DEMO watermark, audio muted and burned-in captions.",
+      "watermark": true,
+      "audioMode": "muted",
+      "captions": "on",
+      "approvalRequired": false,
+      "variablesPath": "exports/demo-watermark.variables.json",
+      "variables": {"exportProfile": "demo", "audioMode": "muted", "captions": "on"},
+      "outputSuffix": "demo-watermark",
+      "renderCommand": "npx hyperframes render videos/rospan-site-7min-silent-projects --variables-file videos/rospan-site-7min-silent-projects/exports/demo-watermark.variables.json --output videos/rospan-site-7min-silent-projects/renders/rospan-site-7min-silent-projects-demo-watermark.mp4 --fps 30 --quality standard",
+      "artifacts": [
+        {"type": "variables", "label": "DEMO variables", "path": "videos/rospan-site-7min-silent-projects/exports/demo-watermark.variables.json"},
+        {"type": "render", "label": "DEMO MP4 target", "path": "videos/rospan-site-7min-silent-projects/renders/rospan-site-7min-silent-projects-demo-watermark.mp4"}
+      ]
+    },
+    {
+      "id": "final_master",
+      "label": "FINAL",
+      "description": "Clean silent final export after approval: no watermark, captions off.",
+      "watermark": false,
+      "audioMode": "muted",
+      "captions": "off",
+      "approvalRequired": true,
+      "variablesPath": "exports/final.variables.json",
+      "variables": {"exportProfile": "final", "audioMode": "muted", "captions": "off"},
+      "outputSuffix": "final",
+      "renderCommand": "npx hyperframes render videos/rospan-site-7min-silent-projects --variables-file videos/rospan-site-7min-silent-projects/exports/final.variables.json --output videos/rospan-site-7min-silent-projects/renders/rospan-site-7min-silent-projects-final.mp4 --fps 30 --quality high",
+      "artifacts": [
+        {"type": "variables", "label": "Final variables", "path": "videos/rospan-site-7min-silent-projects/exports/final.variables.json"},
+        {"type": "render", "label": "Final MP4 target", "path": "videos/rospan-site-7min-silent-projects/renders/rospan-site-7min-silent-projects-final.mp4"}
+      ]
+    },
+    {
+      "id": "silent_text",
+      "label": "NO SOUND",
+      "description": "Silent video profile with burned-in captions enabled and text delivered as separate sidecar files.",
+      "watermark": false,
+      "audioMode": "muted",
+      "captions": "on",
+      "approvalRequired": false,
+      "variablesPath": "exports/silent-text.variables.json",
+      "variables": {"exportProfile": "silent_text", "audioMode": "muted", "captions": "on"},
+      "outputSuffix": "silent-text",
+      "renderCommand": "npx hyperframes render videos/rospan-site-7min-silent-projects --variables-file videos/rospan-site-7min-silent-projects/exports/silent-text.variables.json --output videos/rospan-site-7min-silent-projects/renders/rospan-site-7min-silent-projects-silent-text.mp4 --fps 30 --quality standard",
+      "artifacts": [
+        {"type": "variables", "label": "Silent text variables", "path": "videos/rospan-site-7min-silent-projects/exports/silent-text.variables.json"},
+        {"type": "subtitle", "label": "Captions VTT", "path": "videos/rospan-site-7min-silent-projects/exports/captions.vtt"},
+        {"type": "subtitle", "label": "Captions SRT", "path": "videos/rospan-site-7min-silent-projects/exports/captions.srt"},
+        {"type": "text", "label": "Separate script text", "path": "videos/rospan-site-7min-silent-projects/exports/script-text.txt"}
+      ]
+    },
+    {
+      "id": "captions_on",
+      "label": "SUBS ON",
+      "description": "Clean silent video export with burned-in captions enabled.",
+      "watermark": false,
+      "audioMode": "muted",
+      "captions": "on",
+      "approvalRequired": true,
+      "variablesPath": "exports/captions-on.variables.json",
+      "variables": {"exportProfile": "final", "audioMode": "muted", "captions": "on"},
+      "outputSuffix": "captions-on",
+      "renderCommand": "npx hyperframes render videos/rospan-site-7min-silent-projects --variables-file videos/rospan-site-7min-silent-projects/exports/captions-on.variables.json --output videos/rospan-site-7min-silent-projects/renders/rospan-site-7min-silent-projects-captions-on.mp4 --fps 30 --quality high",
+      "artifacts": [
+        {"type": "variables", "label": "Captions-on variables", "path": "videos/rospan-site-7min-silent-projects/exports/captions-on.variables.json"}
+      ]
+    }
+  ],
+  "updatedAt": "2026-07-17"
+}

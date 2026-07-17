@@ -24,6 +24,17 @@ function normalizeJob(registry, raw) {
   return {...input, variables, engine, outputFormat: input.outputFormat ?? manifest.outputFormat ?? (engine === 'mock' ? 'json' : 'mp4')};
 }
 
+function findCatalogProject(projectCatalog, siteId, projectId) {
+  const catalog = projectCatalog.load();
+  const project = catalog.projects.find((item) => item.siteId === siteId && item.id === projectId);
+  if (!project) {
+    const error = new Error('Project not found');
+    error.statusCode = 404;
+    throw error;
+  }
+  return project;
+}
+
 function authenticate(req, config) {
   if (!config.apiKey) return true;
   const header = req.headers.authorization ?? '';
@@ -76,6 +87,37 @@ export async function createApiServer({config = loadConfig(), store, registry, l
         const siteId = url.searchParams.get('siteId');
         const projects = siteId ? catalog.projects.filter((project) => project.siteId === siteId) : catalog.projects;
         return json(res, 200, {projects, summary: catalog.summary});
+      }
+      const projectExport = url.pathname.match(/^\/api\/projects\/([^/]+)\/([^/]+)\/exports$/);
+      if (req.method === 'POST' && projectExport) {
+        const body = await readJson(req, config.maxBodyBytes);
+        const siteId = decodeURIComponent(projectExport[1]);
+        const projectId = decodeURIComponent(projectExport[2]);
+        const project = findCatalogProject(projectCatalog, siteId, projectId);
+        const profileId = String(body.profileId ?? '');
+        const profile = project.exportProfiles.find((item) => item.id === profileId);
+        if (!profile) throw new TypeError(`Unknown export profile: ${profileId}`);
+        return json(res, 202, {
+          exportRequest: {
+            id: crypto.randomUUID(),
+            status: 'planned',
+            siteId,
+            projectId,
+            profileId: profile.id,
+            label: profile.label,
+            description: profile.description,
+            sourcePath: project.sourcePath,
+            outputSuffix: profile.outputSuffix,
+            watermark: profile.watermark,
+            audioMode: profile.audioMode,
+            captions: profile.captions,
+            variables: profile.variables,
+            variablesPath: profile.variablesPath,
+            renderCommand: profile.renderCommand,
+            approvalRequired: profile.approvalRequired,
+            artifacts: profile.artifacts,
+          },
+        });
       }
       if (req.method === 'POST' && url.pathname === '/api/templates/reload') {
         return json(res, 200, {templates: ownedRegistry.reload()});

@@ -1,0 +1,140 @@
+{
+  "id": "rospan-site-10min-projects-marketing",
+  "title": "ROSPAN 10-minute projects marketing",
+  "kind": "website-to-video",
+  "status": "rendered",
+  "engine": "hyperframes",
+  "templateId": "custom-hyperframes-site",
+  "durationSec": 600,
+  "audioMode": "voice+music",
+  "sourcePath": "videos/rospan-site-10min-projects-marketing",
+  "previewUrl": "http://localhost:3023/#project/rospan-site-10min-projects-marketing",
+  "tags": ["rospan", "projects", "marketing", "long-form", "tts", "captions", "demo-watermark"],
+  "checks": {
+    "sourceCrawl": {"status": "passed", "pages": 49, "errors": 0, "warnings": 1, "failedPages": 1, "desktopScreenshots": 44, "mobileScreenshots": 5, "note": "One /firesafety/ng/ crawl hit ConnectionResetError; other 48 indexed pages were captured."},
+    "lint": {"status": "passed", "errors": 0, "warnings": 1, "note": "composition_file_too_large"},
+    "validate": {"status": "passed", "errors": 0, "warnings": 0},
+    "inspectMidpoints": {"status": "passed", "errors": 0, "warnings": 0, "layoutIssues": 0, "samples": 30},
+    "snapshots": {"status": "passed", "frames": 30, "contactSheets": 4},
+    "renderReview": {"status": "passed", "durationSec": 600, "fps": 6, "hasAudio": true, "outputBytes": 65422997}
+  },
+  "artifacts": [
+    {"type": "source", "label": "Local source", "path": "videos/rospan-site-10min-projects-marketing"},
+    {"type": "script", "label": "Script", "path": "videos/rospan-site-10min-projects-marketing/SCRIPT.md"},
+    {"type": "storyboard", "label": "Storyboard", "path": "videos/rospan-site-10min-projects-marketing/STORYBOARD.md"},
+    {"type": "facts", "label": "Source audit", "path": "videos/rospan-site-10min-projects-marketing/SOURCE-AUDIT.md"},
+    {"type": "crawl", "label": "Parsed pages and screenshots", "path": "videos/rospan-site-10min-projects-marketing/capture-extra"},
+    {"type": "snapshot", "label": "Keyframe snapshots", "path": "videos/rospan-site-10min-projects-marketing/snapshots-keyframes"},
+    {"type": "render", "label": "Review MP4 6fps", "path": "videos/rospan-site-10min-projects-marketing/renders/rospan-site-10min-projects-marketing-review-6fps.mp4"},
+    {"type": "audio", "label": "Mixed soundtrack WAV", "path": "videos/rospan-site-10min-projects-marketing/audio/soundtrack.wav"},
+    {"type": "subtitle", "label": "Captions VTT", "path": "videos/rospan-site-10min-projects-marketing/exports/captions.vtt"},
+    {"type": "subtitle", "label": "Captions SRT", "path": "videos/rospan-site-10min-projects-marketing/exports/captions.srt"},
+    {"type": "text", "label": "Script text sidecar", "path": "videos/rospan-site-10min-projects-marketing/exports/script-text.txt"}
+  ],
+  "exportProfiles": [
+    {
+      "id": "demo_watermark",
+      "label": "DEMO",
+      "description": "Client preview with a large DEMO watermark, normal audio and burned-in captions.",
+      "watermark": true,
+      "audioMode": "normal",
+      "captions": "on",
+      "approvalRequired": false,
+      "variablesPath": "exports/demo-watermark.variables.json",
+      "variables": {"exportProfile": "demo", "audioMode": "normal", "captions": "on"},
+      "outputSuffix": "demo-watermark",
+      "renderCommand": "npx hyperframes render videos/rospan-site-10min-projects-marketing --variables-file videos/rospan-site-10min-projects-marketing/exports/demo-watermark.variables.json --output videos/rospan-site-10min-projects-marketing/renders/rospan-site-10min-projects-marketing-demo-watermark.mp4 --fps 30 --quality standard",
+      "artifacts": [
+        {"type": "variables", "label": "DEMO variables", "path": "videos/rospan-site-10min-projects-marketing/exports/demo-watermark.variables.json"},
+        {"type": "render", "label": "DEMO MP4 target", "path": "videos/rospan-site-10min-projects-marketing/renders/rospan-site-10min-projects-marketing-demo-watermark.mp4"}
+      ]
+    },
+    {
+      "id": "final_master",
+      "label": "FINAL",
+      "description": "Clean final export after approval: no watermark, normal audio, captions off.",
+      "watermark": false,
+      "audioMode": "normal",
+      "captions": "off",
+      "approvalRequired": true,
+      "variablesPath": "exports/final.variables.json",
+      "variables": {"exportProfile": "final", "audioMode": "normal", "captions": "off"},
+      "outputSuffix": "final",
+      "renderCommand": "npx hyperframes render videos/rospan-site-10min-projects-marketing --variables-file videos/rospan-site-10min-projects-marketing/exports/final.variables.json --output videos/rospan-site-10min-projects-marketing/renders/rospan-site-10min-projects-marketing-final.mp4 --fps 30 --quality high",
+      "artifacts": [
+        {"type": "variables", "label": "Final variables", "path": "videos/rospan-site-10min-projects-marketing/exports/final.variables.json"},
+        {"type": "render", "label": "Final MP4 target", "path": "videos/rospan-site-10min-projects-marketing/renders/rospan-site-10min-projects-marketing-final.mp4"}
+      ]
+    },
+    {
+      "id": "silent_text",
+      "label": "NO SOUND",
+      "description": "Video with audio muted, burned-in captions enabled and text delivered as separate sidecar files.",
+      "watermark": false,
+      "audioMode": "muted",
+      "captions": "on",
+      "approvalRequired": false,
+      "variablesPath": "exports/silent-text.variables.json",
+      "variables": {"exportProfile": "silent_text", "audioMode": "muted", "captions": "on"},
+      "outputSuffix": "silent-text",
+      "renderCommand": "npx hyperframes render videos/rospan-site-10min-projects-marketing --variables-file videos/rospan-site-10min-projects-marketing/exports/silent-text.variables.json --output videos/rospan-site-10min-projects-marketing/renders/rospan-site-10min-projects-marketing-silent-text.mp4 --fps 30 --quality standard",
+      "artifacts": [
+        {"type": "variables", "label": "Silent text variables", "path": "videos/rospan-site-10min-projects-marketing/exports/silent-text.variables.json"},
+        {"type": "subtitle", "label": "Captions VTT", "path": "videos/rospan-site-10min-projects-marketing/exports/captions.vtt"},
+        {"type": "subtitle", "label": "Captions SRT", "path": "videos/rospan-site-10min-projects-marketing/exports/captions.srt"},
+        {"type": "text", "label": "Separate script text", "path": "videos/rospan-site-10min-projects-marketing/exports/script-text.txt"}
+      ]
+    },
+    {
+      "id": "captions_on",
+      "label": "SUBS ON",
+      "description": "Clean video export with burned-in captions enabled.",
+      "watermark": false,
+      "audioMode": "normal",
+      "captions": "on",
+      "approvalRequired": true,
+      "variablesPath": "exports/captions-on.variables.json",
+      "variables": {"exportProfile": "final", "audioMode": "normal", "captions": "on"},
+      "outputSuffix": "captions-on",
+      "renderCommand": "npx hyperframes render videos/rospan-site-10min-projects-marketing --variables-file videos/rospan-site-10min-projects-marketing/exports/captions-on.variables.json --output videos/rospan-site-10min-projects-marketing/renders/rospan-site-10min-projects-marketing-captions-on.mp4 --fps 30 --quality high",
+      "artifacts": [
+        {"type": "variables", "label": "Captions-on variables", "path": "videos/rospan-site-10min-projects-marketing/exports/captions-on.variables.json"}
+      ]
+    },
+    {
+      "id": "audio_demo",
+      "label": "AUDIO DEMO",
+      "description": "Audio-only client review profile for the mixed voiceover and background music track.",
+      "watermark": false,
+      "audioMode": "normal",
+      "captions": "off",
+      "approvalRequired": false,
+      "variablesPath": "exports/final.variables.json",
+      "variables": {"exportProfile": "final", "audioMode": "normal", "captions": "off"},
+      "outputSuffix": "audio-demo",
+      "renderCommand": "ffmpeg -y -i videos/rospan-site-10min-projects-marketing/audio/soundtrack.wav -c:a libmp3lame -b:a 192k videos/rospan-site-10min-projects-marketing/exports/rospan-site-10min-projects-marketing-audio-demo.mp3",
+      "artifacts": [
+        {"type": "audio", "label": "Mixed soundtrack WAV", "path": "videos/rospan-site-10min-projects-marketing/audio/soundtrack.wav"},
+        {"type": "audio", "label": "Audio demo MP3 target", "path": "videos/rospan-site-10min-projects-marketing/exports/rospan-site-10min-projects-marketing-audio-demo.mp3"}
+      ]
+    },
+    {
+      "id": "audio_final",
+      "label": "AUDIO FINAL",
+      "description": "Approved final audio master profile for the mixed soundtrack.",
+      "watermark": false,
+      "audioMode": "normal",
+      "captions": "off",
+      "approvalRequired": true,
+      "variablesPath": "exports/final.variables.json",
+      "variables": {"exportProfile": "final", "audioMode": "normal", "captions": "off"},
+      "outputSuffix": "audio-final",
+      "renderCommand": "ffmpeg -y -i videos/rospan-site-10min-projects-marketing/audio/soundtrack.wav -c:a flac videos/rospan-site-10min-projects-marketing/exports/rospan-site-10min-projects-marketing-audio-final.flac",
+      "artifacts": [
+        {"type": "audio", "label": "Mixed soundtrack WAV", "path": "videos/rospan-site-10min-projects-marketing/audio/soundtrack.wav"},
+        {"type": "audio", "label": "Audio final FLAC target", "path": "videos/rospan-site-10min-projects-marketing/exports/rospan-site-10min-projects-marketing-audio-final.flac"}
+      ]
+    }
+  ],
+  "updatedAt": "2026-07-17"
+}

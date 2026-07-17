@@ -22,6 +22,10 @@ function asArray(value) {
   return Array.isArray(value) ? value : [];
 }
 
+function asObject(value) {
+  return value && typeof value === 'object' && !Array.isArray(value) ? value : {};
+}
+
 function summarizeChecks(checks = {}) {
   const entries = Object.entries(checks).filter(([, value]) => value && typeof value === 'object');
   const failures = entries.filter(([, value]) => value.status === 'failed' || value.errors > 0);
@@ -102,6 +106,24 @@ export class ProjectCatalog {
         type: String(artifact.type ?? 'file'),
         path: String(artifact.path ?? ''),
         label: String(artifact.label ?? artifact.type ?? 'artifact'),
+      })),
+      exportProfiles: asArray(raw.exportProfiles).map((profile) => ({
+        id: requireId(profile.id, 'exportProfile.id'),
+        label: String(profile.label ?? profile.id),
+        description: String(profile.description ?? ''),
+        watermark: Boolean(profile.watermark),
+        audioMode: String(profile.audioMode ?? 'normal'),
+        captions: String(profile.captions ?? 'off'),
+        approvalRequired: profile.approvalRequired !== false,
+        variables: asObject(profile.variables),
+        variablesPath: String(profile.variablesPath ?? ''),
+        renderCommand: String(profile.renderCommand ?? ''),
+        outputSuffix: String(profile.outputSuffix ?? profile.id),
+        artifacts: asArray(profile.artifacts).map((artifact) => ({
+          type: String(artifact.type ?? 'file'),
+          path: String(artifact.path ?? ''),
+          label: String(artifact.label ?? artifact.type ?? 'artifact'),
+        })),
       })),
       checks,
       checkStatus: summarizeChecks(checks),

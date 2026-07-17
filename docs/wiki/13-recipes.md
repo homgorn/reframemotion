@@ -49,6 +49,45 @@ npx hyperframes render \
   --output renders/final.mp4
 ```
 
+## HyperFrames: запуск готового проекта
+
+`DESIGN.md`, `SCRIPT.md` и `STORYBOARD.md` не запускаются сами по себе. Это source of truth для человека и агента. Запускается папка, где есть `index.html`:
+
+```bash
+cd videos/rospan-site-10min-projects-marketing
+npx hyperframes lint
+npx hyperframes validate
+npx hyperframes inspect --samples 30
+npx hyperframes preview --port 3023
+```
+
+Preview URL:
+
+```text
+http://localhost:3023/#project/rospan-site-10min-projects-marketing
+```
+
+## HyperFrames: профили экспорта
+
+Если в проекте есть `exports/*.variables.json`, рендер запускается без ручного редактирования HTML:
+
+```bash
+npx hyperframes render videos/rospan-site-10min-projects-marketing \
+  --variables-file videos/rospan-site-10min-projects-marketing/exports/demo-watermark.variables.json \
+  --output videos/rospan-site-10min-projects-marketing/renders/demo-watermark.mp4 \
+  --fps 30 \
+  --quality standard
+```
+
+Типовые профили:
+
+- `demo-watermark.variables.json` — большой DEMO-водяной знак, удобно показать клиенту.
+- `final.variables.json` — чистовой экспорт после согласования.
+- `silent-text.variables.json` — без звука, субтитры включены, текст отдельно в `script-text.txt`.
+- `captions-on.variables.json` — чистовой экспорт с включенными субтитрами.
+
+В дашборде кнопка профиля вызывает API и копирует JSON-план с `renderCommand`, `variablesPath`, `audioMode`, `captions` и `watermark`.
+
 ## Remotion: новый проект
 
 ```bash
