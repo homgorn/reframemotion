@@ -44,6 +44,14 @@ npm run dev
 
 Откройте `http://127.0.0.1:8787/`.
 
+На Windows можно запустить dashboard двойным кликом:
+
+```bat
+start-dashboard.bat
+```
+
+Если API уже работает на `127.0.0.1:8787`, батник просто откроет dashboard. Если нет — проверит Node/npm, при первом запуске выполнит `npm ci` и стартует `node apps/api/server.mjs`.
+
 Для первой проверки выберите шаблон `demo-card`. Он использует mock renderer и создает JSON-артефакт без Chromium.
 
 ## Массовый импорт
@@ -93,6 +101,14 @@ projects/
 ```
 
 Dashboard читает каталог через `GET /api/catalog` и показывает сайт, видео-проекты, статусы проверок, режим звука, preview URL и артефакты. Тяжелые MP4/WAV не коммитятся; они остаются в `data/outputs/`, release artifacts или внешнем object storage.
+
+### Другие сайты и ручные ссылки
+
+Система уже универсальна на уровне реестра, API, dashboard, очереди, render worker и export profiles. Для нового сайта не нужно пересобирать ReFrameMotion: добавляется новая папка `projects/<domain>/site.json`, манифесты видео в `projects/<domain>/videos/*.json` и рабочая папка видео/шаблона.
+
+Что пока делается вручную или агентом: crawl сайта, выбор важных URL, генерация `DESIGN.md`/`SCRIPT.md`/`STORYBOARD.md`, сборка HyperFrames-композиции и QA. Для ручного списка ссылок практичный формат — хранить `sourceUrls` в манифесте проекта или отдельный `urls.txt` рядом с проектом, затем агент/скрипт использует его как whitelist для capture.
+
+Для нативных пожеланий лучше завести поле `brief`/`prompt` в манифесте проекта и форму в dashboard. В v1 dashboard уже показывает export-профили, но еще не запускает полный website-to-video generator из свободного текста.
 
 ## API
 

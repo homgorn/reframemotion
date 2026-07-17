@@ -20,6 +20,16 @@ cp .env.example .env
 NODE_ENV=production REFRAMOTION_API_KEY='...' docker compose up --build -d
 ```
 
+## Windows local dashboard
+
+For local operator work on Windows, run:
+
+```bat
+start-dashboard.bat
+```
+
+The script is idempotent for the default local port. If `http://127.0.0.1:8787/api/health` already responds, it opens the dashboard and exits. Otherwise it installs dependencies when `node_modules/` is missing and starts `node apps/api/server.mjs` in the current console.
+
 ## Smoke test
 
 1. `curl http://127.0.0.1:8787/api/health`.
